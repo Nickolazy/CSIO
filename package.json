@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "appwrite": "^15.0.0",
+    "firebase": "^10.13.0",
     "pinia": "^2.2.2",
     "vue": "^3.4.37"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vue-router": "^4.4.3"
   }
 }

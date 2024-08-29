@@ -1,0 +1,165 @@
+/* Подключение шрифтов */
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('../assets/fonts/FiraSans-Light.woff2') format('woff2');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('../assets/fonts/FiraSans-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('../assets/fonts/FiraSans-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Fira Sans Condensed';
+	src: url('../assets/fonts/FiraSansCondensed-ExtraLight.woff2') format('woff2');
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Кастомный скролбар */
+/* Общие стили для веб-кит браузеров */
+::-webkit-scrollbar {
+    width: 8px;  /* Тонкий скроллбар */
+    height: 8px; /* Тонкий горизонтальный скроллбар */
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Светлый трек для скроллбара */
+    border-radius: 10px; /* Скругленные края */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #bbb; /* Нейтральный серый цвет ползунка */
+    border-radius: 10px;    /* Скругленные края ползунка */
+    border: 2px solid #f0f0f0; /* Граница ползунка совпадает с цветом трека */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #999; /* Чуть темнее цвет при наведении */
+}
+
+/* Стили для Firefox */
+* {
+    scrollbar-width: thin;  /* Тонкий скроллбар */
+    scrollbar-color: #bbb #f0f0f0; /* Цвет ползунка и трека */
+}
+
+/* Глобальные переменные */
+:root {
+    --color-light: #FFFFFF;
+    --color-dark: #000000;
+    --color-banner-bg: #6D0088;
+    --color-page-bg: #F3F3F3;
+    --color-header-input-bg: #F1F1F1;
+    --color-orange: #FF4800;
+    --color-block-item-about-us: #EAD6DA;
+    --color-block-item-about-us-text: #430B51;
+    --color-footer-bg: #2A0433;
+
+    --container-width: 1644px;
+    --container-padding-x: 15px;
+
+    --header-height: 85px;
+
+    --footer-height: 180px;
+
+    --font-fira-sans: 'Fira Sans', sans-serif;
+    --font-fira-sans-condensed: 'Fira Sans Condensed', sans-serif;
+
+    --transition-diration: 0.2s;
+
+    --border-radius: 10px;
+
+    --z-index-start: 1;
+    --z-index-medium: 10;
+    --z-index-big: 1000;
+}
+
+/* Глобальные стили для тегов */
+body {
+    font-family: var(--font-fira-sans);
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-dark);
+}
+
+a,
+button,
+input,
+textarea,
+svg * {
+    transition-duration: var(--transition-diration);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-dark); 
+}
+
+/* Проприетарные классы */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    clip-path: inset(100%) !important;
+    clip: rect(0 0 0 0) !important;
+    overflow: hidden !important;
+}
+
+.container {
+    max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+    margin-inline: auto;
+    padding-inline: var(--container-padding-x);
+}
+
+.heading-one {
+    font-size: 84px;
+    font-weight: 500;
+    color: var(--color-light);
+    line-height: 1.1;
+}
+
+.heading-two {
+    font-size: 54px;
+    color: var(--color-light);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.heading-three {
+    font-size: 48px;
+    color: var(--color-light);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.heading-four {
+    font-size: 38px;
+    color: var(--color-light);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.button:hover {
+    cursor: pointer;
+}
