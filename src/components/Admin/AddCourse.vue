@@ -1,9 +1,10 @@
 <template>
   <div class="form-container">
-    <button @click="exitButton()" class="exit-button"> Выйти</button>
+    <button @click="exitButton()" class="exit-button">Выйти</button>
     <h2>Добавить курс</h2>
     <div class="main-content">
       <form @submit.prevent="handleSubmit" class="course-form">
+        <!-- Существующие поля для курса -->
         <div class="form-group">
           <label for="title">Название:</label>
           <input v-model="course.title" id="title" type="text" placeholder="Введите название курса" />
@@ -50,6 +51,7 @@
             <button class="delete-button" @click="removeForm(formIndex)">Удалить</button>
           </div>
 
+          <!-- Поля формы обучения -->
           <label>Название формы:</label>
           <input v-model="form.name" type="text" placeholder="Введите название формы (очная/заочная)" />
           
@@ -72,6 +74,7 @@
               <button class="delete-button" @click="removeLearningType(formIndex, typeIndex)">Удалить</button>
             </div>
 
+            <!-- Поля для вида обучения -->
             <label>Вид обучения:</label>
             <input v-model="type.name" type="text" placeholder="Введите вид обучения (группа/минигруппа)" />
 
@@ -88,8 +91,42 @@
             <input v-model="type.duration" type="text" placeholder="Введите продолжительность" />
 
             <label>Стоимость:</label>
-            <input v-model="type.price" type="text" placeholder="Введите стоимость" />
+            <input v-model="type.price" type="number" placeholder="Введите стоимость" />
           </div>
+        </div>
+      </div>
+
+      <!-- Секция расписания -->
+      <div class="schedule-panel">
+        <h2>Добавить расписание</h2>
+        <button type="button" @click="addSchedule">Добавить расписание</button>
+        <div v-for="(schedule, scheduleIndex) in course.schedules" :key="scheduleIndex" class="schedule-item">
+          <div class="form-header">
+            <h4>Расписание {{ scheduleIndex + 1 }}</h4>
+            <button class="delete-button" @click="removeSchedule(scheduleIndex)">Удалить</button>
+          </div>
+
+          <!-- Поля для расписания -->
+          <label>Форма:</label>
+          <input v-model="schedule.form" type="text" placeholder="Введите форму (очная/заочная)" />
+
+          <label>Тип:</label>
+          <input v-model="schedule.type" type="text" placeholder="Введите тип (в группе/в минигруппе)" />
+
+          <label>Дата начала:</label>
+          <input v-model="schedule.startDate" type="date" placeholder="Введите дату начала" />
+
+          <label>Количество занятий:</label>
+          <input v-model="schedule.numOfClasses" type="number" placeholder="Введите количество занятий" />
+
+          <label>Время:</label>
+          <input v-model="schedule.time" type="text" placeholder="Введите время занятий" />
+
+          <label>Местоположение:</label>
+          <input v-model="schedule.location" type="text" placeholder="Введите местоположение" />
+
+          <label>Преподаватели:</label>
+          <input v-model="schedule.teachers" type="text" placeholder="Введите имена преподавателей" />
         </div>
       </div>
     </div>
@@ -115,7 +152,8 @@ const course = ref({
   direction: '',
   description: '',
   stages: '',
-  forms: []
+  forms: [],
+  schedules: [] // Добавляем поле для расписания
 });
 
 const resetCourseForm = () => {
@@ -125,7 +163,8 @@ const resetCourseForm = () => {
     direction: '',
     description: '',
     stages: '',
-    forms: []
+    forms: [],
+    schedules: []
   };
 };
 
@@ -136,7 +175,6 @@ const exit = () => {
 };
 
 const exitButton = () => {
-
   emit('update:adding', false);
 };
 
@@ -169,11 +207,26 @@ const removeLearningType = (formIndex, typeIndex) => {
   course.value.forms[formIndex].learningTypes.splice(typeIndex, 1);
 };
 
+const addSchedule = () => {
+  course.value.schedules.push({
+    form: '',
+    type: '',
+    startDate: '',
+    numOfClasses: '',
+    time: '',
+    location: '',
+    teachers: ''
+  });
+};
+
+const removeSchedule = (scheduleIndex) => {
+  course.value.schedules.splice(scheduleIndex, 1);
+};
+
 const handleSubmit = async () => {
   if (course.value.title && course.value.direction && course.value.level && course.value.description) {
-    // Проверка на массив для поля "forms"
-    if (!Array.isArray(course.value.forms)) {
-      console.error('Поле "forms" должно быть массивом.');
+    if (!Array.isArray(course.value.forms) || !Array.isArray(course.value.schedules)) {
+      console.error('Поле "forms" и "schedules" должны быть массивами.');
       return;
     }
 
@@ -188,7 +241,6 @@ const handleSubmit = async () => {
         stages: course.value.stages
       });
 
-      console.log(course.value.forms);
       // Добавляем каждую форму как отдельный документ в коллекцию FormsOfCourses
       const formPromises = course.value.forms.map(form => {
         return dataStore.addFormOfCourse({
@@ -196,7 +248,7 @@ const handleSubmit = async () => {
           form: form.name,
           hours: form.hours,
           length: form.duration, // Используем 'length' вместо 'duration'
-          cost: parseInt(form.price, 10) // Преобразуем стоимость в число
+          cost: parseInt(form.price, 10)
         });
       });
 
@@ -213,17 +265,33 @@ const handleSubmit = async () => {
             individualHours: type.individualHours,
             groupHours: type.groupHours,
             length: type.duration,
-            cost: type.price
+            cost: parseInt(type.price, 10)
           })
         )
       );
 
       await Promise.all(typePromises);
 
+      // Добавляем расписание в коллекцию Schedules
+      const schedulePromises = course.value.schedules.map(schedule => {
+        return dataStore.addSchedule({
+          title: course.value.title,
+          form: schedule.form,
+          type: schedule.type,
+          startDate: schedule.startDate,
+          numOfClasses: parseInt(schedule.numOfClasses, 10), // Преобразуем в число
+          time: schedule.time,
+          location: schedule.location,
+          teachers: schedule.teachers
+        });
+      });
+
+      await Promise.all(schedulePromises);
+
       // Очистка формы после успешного добавления
       resetCourseForm();
     } catch (error) {
-      console.error('Ошибка при добавлении курса или форм обучения:', error);
+      console.error('Ошибка при добавлении курса, форм обучения или расписания:', error);
     }
 
     exit();
@@ -362,5 +430,9 @@ textarea {
 
 .learning-type .form-header {
   margin-bottom: 15px;
+}
+
+.schedule-panel {
+  min-width: 350px;
 }
 </style>

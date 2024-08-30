@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="container">
+    <div class="container-header">
       <div class="footer-info-wrapper">
         <div class="footer-info-location">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

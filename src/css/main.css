@@ -69,7 +69,7 @@
     display: block;
     height: var(--header-height);
     line-height: var(--header-height);
-    font-size: 20px;
+    font-size: 26px;
     font-weight: 400;
 }
 
@@ -98,7 +98,7 @@
     background-color: var(--color-orange);
     border: none;
     border-radius: 16px;
-    font-size: 20px;
+    font-size: 26px;
     color: var(--color-light);
     font-weight: 500;
     letter-spacing: 1.2px;
@@ -118,8 +118,10 @@
     width: 75px;
     height: 245px;
     background-color: var(--color-light);
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+
+    padding-block: 10px;
 
     display: flex;
     justify-content: center;
@@ -147,7 +149,7 @@
         url('../assets/img/banner/circle-medium.png') left top no-repeat,
         url('../assets/img/banner/circle-small.png') left top no-repeat,
         url('../assets/img/banner/banner-image.png') left top / cover no-repeat,
-        var(--color-dark);
+        var(--color-banner-bg);
 }
 
 .container-banner-wrapper {
@@ -183,7 +185,7 @@
     height: 80px;
     background-color: var(--color-orange);
     border: none;
-    border-radius: 16px;
+    border-radius: 24px;
     font-size: 28px;
     color: var(--color-light);
     font-weight: 500;
@@ -206,6 +208,7 @@
 }
 
 .about-us-subtitle {
+    margin-top: 30px;
     font-size: 54px;
     color: var(--color-dark);
     font-weight: 600;
@@ -235,7 +238,7 @@
     background-color: rgba(234, 214, 218, 0.8);
     padding-inline: 35px;
     padding-block: 45px;
-    border-radius: 10px;
+    border-radius: 30px;
 
     font-size: 32px;
     font-weight: 400;
@@ -532,6 +535,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    padding-block: 25px;
 
     overflow: hidden;
 }

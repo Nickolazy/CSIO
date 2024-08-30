@@ -7,7 +7,7 @@
   <NewsAndEvents id="news"/>
   <FormRequest id="form"/>
   <Footer />
-  <!-- <SocialNetSidebar /> -->
+  <SocialNetSidebar />
 
 
 </template>
@@ -30,7 +30,14 @@
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 85; // Высота фиксированной шапки
+      const elementPosition = element.getBoundingClientRect().top; // Позиция секции относительно верхнего края видимого окна
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth' // Плавный скролл
+      });
     }
   };
 

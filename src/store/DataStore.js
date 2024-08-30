@@ -61,6 +61,9 @@ export const useDataStore = defineStore('DataStore', {
         // Удаляем связанные типы обучения
         await this.deleteTypesByCourseTitle(title);
     
+        // Удаляем связанное расписание
+        await this.deleteSchedulesByCourseTitle(title);
+    
         // Удаляем курс
         await databases.deleteDocument(CSIO_DATABASE_ID, COURSES_ID, id);
     
@@ -68,7 +71,7 @@ export const useDataStore = defineStore('DataStore', {
       } catch (error) {
         console.error('Ошибка при удалении курса:', error);
       }
-    },    
+    },
 
     async deleteFormsByCourseTitle(title) {
       try {
@@ -108,6 +111,25 @@ export const useDataStore = defineStore('DataStore', {
       }
     },
 
+    async deleteSchedulesByCourseTitle(title) {
+      try {
+        console.log('Fetching schedules with title:', title);
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, SCHEDULE_OF_COURSES_ID, [
+          Query.equal('title', title)
+        ]);
+
+        console.log('Schedules to delete:', response.documents);
+
+        // Удаляем каждое найденное расписание
+        for (const schedule of response.documents) {
+          console.log('Deleting schedule with ID:', schedule.$id);
+          await databases.deleteDocument(CSIO_DATABASE_ID, SCHEDULE_OF_COURSES_ID, schedule.$id);
+        }
+      } catch (error) {
+        console.error('Ошибка при удалении расписания:', error);
+      }
+    },
+
     // Добавляем форму обучения
     async addFormOfCourse(form) {
       try {
@@ -123,6 +145,15 @@ export const useDataStore = defineStore('DataStore', {
         await databases.createDocument(CSIO_DATABASE_ID, TYPE_OF_COURSES_ID, ID.unique(), type);
       } catch (error) {
         console.error('Ошибка при добавлении типа обучения:', error);
+      }
+    },
+
+    // Добавляем расписание
+    async addSchedule(schedule) {
+      try {
+        await databases.createDocument(CSIO_DATABASE_ID, SCHEDULE_OF_COURSES_ID, ID.unique(), schedule);
+      } catch (error) {
+        console.error('Ошибка при добавлении расписания:', error);
       }
     },
 
@@ -161,5 +192,5 @@ export const useDataStore = defineStore('DataStore', {
         console.error('Ошибка при удалении типа обучения:', error);
       }
     }
-  },
+  }
 });

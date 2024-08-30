@@ -63,7 +63,7 @@
 :root {
     --color-light: #FFFFFF;
     --color-dark: #000000;
-    --color-banner-bg: #6D0088;
+    --color-banner-bg: #140018;
     --color-page-bg: #F3F3F3;
     --color-header-input-bg: #F1F1F1;
     --color-orange: #FF4800;
@@ -73,6 +73,8 @@
 
     --container-width: 1644px;
     --container-padding-x: 15px;
+
+    --container-header-width: 1830px;
 
     --header-height: 85px;
 
@@ -128,6 +130,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
     max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+    margin-inline: auto;
+    padding-inline: var(--container-padding-x);
+}
+
+.container-header {
+    max-width: calc(var(--container-header-width) + var(--container-padding-x) * 2);
     margin-inline: auto;
     padding-inline: var(--container-padding-x);
 }
