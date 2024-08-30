@@ -19,27 +19,27 @@
       <nav class="header-menu">
         <ul class="header-menu-list">
           <li class="header-menu-item">
-            <a href="#" class="header-menu-link">
+            <a :class="{'header-menu-link': true, 'active': activeSection === 'home'}" @click.prevent="scrollToSection('home')">
               Главная
             </a>
           </li>
           <li class="header-menu-item">
-            <a href="#" class="header-menu-link">
+            <a :class="{'header-menu-link': true, 'active': activeSection === 'about'}" @click.prevent="scrollToSection('about')">
               О нас
             </a>
           </li>
           <li class="header-menu-item">
-            <a href="#" class="header-menu-link">
+            <a :class="{'header-menu-link': true, 'active': activeSection === 'courses'}" @click.prevent="scrollToSection('courses')">
               Курсы
             </a>
           </li>
           <li class="header-menu-item">
-            <a href="#" class="header-menu-link">
+            <a :class="{'header-menu-link': true, 'active': activeSection === 'teachers'}" @click.prevent="scrollToSection('teachers')">
               Вебинары
             </a>
           </li>
           <li class="header-menu-item">
-            <a href="#" class="header-menu-link">
+            <a :class="{'header-menu-link': true, 'active': activeSection === 'news'}" @click.prevent="scrollToSection('news')">
               Акции
             </a>
           </li>
@@ -52,7 +52,7 @@
         <span class="header-menu-burger-button-item"></span>
       </button>
 
-      <button class="button header-sign-up-button" type="button">
+      <button @click="scrollToSection('form')" class="button header-sign-up-button" type="button">
         Записаться
       </button>
     </div>
@@ -60,9 +60,29 @@
 </template>
 
 <script setup>
-  
+import { defineProps, defineEmits } from 'vue';
+
+const props = defineProps({
+  activeSection: String,
+});
+
+const emit = defineEmits(['scroll-to-section']);
+
+const scrollToSection = (sectionId) => {
+  emit('scroll-to-section', sectionId);
+};
 </script>
 
-<style>
-  
+<style scoped>
+  .header-menu-link {
+    color: black;
+    transition: color 0.3s ease;
+
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .header-menu-link.active {
+    color: #6D0088;
+  }
 </style>

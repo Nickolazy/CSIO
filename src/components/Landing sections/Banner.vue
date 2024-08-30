@@ -1,5 +1,5 @@
 <template>
-  <div class="banner">
+  <div class="section banner">
     <div class="container container-banner-wrapper">
       <h1 class="heading-one banner-title">
         Ваш путь к знаниям<br/>
@@ -12,7 +12,7 @@
         </p>
       </div>
 
-      <button class="button banner-button-sing-up" type="button">
+      <button @click="scrollToSection('form')" class="button banner-button-sing-up" type="button">
         Записаться сейчас
       </button>
     </div>
@@ -20,9 +20,13 @@
 </template>
 
 <script setup>
-  
-</script>
+  const emit = defineEmits(['scroll-to-section']);
 
-<!-- <style scoped>
-  
-</style> -->
+  const scrollToSection = (sectionId) => {
+    emit('scroll-to-section', sectionId);
+  };
+  </script>
+
+<style scoped>
+
+</style>

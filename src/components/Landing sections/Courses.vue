@@ -1,5 +1,5 @@
 <template>
-  <div class="courses">
+  <div class="section courses">
     <div class="container">
       <h2 class="heading-two courses-title">
         Наши курсы – ваш путь к успеху

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <h1>Login</h1>
     <input v-model="email" placeholder="Email" />
     <input v-model="password" type="password" placeholder="Password" />
@@ -9,7 +9,7 @@
 
 <script setup>
   import { ref, onMounted } from 'vue';
-  import { user } from '../store/user';
+  import { user } from '../../store/user';
 
   const email = ref('');
   const password = ref('');
@@ -24,5 +24,5 @@
 </script>
 
 <style scoped>
-  /* Ваши стили */
+
 </style>

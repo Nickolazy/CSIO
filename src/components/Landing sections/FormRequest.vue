@@ -1,5 +1,5 @@
 <template>
-  <div class="leave-request">
+  <div class="section leave-request">
     <h2 class="visually-hidden">Оставить заявку на обучение</h2>
     <div class="container">
       <form action="#" class="leave-request-form">

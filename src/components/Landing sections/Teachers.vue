@@ -1,5 +1,5 @@
 <template>
-  <div class="teachers">
+  <div class="section teachers">
     <div class="container">
       <h2 class="heading-two teachers-title">
         Вебинары и семинары с экспертами
@@ -18,7 +18,7 @@
       </div>
 
       <div class="teachers-all-events-button-wrapper">
-        <button class="banner-button-sing-up teachers-all-events-button" type="button">
+        <button @click=" " class="button banner-button-sing-up teachers-all-events-button" type="button">
           Все мероприятия
         </button>
       </div>
@@ -28,10 +28,12 @@
 
 <script setup>
   import TeacherCard from '../Pieces/TeacherCard.vue';
+  import ButtonNext from '../Pieces/ButtonNext.vue';
+  import ButtonPrevious from '../Pieces/ButtonPrevious.vue';
 
   const teachers = [1, 2, 3];
 </script> 
 
-<styles scoped>
-  
-</styles>
+<style scoped>
+
+</style>
