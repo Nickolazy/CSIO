@@ -12,7 +12,7 @@
       </div>
 
       <div class="courses-list">
-        <a href="#" class="courses-item courses-item-bg-color-one">
+        <button @click="openCoursesByDirection" type="button" class="courses-item courses-item-bg-color-one">
           <h3 class="courses-item-title courses-item-title-color-one">
             Менеджмент
           </h3>
@@ -21,10 +21,10 @@
               3
             </span>
           </div>
-        </a>
+        </button>
                     
         <div class="courses-item-wrapper">
-          <a href="#" class="courses-item courses-item-bg-color-three">
+          <button @click="openCoursesByDirection" type="button" class="courses-item courses-item-bg-color-three">
             <h3 class="courses-item-title courses-item-title-color-one">
               Бухгалтерские
             </h3>
@@ -33,8 +33,8 @@
                 2
               </span>
             </div>
-          </a>
-          <a href="#" class="courses-item courses-item-bg-color-two">
+          </button>
+          <button @click="openCoursesByDirection" type="button" class="courses-item courses-item-bg-color-two">
             <h3 class="courses-item-title courses-item-title-color-two">
               Компьютерные
             </h3>
@@ -43,11 +43,11 @@
                 5
               </span>
             </div>
-          </a>
+          </button>
         </div>
 
         <div class="courses-item-wrapper">
-          <a href="#" class="courses-item courses-item-bg-color-two">
+          <button @click="openCoursesByDirection" type="button" class="courses-item courses-item-bg-color-two">
             <h3 class="courses-item-title courses-item-title-color-two">
               Дизайн
             </h3>
@@ -56,8 +56,8 @@
                 7
               </span>
             </div>
-          </a>
-          <a href="#" class="courses-item courses-item-bg-color-one">
+          </button>
+          <button @click="openCoursesByDirection" type="button" class="courses-item courses-item-bg-color-one">
             <h3 class="courses-item-title courses-item-title-color-one">
               Бизнес
             </h3>
@@ -66,10 +66,10 @@
                 2
               </span>
             </div>
-          </a>
+          </button>
         </div>
 
-        <a href="#" class="courses-item courses-item-bg-color-three">
+        <button @click="openCoursesByDirection" type="button" class="courses-item courses-item-bg-color-three">
           <h3 class="courses-item-title courses-item-title-color-one">
             Иностранные языки
           </h3>
@@ -78,16 +78,40 @@
               1
             </span>
           </div>
-        </a>
+        </button>
       </div>
+    </div>
+
+    <div v-if="isAllCoursesOpened" class="courses-all">
+      <CoursesAll @close="handleClose" isAllCoursesOpened="isAllCoursesOpened"/>
     </div>
   </div>
 </template>
 
 <script setup>
+  import { ref } from 'vue';
+  import CoursesAll from '../Opened sections/CoursesAll.vue';
 
+  const isAllCoursesOpened = ref(false);
+
+  const openCoursesByDirection = () => {
+    isAllCoursesOpened.value = true;
+  }
+
+  const handleClose = () => {
+    isAllCoursesOpened.value = false
+  }
 </script> 
 
-<styles scoped>
-  
-</styles>
+<style scoped>
+  .courses-all {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-index-big);
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.8);
+  }
+</style>

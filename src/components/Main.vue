@@ -9,7 +9,6 @@
   <Footer />
   <SocialNetSidebar />
 
-
 </template>
 
 <script setup>

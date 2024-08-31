@@ -118,13 +118,13 @@
     width: 75px;
     height: 245px;
     background-color: var(--color-light);
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-
-    padding-block: 10px;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
 
     display: flex;
     justify-content: center;
+
+    padding-block: 10px;
 }
 
 .social-networks-list {
@@ -149,7 +149,7 @@
         url('../assets/img/banner/circle-medium.png') left top no-repeat,
         url('../assets/img/banner/circle-small.png') left top no-repeat,
         url('../assets/img/banner/banner-image.png') left top / cover no-repeat,
-        var(--color-banner-bg);
+        #140018;
 }
 
 .container-banner-wrapper {
@@ -283,6 +283,7 @@
     padding-block: 35px;
     padding-inline: 30px;
     border-radius: 30px;
+    border: none;
 }
 
 .courses-item-count {

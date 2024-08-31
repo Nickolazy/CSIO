@@ -9,6 +9,8 @@ import './css/normalize.css'
 import './css/main.css'
 import './css/header-media.css'
 
+import './css/courses-drop-sidebar/courses-drop-sidebar.css'
+
 const pinia = createPinia();
 
 const app = createApp(App)

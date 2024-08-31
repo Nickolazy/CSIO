@@ -18,6 +18,18 @@
             </option>
           </select>
         </div>
+
+        <div v-if="profLevel === 'Профессиональная подготовка'">
+            <div class="form-group">
+                <label for="grantingRights">Предоставление права:</label>
+                <textarea v-model="course.grantingRights" id="grantingRights" placeholder="Диплом предоставляет право на"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="qualification">Квалификация:</label>
+                <textarea v-model="course.qualification" id="qualification" placeholder="Введите квалификацию"></textarea>
+            </div>
+        </div>
         
         <div class="form-group">
           <label for="direction">Направление:</label>
@@ -134,7 +146,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useDataStore } from '../../store/DataStore';
 
 const props = defineProps({
@@ -149,6 +161,8 @@ const directions = ['Менеджмент', 'Бухгалтерские', 'Ко�
 const course = ref({
   title: '',
   level: '',
+  grantingRights: '',
+  qualification: '',
   direction: '',
   description: '',
   stages: '',
@@ -167,6 +181,9 @@ const resetCourseForm = () => {
     schedules: []
   };
 };
+
+// Используем вычисляемое свойство для отслеживания изменений в course.value.level
+const profLevel = computed(() => course.value.level);
 
 const exit = () => {
   if (course.value.title && course.value.direction && course.value.level && course.value.description) {
@@ -232,29 +249,28 @@ const handleSubmit = async () => {
 
     const dataStore = useDataStore();
     try {
-      // Сначала добавляем курс в коллекцию курсов
       const courseResponse = await dataStore.addCourse({
         title: course.value.title,
         level: course.value.level,
+        grantingRights: course.value.grantingRights,
+        qualification: course.value.qualification,
         direction: course.value.direction,
         description: course.value.description,
         stages: course.value.stages
       });
 
-      // Добавляем каждую форму как отдельный документ в коллекцию FormsOfCourses
       const formPromises = course.value.forms.map(form => {
         return dataStore.addFormOfCourse({
-          title: course.value.title, // Дублирование названия курса
+          title: course.value.title,
           form: form.name,
           hours: form.hours,
-          length: form.duration, // Используем 'length' вместо 'duration'
+          length: form.duration, 
           cost: parseInt(form.price, 10)
         });
       });
 
       await Promise.all(formPromises);
 
-      // Добавляем виды обучения в коллекцию Types
       const typePromises = course.value.forms.flatMap(form => 
         form.learningTypes.map(type => 
           dataStore.addTypeOfCourse({
@@ -272,14 +288,13 @@ const handleSubmit = async () => {
 
       await Promise.all(typePromises);
 
-      // Добавляем расписание в коллекцию Schedules
       const schedulePromises = course.value.schedules.map(schedule => {
         return dataStore.addSchedule({
           title: course.value.title,
           form: schedule.form,
           type: schedule.type,
           startDate: schedule.startDate,
-          numOfClasses: parseInt(schedule.numOfClasses, 10), // Преобразуем в число
+          numOfClasses: parseInt(schedule.numOfClasses, 10),
           time: schedule.time,
           location: schedule.location,
           teachers: schedule.teachers
@@ -288,7 +303,6 @@ const handleSubmit = async () => {
 
       await Promise.all(schedulePromises);
 
-      // Очистка формы после успешного добавления
       resetCourseForm();
     } catch (error) {
       console.error('Ошибка при добавлении курса, форм обучения или расписания:', error);
