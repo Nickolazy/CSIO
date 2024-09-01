@@ -8,14 +8,18 @@
         <p>Logged in as {{ user.current.email }}</p>
         <button @click="logout" class="logout-button">Logout</button>
       </div>
-      <ActiveElements class="active-elements"/>
+      <div class="information-page">
+        <ActiveElementsCourses class="active-elements"/>
+        <ActiveElementsWebinars class="active-elements"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import Login from './Login.vue';
-import ActiveElements from './ActiveElements.vue';
+import ActiveElementsCourses from './ActiveElementsCourses.vue';
+import ActiveElementsWebinars from './ActiveElementsWebinars.vue';
 import { user } from '../../store/user';
 
 const logout = async () => {
@@ -79,5 +83,10 @@ const logout = async () => {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.information-page {
+  display: grid;
+  gap: 1%;
 }
 </style>

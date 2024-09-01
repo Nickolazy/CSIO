@@ -1,34 +1,22 @@
 <template>
   <div class="form-container">
-    <button @click="exitButton()" class="exit-button">Выйти</button>
-    <h2>Добавить курс</h2>
+    <button @click="exitButton" class="exit-button">Выйти</button>
+    <h2>Добавить вебинар/семинар</h2>
     <div class="main-content">
       <form @submit.prevent="handleSubmit" class="course-form">
-        <!-- Существующие поля для курса -->
+        <!-- Существующие поля для вебинара -->
         <div class="form-group">
-          <label for="title">Название:</label>
-          <input v-model="course.title" id="title" type="text" placeholder="Введите название курса" />
-        </div>
-        
-        <div class="form-group">
-          <label for="level">Уровень обучения:</label>
-          <select v-model="course.level" id="level">
-            <option v-for="option in levels" :key="option" :value="option">
+          <label for="webOrSem">Вебинар/Семинар:</label>
+          <select v-model="webOrSem" id="webOrSem">
+            <option v-for="option in webOrSemChoose" :key="option" :value="option">
               {{ option }}
             </option>
           </select>
         </div>
 
-        <div v-if="profLevel === 'Профессиональная подготовка'">
-            <div class="form-group">
-                <label for="grantingRights">Предоставление права:</label>
-                <textarea v-model="course.grantingRights" id="grantingRights" placeholder="Диплом предоставляет право на"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="qualification">Квалификация:</label>
-                <textarea v-model="course.qualification" id="qualification" placeholder="Введите квалификацию"></textarea>
-            </div>
+        <div class="form-group">
+          <label for="title">Название:</label>
+          <input v-model="course.title" id="title" type="text" placeholder="Введите название" />
         </div>
         
         <div class="form-group">
@@ -42,17 +30,25 @@
         
         <div class="form-group">
           <label for="description">Описание:</label>
-          <textarea v-model="course.description" id="description" placeholder="Введите описание курса"></textarea>
+          <textarea v-model="course.description" id="description" placeholder="Введите описание"></textarea>
         </div>
         
         <div class="form-group">
           <label for="stages">Этапы работы:</label>
           <input v-model="course.stages" id="stages" type="text" placeholder="Введите этапы работы" />
         </div>
-        
-        <button type="button" @click="addForm">Добавить форму обучения</button>
 
-        <button type="submit" class="submit-button">Добавить курс</button>
+        <div class="form-group">
+          <label for="teacherName">Преподаватель:</label>
+          <select v-model="course.teacherName" id="teacherName">
+            <option v-for="teacher in teachers" :key="teacher.name" :value="teacher.name">
+              {{ teacher.name }}
+            </option>
+          </select>
+        </div>
+
+        <button type="button" @click="addForm">Добавить форму обучения</button>
+        <button type="submit" class="submit-button">Добавить вебинар/семинар</button>
       </form>
 
       <!-- Боковая панель с дополнительными формами -->
@@ -144,98 +140,102 @@
     </div>
   </div>
 </template>
+  
+  <script setup>
+  import { ref, computed } from 'vue';
+  import { useDataStore } from '../../store/DataStore';
 
-<script setup>
-import { ref, computed } from 'vue';
-import { useDataStore } from '../../store/DataStore';
+  const props = defineProps({
+    adding: Boolean
+  });
 
-const props = defineProps({
-  adding: Boolean
-});
+  const emit = defineEmits(['update:adding']);
 
-const emit = defineEmits(['update:adding']);
+  const teachers = [
+    { name: 'Иван', description: 'Описание Ивана' },
+    { name: 'Мария', description: 'Описание Марии' },
+    { name: 'Петр', description: 'Описание Петра' },
+  ]; 
+  const directions = ['Менеджмент', 'Бухгалтерские', 'Компьютерные', 'Дизайн', 'Бизнес', 'Иностранные языки'];
+  const webOrSemChoose = ['Вебинар', 'Семинар'];
 
-const levels = ['Профессиональная подготовка', 'Общеобразовательные курсы', 'Повышение квалификации']; 
-const directions = ['Менеджмент', 'Бухгалтерские', 'Компьютерные', 'Дизайн', 'Бизнес', 'Иностранные языки'];
+  const webOrSem = ref('');
 
-const course = ref({
-  title: '',
-  level: '',
-  grantingRights: '',
-  qualification: '',
-  direction: '',
-  description: '',
-  stages: '',
-  forms: [],
-  schedules: [] // Добавляем поле для расписания
-});
-
-const resetCourseForm = () => {
-  course.value = {
+  const course = ref({
     title: '',
-    level: '',
     direction: '',
     description: '',
     stages: '',
+    isWebinar: true,
+    teacherName: '',
+    teacherDescription: '',
     forms: [],
     schedules: []
+  });
+
+  const selectedTeacher = computed(() => {
+    return teachers.find(teacher => teacher.name === course.value.teacherName);
+  });
+
+  const resetCourseForm = () => {
+    course.value = {
+      title: '',
+      direction: '',
+      description: '',
+      stages: '',
+      isWebinar: true,
+      teacherName: '',
+      teacherDescription: '',
+      forms: [],
+      schedules: []
+    };
   };
-};
 
-// Используем вычисляемое свойство для отслеживания изменений в course.value.level
-const profLevel = computed(() => course.value.level);
-
-const exit = () => {
-  if (course.value.title && course.value.direction && course.value.level && course.value.description) {
+  const exitButton = () => {
     emit('update:adding', false);
-  }
-};
+  };
 
-const exitButton = () => {
-  emit('update:adding', false);
-};
+  const addForm = () => {
+    course.value.forms.push({
+      name: '',
+      hours: '',
+      duration: '',
+      price: '',
+      category: webOrSem.value === 'Вебинар' ? 'Вебинар' : 'Семинар', 
+      learningTypes: []
+    });
+  };
 
-const addForm = () => {
-  course.value.forms.push({
-    name: '',
-    hours: '',
-    duration: '',
-    price: '',
-    category: 'course', 
-    learningTypes: []
-  });
-};
+  const removeForm = (formIndex) => {
+    course.value.forms.splice(formIndex, 1);
+  };
 
-const removeForm = (formIndex) => {
-  course.value.forms.splice(formIndex, 1);
-};
+  const addLearningType = (formIndex) => {
+    course.value.forms[formIndex].learningTypes.push({
+      name: '',
+      totalHours: '',
+      individualHours: '',
+      groupHours: '',
+      duration: '',
+      category: webOrSem.value === 'Вебинар' ? 'Вебинар' : 'Семинар',
+      price: ''
+    });
+  };
 
-const addLearningType = (formIndex) => {
-  course.value.forms[formIndex].learningTypes.push({
-    name: '',
-    totalHours: '',
-    individualHours: '',
-    groupHours: '',
-    duration: '',
-    category: 'course',
-    price: ''
-  });
-};
+  const removeLearningType = (formIndex, typeIndex) => {
+    course.value.forms[formIndex].learningTypes.splice(typeIndex, 1);
+  };
 
-const removeLearningType = (formIndex, typeIndex) => {
-  course.value.forms[formIndex].learningTypes.splice(typeIndex, 1);
-};
-
-const addSchedule = () => {
-  course.value.schedules.push({
-    form: '',
-    type: '',
-    startDate: '',
-    numOfClasses: '',
+  const addSchedule = () => {
+    course.value.schedules.push({
+      form: '',
+      type: '',
+      startDate: '',
+      numOfClasses: '',
     time: '',
     location: '',
     teachers: '',
-    category: 'course'
+    category: webOrSem.value === 'Вебинар' ? 'Вебинар' : 'Семинар'
   });
 };
 
@@ -252,14 +252,14 @@ const handleSubmit = async () => {
 
     const dataStore = useDataStore();
     try {
-      const courseResponse = await dataStore.addCourse({
+      const courseResponse = await dataStore.addWebinar({
         title: course.value.title,
-        level: course.value.level,
-        grantingRights: course.value.grantingRights,
-        qualification: course.value.qualification,
         direction: course.value.direction,
         description: course.value.description,
-        stages: course.value.stages
+        stages: course.value.stages,
+        isWebinar: webOrSem.value === 'Вебинар',
+        teacherName: course.value.teacherName,
+        teacherDescription: selectedTeacher.value ? selectedTeacher.value.description : ''
       });
 
       const formPromises = course.value.forms.map(form => {
@@ -267,9 +267,9 @@ const handleSubmit = async () => {
           title: course.value.title,
           form: form.name,
           hours: form.hours,
-          length: form.duration, 
+          length: form.duration,
           cost: parseInt(form.price, 10),
-          category: 'course'
+          category: webOrSem.value === 'Вебинар' ? 'Вебинар' : 'Семинар'
         });
       });
 
@@ -286,7 +286,7 @@ const handleSubmit = async () => {
             groupHours: type.groupHours,
             length: type.duration,
             cost: parseInt(type.price, 10),
-            category: 'course'
+            category: webOrSem.value === 'Вебинар' ? 'Вебинар' : 'Семинар'
           })
         )
       );
@@ -303,7 +303,7 @@ const handleSubmit = async () => {
           time: schedule.time,
           location: schedule.location,
           teachers: schedule.teachers,
-          category: 'course'
+          category: webOrSem.value === 'Вебинар' ? 'Вебинар' : 'Семинар'
         });
       });
 
@@ -311,10 +311,10 @@ const handleSubmit = async () => {
 
       resetCourseForm();
     } catch (error) {
-      console.error('Ошибка при добавлении курса, форм обучения или расписания:', error);
+      console.error('Ошибка при добавлении вебинара, форм обучения или расписания:', error);
     }
 
-    exit();
+    exitButton();
   } else {
     alert('Пожалуйста, заполните все обязательные поля.');
   }
@@ -456,3 +456,4 @@ textarea {
   min-width: 350px;
 }
 </style>
+  
