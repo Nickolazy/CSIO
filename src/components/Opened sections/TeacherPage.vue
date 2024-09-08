@@ -37,11 +37,12 @@
                             <span>
                                 Образовательные программы:
                             </span>
-
-                            <span v-for="(shedule, index) in shedules"
-                            :key="index">
-                              {{ truncateText(shedule.title) }}
-                            </span>
+                            <div>
+                              <div v-for="(shedule, index) in shedules"
+                              :key="index">
+                                {{ truncateText(shedule.title) }}
+                              </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -221,15 +222,17 @@
   }
 
   function truncateText(text) {
-  if (!text) return '';
+    if (!text) return '';
 
-  const parts = text.split('.');
+    const parts = text.split('.');
 
-  return parts[0].trim();
-}
+    return parts[0].trim();
+  }
 
 </script>
 
 <style scoped>
-  
+  .shedule-item {
+    display: block;
+}
 </style>

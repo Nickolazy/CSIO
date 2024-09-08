@@ -64,8 +64,6 @@
     } else {
       isProfessional.value = false;
     }
-
-    console.log(isProfessional);
   });
   
   const emit = defineEmits(['openDetails']);

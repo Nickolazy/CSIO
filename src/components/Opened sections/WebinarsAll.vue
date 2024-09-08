@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-drop-wrapper">
-        <section class="sidebar-drop webinars-seminars-drop">
+        <section v-show="!isDetailedOpened" class="sidebar-drop webinars-seminars-drop">
             <form class="courses-drop-radio-select webinars-seminars-drop-radio-select">
                 <label>
                     <input
@@ -8,7 +8,8 @@
                         name="option"
                         value="Профессиональная подготовка"
                         class="courses-drop-radio-select-input"
-                        checked >
+                        checked 
+                        @change="filterWebinars(true)">
                     <span>Вебинары</span>
                 </label>
 
@@ -18,6 +19,7 @@
                         name="option"
                         value="Общеобразовательные курсы"
                         class="courses-drop-radio-select-input"
+                        @change="filterWebinars(false)"
                     >
                     <span>Семинары</span>
                 </label>
@@ -28,6 +30,7 @@
                     type="text"
                     class="courses-drop-search-input"
                     placeholder="Поиск по вебинарам"
+                    @input="handleSearch"
                 >
                 <button
                     class="button courses-drop-search-button"
@@ -41,374 +44,11 @@
             </form>
 
             <ul class="webinars-seminars-drop-list">
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
-
-                <li class="webinars-seminars-drop-item">
-                    <div class="webinars-seminars-drop-item-length">
-                        <span>
-                            Количество часов:
-                        </span>
-                        <strong>40</strong>
-                        &nbsp;
-
-                        <span>
-                            Продолжительность:
-                        </span>
-                        <strong>2 недели</strong>
-                        &nbsp;
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-programm">
-                        <span>
-                            MICROSOFT OFFICE
-                        </span>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-title">
-                        <p>
-                            Основы работы в текстовом редакторе Microsoft Word
-                        </p>
-                    </div>
-
-                    <div class="webinars-seminars-drop-item-teacher">
-                        <span>
-                            Преподаватель:
-                        </span>
-                        
-                        <a
-                            href="#"
-                            class="webinars-seminars-drop-item-teacher-link"
-                        >
-                            Максим Андреев
-                        </a>
-                    </div>
-                </li>
+              <WebinarItem 
+                v-for="webinar in filteredWebinars" 
+                :key="webinar.title"
+                :webinar="webinar"
+                @openDetails="openDetails"/>
             </ul>
 
             <button @click="closeAllWebinars" type="button" class="button close-button sidebar-drop-close-button">
@@ -418,10 +58,81 @@
                 </svg>
             </button>
         </section>
+
+        <WebinarPage 
+          v-show="isDetailedOpened" 
+          @close="handleClose" 
+          @back="handleBack" 
+          :webinar="selectedWebinar"/>
     </div>
 </template>
 
 <script setup>
+  import { ref, onMounted, computed } from 'vue';
+  import { useDataStore } from '../../store/DataStore';
+  import { defineProps } from 'vue';
+  import WebinarItem from './WebinarItem.vue';
+  import WebinarPage from './WebinarPage.vue'
+
+  const isDetailedOpened = ref(false);
+  const store = useDataStore();
+
+  // Состояния для фильтрации и поиска
+  const selectedOption = ref(true);
+  const searchQuery = ref('');
+
+  // Вызываем метод для получения курсов при монтировании компонента
+  onMounted(async () => {
+    await store.fetchWebinars();
+  });
+
+  // Получаем курсы из store
+  const webinars = computed(() => store.ВебинарыСеминары);
+  const selectedWebinar = ref(webinars[0]);
+
+  // Метод для открытия деталей курса
+  const openDetails = (webinar) => {
+    isDetailedOpened.value = true;
+    selectedWebinar.value = webinar;
+  };
+
+  // Метод для закрытия деталей курса
+  const handleClose = () => {
+    isDetailedOpened.value = false;
+    emit('close');
+  };
+
+  // Метод для возврата к списку курсов
+  const handleBack = () => {
+    isDetailedOpened.value = false;
+  };
+
+  // Метод для фильтрации курсов по выбранной категории
+  const filterWebinars = (option) => {
+    selectedOption.value = option;
+  };
+
+  // Метод для фильтрации курсов по поисковому запросу
+  const filterBySearch = (webinar) => {
+    const isMatch = webinar.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+
+    return isMatch;
+  };
+
+  // Вычисляемое свойство для фильтрации курсов
+  const filteredWebinars = computed(() => {
+    const result = webinars.value
+      .filter(webinar => webinar.isWebinar === selectedOption.value) // Фильтрация по категории
+      .filter(filterBySearch) // Фильтрация по поисковому запросу
+
+    return result;
+  });
+
+  // Метод для обработки изменения поиска
+  const handleSearch = (event) => {
+    searchQuery.value = event.target.value;
+  };
+
   const emit = defineEmits(['close'])
 
   const closeAllWebinars = () => {

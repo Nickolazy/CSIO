@@ -152,7 +152,7 @@
   const emit = defineEmits(['update:adding']);
 
   const teachers = [
-    { name: 'Иван', description: 'Описание Ивана' },
+    { name: 'Усманский Николай Михайлович', description: 'Описание Ивана' },
     { name: 'Мария', description: 'Описание Марии' },
     { name: 'Петр', description: 'Описание Петра' },
   ]; 

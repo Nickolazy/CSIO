@@ -28,6 +28,7 @@ import './css/popup-windows/courses-drop-sidebar-click.css'
 
 import "./css/popup-windows/webinars-seminars-drop-sidebar.css"
 import './css/popup-windows/timetable-sidebar.css'
+import './css/popup-windows/info-table-sidebar.css'
 import './css/popup-windows/webinar-drop-sidebar.css'
 
 import './css/popup-windows/teacher-drop-sidebar.css'

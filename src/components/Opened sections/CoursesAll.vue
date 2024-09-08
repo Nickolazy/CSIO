@@ -60,8 +60,7 @@
           v-for="course in filteredCourses" 
           :key="course.title"
           :course="course"
-          @openDetails="openDetails"
-        />
+          @openDetails="openDetails"/>
       </ul>
 
       <button 

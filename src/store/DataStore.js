@@ -191,6 +191,27 @@ export const useDataStore = defineStore('DataStore', {
         console.error('Ошибка при получении форм по курсу:', error);
       }
     },
+
+    async fetchFormsByWebinar(title, isWebinar) {
+      try {    
+        let category = '';
+        if(isWebinar) {
+          category = 'Вебинар';
+        } else {
+          category = 'Семинар';
+        } 
+        // Получаем формы, связанные с курсом
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, FORMS_ID, [
+          Query.equal('title', title),
+          Query.equal('category', category)
+        ]);
+    
+        console.log('Fetched forms for course:', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении форм по курсу:', error);
+      }
+    },
     
     async fetchTypesByCourse(title) {
       try {
