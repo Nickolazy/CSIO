@@ -2,6 +2,15 @@ import { defineStore } from 'pinia';
 import { ID, Query } from 'appwrite';
 import { databases } from '../appwrite';
 
+import { Client, Databases, Account, Storage } from 'appwrite';
+
+const client = new Client();
+client
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject('66cb7c35000f04176383');
+
+const storage = new Storage(client);
+
 export const CSIO_DATABASE_ID = "66d0b46b0010933cfb1c";
 
 export const COURSES_ID = "66d0b472000897d31516";
@@ -15,7 +24,6 @@ export const TEACHERS_ID = "66d497b3001d1b318f2a"
 
 export const BUCKET_ID = "66d499ff00044379fc90";
 
-
 export const useDataStore = defineStore('DataStore', {
   state: () => ({
     Курсы: [],
@@ -24,10 +32,13 @@ export const useDataStore = defineStore('DataStore', {
     Преподаватели: [],
     РасписаниеПреподавателей: [],
 
+    Фото: [],
+
     Акции: [],
     Новости: [],
     События: [],
   }),
+
   actions: {
     async fetchCourses() {
       try {
@@ -379,13 +390,53 @@ export const useDataStore = defineStore('DataStore', {
       async uploadAndLinkImage(teacherId, imageFile) {
         try {
           const imageId = await uploadImage(imageFile);
-          const imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${imageId}/view`;
+          const imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${imageId}/view?project=66cb7c35000f04176383&mode=admin`;
   
           // Обновляем документ преподавателя с URL изображения
           await this.updateTeacher(teacherId, { photoUrl: imageUrl });
         } catch (error) {
           console.error('Ошибка при загрузке и привязке изображения:', error);
         }
-      }
-    }
+      },
+
+      async uploadImage(imageFile) {
+        try {
+          const result = await storage.createFile(BUCKET_ID, 'unique()', imageFile);
+          return result.$id; // Возвращаем fileId
+        } catch (error) {
+          console.error('Ошибка при загрузке изображения:', error);
+          throw error;
+        }
+      },
+  
+      async getImageUrl(fileId) {
+        return `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${fileId}/view?project=66cb7c35000f04176383&project=66cb7c35000f04176383&mode=admin`;
+      },
+  
+      // Получение всех изображений и их сохранение в state
+      async fetchAllImages() {
+        try {
+          const response = await storage.listFiles(BUCKET_ID);
+  
+          this.Фото = response.files.map(file => ({
+            name: file.name,
+            url: this.getImageUrl(file.$id),
+          }));
+  
+          console.log('Fetched images:', this.Фото);
+        } catch (error) {
+          console.error('Ошибка при получении изображений:', error);
+        }
+      },
+  
+      async fetchTeachers() {
+        try {
+          const response = await databases.listDocuments(CSIO_DATABASE_ID, TEACHERS_ID);
+          console.log('Fetched teachers:', response.documents);
+          this.Преподаватели = response.documents;
+        } catch (error) {
+          console.error('Ошибка при получении преподавателей:', error);
+        }
+      },
+    },
 });

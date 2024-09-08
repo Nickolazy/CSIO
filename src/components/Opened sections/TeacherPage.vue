@@ -47,7 +47,7 @@
                 </div>
 
                 <img
-                    src="../../assets/img/drop-sidebars/teacher.png"
+                    :src="curPhotoUrl"
                     alt="Фото учителя"
                     class="teacher-drop-image"
                     loading="lazy"
@@ -194,7 +194,15 @@
     shedules: {
       type: Object,
       required: true 
+    },
+    curPhotoUrl: {
+      type: String,
+      required: true 
     }
+  });
+
+  const curPhotoUrl = computed(() => {
+    return props.curPhotoUrl;
   });
 
   const teacher = props.teacher;

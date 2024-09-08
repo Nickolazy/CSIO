@@ -20,3 +20,16 @@ export async function uploadFile(file) {
     console.error('Error uploading file:', error);
   }
 }
+
+async function fetchImage(fileId) {
+  try {
+    // Получаем URL для просмотра файла
+    const imageUrl = storage.getFileView('YOUR_BUCKET_ID', fileId);
+    
+    // Возвращаем URL для использования
+    return imageUrl.href;
+  } catch (error) {
+    console.error('Ошибка при загрузке изображения:', error);
+    throw error;
+  }
+}

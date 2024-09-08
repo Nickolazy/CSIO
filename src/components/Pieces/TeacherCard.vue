@@ -2,7 +2,7 @@
   <div @click="openTeacherPage" class="teachers-item">
     <div class="teacher-avatar-wrapper">
       <img
-        src="../../assets/img/teachers/teacher.png"
+        :src="curPhotoUrl"
         alt="Teacher"
         class="teacher-avatar"
         loading="lazy">
@@ -35,11 +35,12 @@
     :teacher="teacher"
     :nameAndSurname="nameAndSurname"
     :shedules="shedules"
+    :curPhotoUrl="curPhotoUrl"
     class="courses-all"/>
 </template>
 
 <script setup>
-  import { ref, computed,watch } from 'vue';
+  import { ref, computed, watch, onMounted } from 'vue';
   import { defineProps } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TeacherPage from '../Opened sections/TeacherPage.vue'
@@ -64,11 +65,9 @@
   };
 
   watch(() => props.teacher.name, (newName) => {
-  teacherName.value = newName;
+    teacherName.value = newName;
     fetchShedules(); 
-  }, { immediate: true }); // immediate: true для запуска функции при первоначальном рендере
-
-  console.log("Расписание: ", shedules.value);
+  }, { immediate: true });
 
   const nameAndSurname = computed(() => {
     const nameParts = teacher.name.split(' '); 
@@ -77,6 +76,7 @@
     }
     return teacher.name; 
   });
+
   const isTeacherPageOpened = ref(false);
 
   const openTeacherPage = () => {
@@ -92,9 +92,8 @@
   });
 
   const skillsObj = (skills) => {
-    if (!skills || typeof skills !== 'string') return []; // Проверка типа данных
+    if (!skills || typeof skills !== 'string') return []; 
 
-    // Разделение строки, удаление пробелов и фильтрация пустых строк
     const parts = skills.split(';')
       .map(part => part.trim())
       .filter(part => part.length > 0);
@@ -102,6 +101,24 @@
     return parts;
   };
 
+  const curPhotoUrl = ref('');
+  
+  onMounted(async () => {
+    await store.fetchAllImages();
+    let photoList = await store.Фото; // Получаем массив фото
+    const updatedPhotoList = photoList.map(photo => ({
+      name: removeExtension(photo.name),
+      url: photo.url
+    }));
+    const photo = updatedPhotoList.find(photo => photo.name === teacher.name); // Ищем нужное фото
+    if (photo) {
+      curPhotoUrl.value = await photo.url; // Получаем url
+    }
+  });
+
+  const removeExtension = (photoList) => {
+    return photoList.replace(/\.[^.]*$/, '');
+  };
 </script> 
 
 <style scoped>

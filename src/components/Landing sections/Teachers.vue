@@ -44,7 +44,7 @@
   onMounted(async () => {
     await store.fetchTeachers();
   });
-  
+
   const teachers = computed(() => store.Преподаватели);
   const isAllWebinarsOpened = ref(false);
 
@@ -55,6 +55,7 @@
   const handleClose = () => {
     isAllWebinarsOpened.value = false;
   }
+  
 </script> 
 
 <style scoped>
