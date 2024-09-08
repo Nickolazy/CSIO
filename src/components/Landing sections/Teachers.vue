@@ -12,9 +12,10 @@
       </div>
 
       <div class="teachers-list">
-        <div v-for="t in teachers">
-          <TeacherCard />
-        </div>
+        <TeacherCard 
+          v-for="(teacher, index) in teachers"
+          :key="index"
+          :teacher="teacher"/>
       </div>
 
       <div class="teachers-all-events-button-wrapper">
@@ -31,13 +32,20 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
+  import { useDataStore } from '../../store/DataStore';
   import TeacherCard from '../Pieces/TeacherCard.vue';
   import WebinarsAll from '../Opened sections/WebinarsAll.vue';
   import ButtonNext from '../Pieces/ButtonNext.vue';
   import ButtonPrevious from '../Pieces/ButtonPrevious.vue';
 
-  const teachers = [1, 2, 3];
+  const store = useDataStore();
+
+  onMounted(async () => {
+    await store.fetchTeachers();
+  });
+  
+  const teachers = computed(() => store.Преподаватели);
   const isAllWebinarsOpened = ref(false);
 
   const openWebinars = () => {

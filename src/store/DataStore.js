@@ -11,12 +11,18 @@ export const FORMS_ID = "66d1c23c0012197cf2ec";
 export const TYPES_ID = "66d1c3b0002139a82454";
 export const SCHEDULES_ID = "66d1c412003b560bb9a4";
 
+export const TEACHERS_ID = "66d497b3001d1b318f2a"
+
+export const BUCKET_ID = "66d499ff00044379fc90";
+
+
 export const useDataStore = defineStore('DataStore', {
   state: () => ({
     Курсы: [],
     ВебинарыСеминары: [],
 
     Преподаватели: [],
+    РасписаниеПреподавателей: [],
 
     Акции: [],
     Новости: [],
@@ -189,6 +195,21 @@ export const useDataStore = defineStore('DataStore', {
         console.error('Ошибка при получении типов по курсу:', error);
       }
     },
+
+    async fetchShedulesByCourse(title) {
+      try {
+        // Получаем расписание, связанное с курсом
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, SCHEDULES_ID, [
+          Query.equal('title', title),
+          Query.equal('category', 'course')
+        ]);
+    
+        console.log('Fetched shedules for course:', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении расписания по курсу:', error);
+      }
+    },
     
 
     // Добавляем форму обучения
@@ -206,6 +227,24 @@ export const useDataStore = defineStore('DataStore', {
         await databases.createDocument(CSIO_DATABASE_ID, TYPES_ID, ID.unique(), type);
       } catch (error) {
         console.error('Ошибка при добавлении типа обучения:', error);
+      }
+    },
+
+    async fetchShedulesOfTeacher(teacherName) {
+      try {
+        // Запрашиваем расписание для указанного преподавателя
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, SCHEDULES_ID, [
+          Query.equal('teachers', teacherName)
+        ]);
+    
+        console.log('Fetched schedules for teacher:', response.documents);
+    
+        this.РасписаниеПреподавателей = response.documents;
+    
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении расписания для преподавателя:', error);
+        return [];
       }
     },
 
@@ -307,5 +346,46 @@ export const useDataStore = defineStore('DataStore', {
           console.error('Ошибка при удалении вебинара:', error);
         }
       },
+
+      async fetchTeachers() {
+        try {
+          const response = await databases.listDocuments(CSIO_DATABASE_ID, TEACHERS_ID);
+          console.log('Fetched teachers:', response.documents);
+          this.Преподаватели = response.documents;
+        } catch (error) {
+          console.error('Ошибка при получении преподавателей:', error);
+        }
+      },
+      
+      async addTeacher(teacher) {
+        try {
+          const response = await databases.createDocument(CSIO_DATABASE_ID, TEACHERS_ID, ID.unique(), teacher);
+          teacher.id = response.$id;
+          await this.fetchTeachers(); // Обновляем список преподавателей после добавления
+        } catch (error) {
+          console.error('Ошибка при добавлении преподавателя:', error);
+        }
+      },
+      
+      async updateTeacher(id, updatedTeacher) {
+        try {
+          await databases.updateDocument(CSIO_DATABASE_ID, TEACHERS_ID, id, updatedTeacher);
+          await this.fetchTeachers(); // Обновляем список после редактирования
+        } catch (error) {
+          console.error('Ошибка при обновлении преподавателя:', error);
+        }
+      },
+      
+      async uploadAndLinkImage(teacherId, imageFile) {
+        try {
+          const imageId = await uploadImage(imageFile);
+          const imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${imageId}/view`;
+  
+          // Обновляем документ преподавателя с URL изображения
+          await this.updateTeacher(teacherId, { photoUrl: imageUrl });
+        } catch (error) {
+          console.error('Ошибка при загрузке и привязке изображения:', error);
+        }
+      }
     }
 });

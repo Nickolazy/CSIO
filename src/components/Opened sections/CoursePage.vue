@@ -65,11 +65,11 @@
                 </p>
             </div>
 
-            <h3 class="sidebar-drop-title courses-drop-more-subtitle">
+            <h3 v-show="shedules.length" class="sidebar-drop-title courses-drop-more-subtitle">
                 Расписание
             </h3>
 
-            <div class="courses-drop-more-timetable-wrapper">
+            <div v-show="shedules.length" class="courses-drop-more-timetable-wrapper">
                 <table class="timetable">
                     <thead class="timetable-head">
                         <tr>
@@ -98,147 +98,25 @@
                         </tr>
                     </thead>
                     <tbody class="timetable-body">
-                        <tr>
-                            <th>
-                                <span>Очная</span>
-                            </th>
-                            <th>
-                                <span>Группа</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>Заочная</span>
-                            </th>
-                            <th>
-                                <span>Мини-группа</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>Очно-заочная</span>
-                            </th>
-                            <th>
-                                <span>Группа</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
+                      <TableShedule @signUp="handleSignUp" @goToTeacher="handleGoToTeacher" v-for="(shedule, index) in shedules" 
+                      :key="index" 
+                      v-if="shedules !== null && shedules !== undefined" 
+                      :shedule="shedule" />
                     </tbody>
                 </table>
             </div>
 
-            <form class="courses-drop-more-leave-request">
+            <form v-if="wantToSignUp" class="courses-drop-more-leave-request">
                 <h2 class="visually-hidden">Оставить заявку на обучение</h2>
                 <div class="courses-drop-more-leave-request-wrapper">
                     <label class="visually-hidden" for="in-group">В группе</label>
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-group" 
-                        required
-                    >
-                        <!-- <option value="" disabled selected>Очная</option> -->
+                        required>
+                        <option value="" disabled selected>Форма</option>
                         <option value="Очная">Очная</option>
                         <option value="Заочная">Заочная</option>
-                        <option value="Очно-заочная">Очно-заочная</option>
-                        <option value="Индивидуальная">Индивидуальная</option>
                     </select>
 
                     <label class="visually-hidden" for="in-minigroup">Мини-группа</label>
@@ -247,7 +125,7 @@
                         id="in-minigroup" 
                         required
                     >
-                        <!-- <option value="" disabled selected>Мини-группа</option> -->
+                        <option value="" disabled selected>Вид</option>
                         <option value="В минигруппе">Мини-группа</option>
                         <option value="В группе">Группа</option>
                         
@@ -257,8 +135,7 @@
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="start-date" 
-                        required
-                    >
+                        required>
                         <option value="" disabled selected>Дата</option>
                         <option value="30.11.2022">30.11.2022</option>
                         <option value="30.11.2022">30.11.2022</option>
@@ -312,12 +189,18 @@
             </button>
         </section>
     </div>
+    <!-- <TeacherPage v-if="isGotoTeacher" 
+      :teacher="teacher"
+      :nameAndSurname="nameAndSurname"
+      :shedules="shedules" /> -->
 </template>
 
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableForm from '../Pieces/TableForm.vue';
+  import TableShedule from '../Pieces/TableShedule.vue';
+  import TeacherPage from '../Opened sections/TeacherPage.vue';
 
   const props = defineProps({
     course: {
@@ -330,10 +213,12 @@
 
   const handleClose = () => {
     emit('close');
+    wantToSignUp.value = false;
   };
 
   const handleBack = () => {
     emit('back');
+    wantToSignUp.value = false;
   };
 
   const splitTitle = (title) => {
@@ -367,6 +252,10 @@
 
   const forms = ref([]);
   const types = ref([]);
+  const shedules = ref([]);
+
+  const wantToSignUp = ref(false);
+  const sheduleToSignUp = ref([]);
 
   const fetchFormsAndTypes = async () => {
     if (props.course && props.course.title) {
@@ -375,6 +264,7 @@
       // Получаем формы и типы по курсу
       forms.value = await store.fetchFormsByCourse(title);
       types.value = await store.fetchTypesByCourse(title);
+      shedules.value = await store.fetchShedulesByCourse(title);
     }
   };
 
@@ -405,8 +295,51 @@
   };
 
   const searchTypes = (form) => {
-    return types.value.map(item => item.form === form.form);
+    return types.value.filter(item => item.form === form.form);
   };
+
+  const handleSignUp = (shedule) => {
+    wantToSignUp.value = true;
+
+    sheduleToSignUp.value = shedule;
+  }
+
+  // const isGotoTeacher = ref(false);
+  // const handleGoToTeacher = () => {
+  //   fetchShedules();
+  //   isGotoTeacher.value = true;
+  // }
+
+  
+  // // Получение списка преподавателей
+  // const teachers = computed(() => store.Преподаватели);
+
+  // // Поиск конкретного преподавателя по имени
+  // const teacher = computed(() => {
+  //   return teachers.value.find(t => t.name === props.shedule?.teachers);
+  // });
+
+  // // Получение имени и фамилии преподавателя
+  // const nameAndSurname = computed(() => {
+  //   if (teacher.value) {
+  //     const nameParts = teacher.value.name.split(' ');
+  //     if (nameParts.length >= 2) {
+  //       return `${nameParts[0]} ${nameParts[1]}`;
+  //     }
+  //     return teacher.value.name;
+  //   }
+  //   return 'Не указано';
+  // });
+
+  // // Запрашиваемое расписание и имя преподавателя
+  // const shedulesTeacher = ref([]);
+
+  // const fetchShedules = () => {
+  //   if (teacher.value) {
+  //     store.fetchShedulesOfTeacher(teacher.value.name);
+  //     shedulesTeacher.value = store.РасписаниеПреподавателей;
+  //   }
+  // };
 
 </script>
 

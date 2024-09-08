@@ -2,14 +2,14 @@
   <div class="sidebar-drop-wrapper">
         <section class="sidebar-drop teacher-drop">
             <h2 class="sidebar-drop-title teacher-drop-title">
-                Максим Андреев - Ведущий аналитик данных
+                {{ props.nameAndSurname }} - {{ teacher.post }}
             </h2>
 
             <div class="teacher-drop-info-image-wrapper">
                 <div class="teacher-drop-info">
                     <div class="teacher-drop-info-description">
                         <p>
-                            Максим Андреев – опытный аналитик данных с более чем 12-летним стажем работы в сфере бизнес-аналитики и обработки больших данных. Он специализируется на разработке и внедрении аналитических решений, которые помогают компаниям принимать обоснованные решения на основе данных. Максим является экспертом в области машинного обучения, анализа данных и их визуализации, а также активно участвует в научных исследованиях и публикациях на тему применения искусственного интеллекта в бизнесе.
+                            {{ teacher.name }} = {{ teacher.description }}
                         </p>
                     </div>
                     <ul class="teacher-drop-info-list">
@@ -19,7 +19,7 @@
                             </span>
 
                             <span>
-                                40 лет
+                                {{ teacher.totalWorkExp }} лет
                             </span>
                         </li>
 
@@ -29,7 +29,7 @@
                             </span>
 
                             <span>
-                                18 лет
+                              {{ teacher.localWorkExp }} лет
                             </span>
                         </li>
 
@@ -38,8 +38,9 @@
                                 Образовательные программы:
                             </span>
 
-                            <span>
-                                27.01.01 Менеджер по продажам 38.03.11 Финансовый менеджмент
+                            <span v-for="(shedule, index) in shedules"
+                            :key="index">
+                              {{ truncateText(shedule.title) }}
                             </span>
                         </li>
                     </ul>
@@ -54,19 +55,22 @@
                 
             </div>
 
-            <h3 class="sidebar-drop-title teacher-drop-timetable-title">
+            <h3  v-show="shedules" class="sidebar-drop-title teacher-drop-timetable-title">
                 Расписание
             </h3>
 
-            <div class="courses-drop-more-timetable-wrapper">
+            <div  v-show="shedules" class="courses-drop-more-timetable-wrapper">
                 <table class="timetable">
                     <thead class="timetable-head">
                         <tr>
                             <th>
-                                <span>Вебинар</span>
+                                <span>Программа</span>
                             </th>
                             <th>
                                 <span>Форма обучения</span>
+                            </th>
+                            <th>
+                                <span>Вид обучения</span>
                             </th>
                             <th>
                                 <span>Дата начала</span>
@@ -80,136 +84,14 @@
                             <th>
                                 <span>Место проведения</span>
                             </th>
-                            <th>
-                                <span>Преподаватели</span>
-                            </th>
                             <th class="visially-hidden"></th>
                         </tr>
                     </thead>
                     <tbody class="timetable-body">
-                        <tr>
-                            <th>
-                                <span>Менеджмент продаж</span>
-                            </th>
-                            <th>
-                                <span>В группе</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>Менеджмент продаж</span>
-                            </th>
-                            <th>
-                                <span>В группе</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>Менеджмент продаж</span>
-                            </th>
-                            <th>
-                                <span>В группе</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
+                      <TableSheduleForTeacher @signUp="handleSignUp" v-for="(shedule, index) in shedules" 
+                      :key="index" 
+                      v-if="shedules !== null && shedules !== undefined" 
+                      :shedule="shedule" />
                     </tbody>
                 </table>
             </div>
@@ -220,18 +102,124 @@
                     <path d="M26 26L0.999999 1" stroke="black"/>
                 </svg>
             </button>
+
+            <form v-if="wantToSignUp" class="courses-drop-more-leave-request">
+                <h2 class="visually-hidden">Оставить заявку на обучение</h2>
+                <div class="courses-drop-more-leave-request-wrapper">
+                    <label class="visually-hidden" for="in-group">В группе</label>
+                    <select
+                        class="leave-request-form-select leave-request-form-input courses-drop-more-input"
+                        id="in-group" 
+                        required>
+                        <option value="" disabled selected>Форма</option>
+                        <option value="Очная">Очная</option>
+                        <option value="Заочная">Заочная</option>
+                    </select>
+
+                    <label class="visually-hidden" for="in-minigroup">Мини-группа</label>
+                    <select
+                        class="leave-request-form-select leave-request-form-input courses-drop-more-input"
+                        id="in-minigroup" 
+                        required
+                    >
+                        <option value="" disabled selected>Вид</option>
+                        <option value="В минигруппе">Мини-группа</option>
+                        <option value="В группе">Группа</option>
+                        
+                    </select>
+
+                    <label class="visually-hidden" for="start-date">Дата</label>
+                    <select
+                        class="leave-request-form-select leave-request-form-input courses-drop-more-input"
+                        id="start-date" 
+                        required>
+                        <option value="" disabled selected>Дата</option>
+                        <option value="30.11.2022">30.11.2022</option>
+                        <option value="30.11.2022">30.11.2022</option>
+                        <option value="30.11.2022">30.11.2022</option>
+                        <option value="30.11.2022">30.11.2022</option>
+                    </select>
+
+                    <label class="visually-hidden" for="student-name">Ваше имя</label>
+                    <input
+                        type="text"
+                        placeholder="Ваше имя"
+                        id="student-name"
+                        class="leave-request-form-input leave-request-student-name courses-drop-more-input"
+                    >
+
+                    <label class="visually-hidden" for="phone-number">Ваш номер телефона</label>
+                    <input
+                        type="text"
+                        placeholder="+7 (___) ___ - ____"
+                        id="phone-number"
+                        class="leave-request-form-input leave-request-phone-number courses-drop-more-input"
+                    >
+
+                    <label class="visually-hidden" for="email-address">Ваша электронная почта</label>
+                    <input
+                        type="text"
+                        placeholder="E-mail"
+                        id="email-address"
+                        class="leave-request-form-input leave-request-email-address courses-drop-more-input"
+                    >
+                </div>
+
+                <button class="button banner-button-sing-up courses-drop-more-button" type="submit">
+                    Записаться
+                </button>
+            </form>
         </section>
     </div>
 </template>
 
 <script setup>
+  import { ref, computed } from 'vue';
   import { defineEmits } from 'vue';
+  import { defineProps } from 'vue';
+  import TableSheduleForTeacher from '../Pieces/TableSheduleForTeacher.vue';
+
+  const wantToSignUp = ref(false);
+  const sheduleToSignUp = ref([]);
+
+  const props = defineProps({
+    teacher: {
+      type: Object,
+      required: true 
+    },
+    nameAndSurname: {
+      type: String,
+      required: true 
+    },
+    shedules: {
+      type: Object,
+      required: true 
+    }
+  });
+
+  const teacher = props.teacher;
   
   const emit = defineEmits(['close']);
 
   const closePage = () => {
     emit('close');
   };
+
+  const handleSignUp = (shedule) => {
+    wantToSignUp.value = true;
+
+    sheduleToSignUp.value = shedule;
+    console.log(sheduleToSignUp.value);
+  }
+
+  function truncateText(text) {
+  if (!text) return '';
+
+  const parts = text.split('.');
+
+  return parts[0].trim();
+}
+
 </script>
 
 <style scoped>
