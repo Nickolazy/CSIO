@@ -5,38 +5,36 @@
                             <span>
                                 Количество часов:
                             </span>
-                            <strong>40</strong>
+                            <strong v-show="forms">{{ forms[0].hours }}</strong>
                             &nbsp;
 
                             <span>
                                 Продолжительность:
                             </span>
-                            <strong>2 недели</strong>
+                            <strong v-show="forms">{{ forms[0].length }}</strong>
                             &nbsp;
                         </div>
 
-                        <button class="button banner-button-sing-up courses-drop-item-more" type="button">
+                        <button @click="openDetails" class="button banner-button-sing-up courses-drop-item-more" type="button">
                             Подробнее
                         </button>
                     </div>
 
 					<div class="courses-drop-item-name">
 						<p>
-							Учитель математики и информатики. педагогическая деятельность по проектированию и реализации
-							образовательного процесса в соответствии с ФГОС с присвоением квалификации «учитель математики и
-							информатики и ИКТ (информационно-коммуникационных технологий)
+							{{ course.title }}
 						</p>
 					</div>
 
 					<ul v-if="isProfessional" class="courses-drop-item-skills-list">
 						<li class="courses-drop-item-skills-item">
 							<p>
-								Диплом предоставляет право на ведение профессиональной деятельности в сфере Педагогических услуг
+								Диплом предоставляет право на {{course.grantingRights }}
 							</p>
 						</li>
 						<li class="courses-drop-item-skills-item">
 							<p>
-								Квалификация Педагог (преподаватель основ безопасности жизнедеятельности)
+								Квалификация {{ course.qualification }}
 							</p>
 						</li>
 					</ul>
@@ -44,10 +42,58 @@
 </template>
 
 <script setup>
+  import { defineProps, onMounted, ref, watch } from 'vue';
+  import { useDataStore } from '../../store/DataStore';
 
-	const isProfessional = () => {
-		
-	}
+  const props = defineProps({
+    course: Object
+  })
+
+  const course = props.course;
+  const store = useDataStore();
+
+  let isProfessional = ref(false);
+  const forms = ref([{
+    hours: '',
+    length: ''
+  }]);
+
+  onMounted(async () => {
+    if (course.level === 'Профессиональная подготовка') {
+      isProfessional.value = true;
+    } else {
+      isProfessional.value = false;
+    }
+
+    console.log(isProfessional);
+  });
+  
+  const emit = defineEmits(['openDetails']);
+
+  // Передаем курс в событие
+  const openDetails = () => {
+    emit('openDetails', props.course);
+  };
+
+  const fetchForms = async () => {
+    if (props.course && props.course.title) {
+      const title = props.course.title;
+
+      // Получаем формы по курсу
+      forms.value = await store.fetchFormsByCourse(title);
+    }
+  };
+
+  onMounted(() => {
+    fetchForms();
+  });
+
+  watch(() => props.course, (newCourse) => {
+    if (newCourse) {
+      fetchForms();
+    }
+  });
+
 </script>
 
 <style scoped>

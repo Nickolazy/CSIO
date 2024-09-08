@@ -1,0 +1,65 @@
+/* Поиск по курсам */
+.courses-drop-search {
+    --paddingInlineSearchInput: 20px;
+    --searchInputHeight: 55px;
+
+    position: relative;
+    width: calc(100% - var(--drop-window-padding-inline) * 2);
+    height: var(--searchInputHeight);
+}
+
+.courses-drop-search-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--z-index-medium);
+    width: 100%;
+    height: var(--searchInputHeight);
+    background-color: var(--color-header-input-bg);
+    border: none;
+    border-radius: 15px;
+    padding-inline: var(--paddingInlineSearchInput);
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.8);
+
+    transition: box-shadow 0.3s ease;
+    box-shadow: 3px 5px 3px rgba(0, 0, 0, 0.3);
+}
+
+.courses-drop-search-input:hover {
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.courses-drop-search-input::placeholder {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--color-block-item-about-us-text);
+    opacity: 0.7;
+}
+
+.courses-drop-search-input:focus {
+    border: none;
+    outline: none;
+
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.courses-drop-search-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: calc(var(--z-index-medium) + 1);
+    height: var(--searchInputHeight);
+    display: flex;
+    align-items: center;
+    margin-right: var(--paddingInlineSearchInput);
+    border: none;
+    background-color: transparent;
+    color: var(--color-orange);
+}
+
+.courses-drop-search-button > :first-child {
+    width: 24px;
+    height: auto;
+}

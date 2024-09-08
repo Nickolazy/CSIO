@@ -26,13 +26,18 @@
 
     .header-menu-burger-button {
         display: flex;
+        flex-direction: column;
     }
 }
 
-@media (max-width: 800px) {
-
+@media (max-width: 640px) {
+    .header-sign-up-button {
+        display: none;
+    }
 }
 
-@media (max-width: 768px) {
-
+@media (max-width: 500px) {
+    .header-logo-text {
+        display: none;
+    }
 }

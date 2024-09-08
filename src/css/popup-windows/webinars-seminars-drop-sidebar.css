@@ -1,0 +1,97 @@
+
+/* Переопределение стилей для элементов с радио выбором */
+.webinars-seminars-drop-radio-select {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.webinars-seminars-drop-radio-select > label {
+    font-size: 30px;
+}
+
+.webinars-seminars-drop-radio-select > :nth-child(1),
+.webinars-seminars-drop-radio-select > :nth-child(2) {
+    justify-self: center; /* Выровнять содержимое двух полей по середине */
+}
+
+
+/* Стили к списку вебинаров/семинаров */
+.webinars-seminars-drop-list {
+    width: 100%;
+    overflow-y: auto;
+    padding-inline: var(--drop-window-padding-inline);
+    padding-block: 30px 10px;
+    margin-top: 30px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    gap: 25px;
+}
+
+/* Скрываем скроллбар для всех браузеров */
+.webinars-seminars-drop-list {
+    overflow: auto;
+    -ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+    scrollbar-width: none;  /* Для Firefox */
+}
+
+/* Скрываем скроллбар для WebKit (Chrome, Safari, Opera) */
+.webinars-seminars-drop-list::-webkit-scrollbar {
+    display: none;  /* Для Chrome, Safari, Opera */
+}
+
+.webinars-seminars-drop-item {
+    border-radius: 20px;
+    background-color: var(--color-light);
+    padding-inline: 20px;
+    padding-block: 25px;
+
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.webinars-seminars-drop-item > :not(:first-child) {
+    margin-top: 10px;
+}
+
+.webinars-seminars-drop-item:hover {
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.6);
+}
+
+.webinars-seminars-drop-item-length {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.webinars-seminars-drop-item-length span {
+    font-weight: 400;
+    opacity: 0.6;
+}
+
+.webinars-seminars-drop-item-programm {
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--color-orange);
+}
+
+.webinars-seminars-drop-item-title {
+    width: 80%;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-dark);
+}
+
+.webinars-seminars-drop-item-teacher span,
+.webinars-seminars-drop-item-teacher-link {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-dark);
+}
+
+.webinars-seminars-drop-item-teacher-link {
+    font-weight: 500;
+}
+
+.webinars-seminars-drop-item-teacher-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,30 @@
+@media (max-width: 1280px) {
+    .leave-request {
+        padding-block: 150px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .leave-request-form-button {
+        width: 100%;
+    }
+
+    .leave-request {
+        padding-block: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .leave-request-form {
+        padding-inline: 35px;
+        padding-block: 60px 40px;
+    }
+
+    .leave-request-form-wrapper {
+        margin-top: 40px;
+    }
+
+    .leave-request-form-button {
+        margin-top: 30px;
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="news-shares-item">
+  <div @click="openNews" class="news-shares-item">
       <h3 class="news-shares-item-title news-main-item-title">
         Путин поддержал идею допподготовки педагогов по другим направлениям
       </h3>
@@ -10,12 +10,35 @@
         </p>
       </div>
 		</div>
+    <NewsPage v-if="isNewsOpen" 
+      @close="handleClose" 
+      class="courses-all"/>
 </template>
 
 <script setup>
+  import { ref } from 'vue';
+  import NewsPage from '../Opened sections/NewsPage.vue';
 
+  const isNewsOpen = ref(false);
+
+  const openNews = () => {
+    isNewsOpen.value = true;
+  }
+
+  const handleClose = () => {
+    isNewsOpen.value = false;
+  }
 </script>
 
 <style scoped>
+  .courses-all {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: calc(var(--z-index-big) + 1000);
+      width: 100%;
+      height: 100vh;
 
+      background: rgba(0, 0, 0, 0.8);
+    }
 </style>

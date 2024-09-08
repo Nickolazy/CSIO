@@ -1,0 +1,95 @@
+/* Таблица с расписанием курса */
+.courses-drop-more-timetable-wrapper {
+    --timetableInlinePadding: 20px;
+
+    width: calc(100% - var(--drop-window-padding-inline) * 2);
+    padding-block: 10px 20px;
+    background-color: var(--color-light);
+    border-radius: 20px;
+
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.courses-drop-more-timetable-wrapper:hover {
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.5);
+}
+
+.timetable {
+    --colorBodyRowsBg: #F3F3F3;
+
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.timetable-body > :nth-child(2n - 1) {
+    background-color: var(--colorBodyRowsBg);
+}
+
+.timetable-head th:first-child {
+    padding-left: var(--timetableInlinePadding);
+    text-align: left;
+}
+
+.timetable-body th:first-child {
+    padding-left: var(--timetableInlinePadding);
+    text-align: left;
+}
+
+.timetable-head th:last-child {
+    padding-right: var(--timetableInlinePadding);
+    text-align: right;
+}
+
+.timetable-body th:last-child {
+    padding-right: var(--timetableInlinePadding);
+    text-align: right;
+}
+
+.timetable-head th:not(:first-child):not(:last-child) {
+    padding-inline: 5px;
+}
+
+.timetable-body th:not(:first-child):not(:last-child) {
+    padding-inline: 5px;
+}
+
+.timetable-head th span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-dark);
+    opacity: 0.6;
+    white-space: nowrap;
+}
+
+.timetable-body th {
+    padding-block: 7px;
+}
+
+.timetable-body th span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-dark);
+}
+
+.timetable-body address {
+    font-style: normal;
+}
+
+.timetable-body-link-to-teacher {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-orange);
+}
+
+.timetable-body-link-to-teacher:hover {
+    text-decoration: underline;
+}
+
+.timetable-sing-up-button {
+    width: 120px;
+    height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+}

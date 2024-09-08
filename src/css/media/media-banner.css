@@ -1,0 +1,41 @@
+@media (max-width: 1024px) {
+    .banner {
+        --bannerBgCircleBig: url('../img/banner/circle-big.png') left top / 85% auto no-repeat;
+    --bannerBgCircleMedium: url('../img/banner/circle-medium.png') left top / 65% auto no-repeat;
+    --bannerBgCircleSmall: url('../img/banner/circle-small.png') left top / 45% auto no-repeat;
+    }
+
+    .banner-title {
+        font-size: 64px;
+    }
+
+    .banner-subtitle {
+        font-size: 24px;
+    }
+
+    .container-banner-wrapper > :last-child {
+        margin-top: 8vh;
+    }
+
+    .banner-button-sing-up {
+        width: 280px;
+        height: 65px;
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-banner-wrapper > :nth-child(2) {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+    .banner-title {
+        font-size: 44px;
+    }
+
+    .banner-subtitle {
+        font-size: 18px;
+    }
+}

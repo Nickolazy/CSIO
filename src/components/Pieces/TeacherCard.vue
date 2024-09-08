@@ -1,5 +1,5 @@
 <template>
-  <div class="teachers-item">
+  <div @click="openTeacherPage" class="teachers-item">
     <div class="teacher-avatar-wrapper">
       <img
         src="../../assets/img/teachers/teacher.png"
@@ -32,12 +32,36 @@
         </ul>
       </div>
   </div>
+  <TeacherPage v-if="isTeacherPageOpened" 
+    @close="handleClose"
+    class="courses-all"/>
 </template>
 
 <script setup>
+  import { ref } from 'vue';
+  import TeacherPage from '../Opened sections/TeacherPage.vue'
+
+  const isTeacherPageOpened = ref(false);
+
+  const openTeacherPage = () => {
+    isTeacherPageOpened.value = true;
+  }
+
+  const handleClose = () => {
+    isTeacherPageOpened.value = false;
+  }
 
 </script> 
 
-<styles scoped>
-  
-</styles>
+<style scoped>
+  .courses-all {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--z-index-big) + 1000);
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.8);
+  }
+</style>

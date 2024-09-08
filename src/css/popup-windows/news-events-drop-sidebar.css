@@ -1,0 +1,64 @@
+
+.news-events-drop {
+    padding-bottom: 130px;
+}
+
+.news-events-drop-title {
+    font-size: 32px;
+}
+
+.news-events-drop-content {
+    width: calc(100% - var(--drop-window-padding-inline) * 2);
+    height: 100%;
+    columns: 2 350px; /* Разделяем окно на 2 колонки шириной 430px */
+    column-gap: 40px; /* Расстояние между колонками */
+    overflow-y: auto;
+}
+
+.news-events-drop-content p {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.5; /* Интерлиньяж */
+}
+
+/* Скрываем скроллбар для всех браузеров */
+.news-events-drop-content {
+    overflow: auto;
+    -ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+    scrollbar-width: none;  /* Для Firefox */
+}
+
+/* Скрываем скроллбар для WebKit (Chrome, Safari, Opera) */
+.news-events-drop-content::-webkit-scrollbar {
+    display: none;  /* Для Chrome, Safari, Opera */
+}
+
+
+/* Поделиться в соц. сетях */
+.news-events-drop-socials {
+    position: absolute;
+    bottom: 30px;
+    right: var(--drop-window-padding-inline);
+}
+
+.news-events-drop-socials > :not(:first-child) {
+    margin-top: 10px;
+}
+
+.news-events-drop-socials-title {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-dark);
+    opacity: 0.5;
+}
+
+.news-events-drop-socials-title:hover {
+    opacity: 0.7;
+}
+
+.news-events-drop-socials-list {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}

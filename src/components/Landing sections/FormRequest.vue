@@ -2,7 +2,7 @@
   <div class="section leave-request">
     <h2 class="visually-hidden">Оставить заявку на обучение</h2>
     <div class="container">
-      <form action="#" class="leave-request-form">
+      <form @submit.prevent="sendEmail" class="leave-request-form">
       <h3 class="heading-four leave-request-form-title">
         Оставить заявку на обучение
       </h3>
@@ -70,6 +70,31 @@
 </template>
 
 <script setup>
+  import { ref } from 'vue';
+  import axios from 'axios';
+
+  const course = ref('');
+  const formOfEducation = ref('');
+  const trainingType = ref('');
+  const name = ref('');
+  const phone = ref('');
+  const email = ref('');
+
+  const sendEmail = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/send-email', {
+        course: 'Курс 1',
+        formOfEducation: 'Очная',
+        trainingType: 'Группа',
+        name: 'Иван Иванов',
+        phone: '+7 (123) 456-7890',
+        email: 'example@example.com'
+      });
+      console.log('Email sent successfully!', response.data);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
 
 </script>
 

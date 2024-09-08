@@ -1,0 +1,75 @@
+
+.teacher-drop-title {
+    font-size: 38px;
+}
+
+.teacher-drop-info-image-wrapper {
+    width: calc(100% - var(--drop-window-padding-inline) * 2);
+    display: flex;
+    align-items: flex-start;
+    column-gap: 35px;
+}
+
+.teacher-drop-info {
+    align-self: stretch; /*  Растянуть на всю высоту родителя */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.teacher-drop-info-description {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-dark);
+    text-align: justify;
+}
+
+
+.teacher-drop-info-list > :not(:first-child) {
+    margin-top: 10px;
+}
+
+.teacher-drop-info-item {
+    display: flex;
+}
+
+.teacher-drop-info-item > :nth-child(n) {
+    width: 50%;
+    text-align: left;
+    font-size: 18px;
+    color: var(--color-dark);
+}
+
+.teacher-drop-info-item > :first-child {
+    font-weight: 400;
+    opacity: 0.5;
+}
+
+.teacher-drop-info-item > :first-child:hover {
+    opacity: 0.7;
+}
+
+.teacher-drop-info-item > :last-child {
+    font-weight: 500;
+}
+
+.teacher-drop-image {
+    flex-grow: 1;
+    border-radius: 20px;
+
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.teacher-drop-image:hover {
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.6);
+}
+
+.teacher-drop-image > :first-child {
+    width: 356px;
+    height: auto;
+}
+
+.teacher-drop-timetable-title {
+    font-size: 30px;
+}

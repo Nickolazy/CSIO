@@ -1,0 +1,16 @@
+@media (max-width: 1024px) {
+    .footer-info-wrapper {
+        grid-template-columns: repeat(1, 1fr);
+        row-gap: 25px;
+    }
+
+    .footer-info-wrapper > :nth-child(n) {
+        justify-self: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .footer-info-wrapper > :nth-child(n) {
+        justify-self: left;
+    }
+}

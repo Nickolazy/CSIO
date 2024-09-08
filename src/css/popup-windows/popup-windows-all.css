@@ -1,0 +1,113 @@
+/* Стили к всплывающим окнам */
+.sidebar-drop-wrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-drop {
+    position: relative;
+
+    --colorInputRadioBg: #D9D9D9;
+
+    width: 100%;
+    max-width: var(--drop-window-max-width);
+    height: var(--drop-window-max-height);
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 35px;
+
+    background-color: var(--color-light);
+    border-radius: 40px;
+    padding-block: var(--drop-window-padding-block);
+}
+
+.sidebar-drop::-webkit-scrollbar {
+    color: red;
+}
+
+/* Скрываем скроллбар для всех браузеров */
+.sidebar-drop {
+    overflow: auto;
+    -ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+    scrollbar-width: none;  /* Для Firefox */
+}
+
+/* Скрываем скроллбар для WebKit (Chrome, Safari, Opera) */
+.sidebar-drop::-webkit-scrollbar {
+    display: none;  /* Для Chrome, Safari, Opera */
+}
+
+
+/* Кнопка возвращения на предыдущее окно */
+.sidebar-drop-go-back-button {
+    position: absolute;
+    top: calc(var(--drop-window-padding-block) + 7px);
+    left: calc(var(--drop-window-padding-inline) / 2);
+    translate: -50%;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+/* Эффект при наведении */
+.sidebar-drop-go-back-button:hover {
+    transform: scale(1.05); /* Увеличение кнопки */
+}
+
+/* Стиль для SVG внутри кнопки */
+.sidebar-drop-go-back-button svg {
+    transition: transform 0.3s; /* Плавный переход для вращения и изменения при наведении */
+}
+
+/* Эффект при наведении для SVG */
+.sidebar-drop-go-back-button:hover svg {
+    transform: rotate(-15deg); /* Поворот иконки при наведении на кнопку */
+}
+
+
+/* Кнопка закрытия окна */
+.close-button {
+    width: 40px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--color-dark);
+    border: none;
+}
+
+.sidebar-drop-close-button {
+    position: absolute;
+    top: var(--drop-window-padding-block);
+    right: calc(var(--drop-window-padding-inline) / 2);
+    translate: 40%;
+    border: none; /* Убираем стандартную рамку */
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы для эффектов */
+}
+
+.sidebar-drop-close-button > :first-child {
+    width: 24px;
+    height: auto;
+    transition: transform 0.3s ease; /* Плавный переход для вращения */
+}
+
+.sidebar-drop-close-button:hover {
+    transform: scale(1.1); /* Увеличиваем кнопку */
+}
+
+.sidebar-drop-close-button:hover > :first-child {
+    transform: rotate(90deg); /* Поворот иконки на 90 градусов при наведении */
+}
+
+.sidebar-drop-title {
+    width: calc(100% - var(--drop-window-padding-inline) * 2);
+    font-weight: 500;
+    color: var(--color-dark);
+}

@@ -27,6 +27,7 @@ export const useDataStore = defineStore('DataStore', {
       try {
         const response = await databases.listDocuments(CSIO_DATABASE_ID, COURSES_ID);
         console.log('Fetched courses:', response.documents);
+    
         this.Курсы = response.documents;
       } catch (error) {
         console.error('Ошибка при получении курсов:', error);
@@ -35,17 +36,42 @@ export const useDataStore = defineStore('DataStore', {
     
     async addCourse(course) {
       try {
-        await databases.createDocument(CSIO_DATABASE_ID, COURSES_ID, ID.unique(), course);
-        await this.fetchCourses(); // Обновляем список после добавления
+        const response = await databases.createDocument(CSIO_DATABASE_ID, COURSES_ID, ID.unique(), course);
+        course.id = response.$id;
+        
+        // Обновляем список курсов
+        await this.fetchCourses();
       } catch (error) {
         console.error('Ошибка при добавлении курса:', error);
       }
     },
     
     async updateCourse(id, updatedCourse) {
+      console.log(updatedCourse);
       try {
         await databases.updateDocument(CSIO_DATABASE_ID, COURSES_ID, id, updatedCourse);
         await this.fetchCourses(); // Обновляем список после редактирования
+      } catch (error) {
+        console.error('Ошибка при обновлении курса:', error);
+      }
+    }, 
+
+    async handleCourseUpdated(updatedCourse) {
+      try {
+        if (!updatedCourse.$id) {
+          throw new Error('ID курса отсутствует');
+        }
+
+        const id = updatedCourse.$id;
+    
+        // Обновляем курс в базе данных
+        await this.updateCourse(id, updatedCourse);
+        
+        // Локальное обновление курса в списке
+        const index = this.Курсы.findIndex(course => course.$id === updatedCourse.$id);
+        if (index !== -1) {
+          this.Курсы[index] = updatedCourse;
+        }
       } catch (error) {
         console.error('Ошибка при обновлении курса:', error);
       }
@@ -134,6 +160,37 @@ export const useDataStore = defineStore('DataStore', {
       }
     },
 
+    async fetchFormsByCourse(title) {
+      try {      
+        // Получаем формы, связанные с курсом
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, FORMS_ID, [
+          Query.equal('title', title),
+          Query.equal('category', 'course')
+        ]);
+    
+        console.log('Fetched forms for course:', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении форм по курсу:', error);
+      }
+    },
+    
+    async fetchTypesByCourse(title) {
+      try {
+        // Получаем типы, связанные с курсом
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, TYPES_ID, [
+          Query.equal('title', title),
+          Query.equal('category', 'course')
+        ]);
+    
+        console.log('Fetched types for course:', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении типов по курсу:', error);
+      }
+    },
+    
+
     // Добавляем форму обучения
     async addFormOfCourse(form) {
       try {
@@ -196,8 +253,6 @@ export const useDataStore = defineStore('DataStore', {
         console.error('Ошибка при удалении типа обучения:', error);
       }
     },
-
-
 
     async fetchWebinars() {
         try {

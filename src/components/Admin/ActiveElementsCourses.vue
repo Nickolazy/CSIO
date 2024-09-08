@@ -7,6 +7,13 @@
     <div v-if="adding">
       <AddCourse :adding="adding" @update:adding="adding = $event" />
     </div>
+    <div v-else-if="editing">
+      <EditCourse 
+        :course="selectedCourse" 
+        :editing="editing" 
+        @update:editing="editing = $event" 
+        @course-updated="handleCourseUpdated" />
+    </div>
     <div v-else>
       <ul v-if="courses.length">
         <li v-for="course in courses" :key="course.$id">
@@ -26,31 +33,30 @@
 import { ref, computed, onMounted } from 'vue';
 import { useDataStore } from '../../store/DataStore';
 import AddCourse from '../Admin/AddCourse.vue';
+import EditCourse from './EditCourse.vue';
 
 const store = useDataStore();
 const courses = computed(() => store.Курсы);
-const selectedCourse = ref(null);
 
+const selectedCourse = ref(null);
+const editing = ref(false);
 const adding = ref(false);
 
 onMounted(async () => {
   await store.fetchCourses();
 });
 
-const editCourse = (course) => {
-  selectedCourse.value = { ...course }; // Клонируем курс для редактирования
-  console.log('Editing course:', course);
-};
-
 const openAdding = () => {
   adding.value = true;
 }
 
-const updateCourse = async () => {
-  if (selectedCourse.value) {
-    await store.updateCourse(selectedCourse.value.$id, selectedCourse.value);
-    selectedCourse.value = null; // Закрытие модального окна после обновления
-  }
+const editCourse = (course) => {
+  selectedCourse.value = { ...course }; 
+  editing.value = true;
+};
+
+const handleCourseUpdated = async (updatedCourse) => {
+  await store.handleCourseUpdated(updatedCourse);
 };
 
 const deleteCourse = async (id) => {

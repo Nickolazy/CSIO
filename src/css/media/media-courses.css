@@ -1,0 +1,126 @@
+@media (max-width: 1600px) {
+    .courses-list {
+        margin-top: 100px;
+        height: 300px;
+    }
+
+    .courses-item-title {
+        font-size: 40px;
+    }
+
+    .courses-item-wrapper > :nth-child(1) {
+        height: 140px;
+    }
+
+    .courses-item {
+        padding-block: 15px 35px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .courses-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas: 
+            "link1 link2 link3"
+            "link4 link5 link6"
+        ;
+        row-gap: 30px;
+        height: auto;
+    }
+
+    .courses-item {
+        min-height: 180px;
+    }
+
+    .courses-item-title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .courses-title,
+    .courses-subtitle {
+        text-align: center;
+    }
+
+    .courses-list {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-areas: 
+            "link1 link2 link2"
+            "link3 link2 link2"
+            "link4 link5 link6"
+        ;
+        row-gap: 30px;
+    }
+}
+
+@media (max-width: 800px) {
+    .courses-list {
+        display: grid;
+        grid-template-columns: 0.35fr 65fr;
+        grid-template-areas: 
+            "link1 link2"
+            "link3 link2"
+            "link4 link5"
+            "link4 link6"
+        ;
+        row-gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .courses {
+        padding-block: 80px;
+    }
+
+    .courses-title {
+        font-size: 48px;
+    }
+
+    .courses-subtitle {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 620px) {
+    .courses-list {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+        grid-template-areas: 
+            "link1 link2"
+            "link3 link4"
+            "link5 link6"
+        ;
+        gap: 25px;
+    }
+
+    .courses-item-title {
+        font-size: 4.6vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .courses-list {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas: 
+            "link1"
+            "link2"
+            "link3"
+            "link4"
+            "link5"
+            "link6"
+        ;
+        gap: 25px;
+    }
+
+    .courses-item {
+        min-height: 150px;
+    }
+
+    .courses-item-title {
+        font-size: 32px;
+    }
+}

@@ -1,0 +1,48 @@
+@media (max-width: 1600px) {
+    .teachers-list {
+        max-width: none;
+        width: 90%;
+
+        overflow-x: scroll;
+    }
+
+    .teachers-item {
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 1280px) {
+    .teachers-all-events-button-wrapper {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 1024px) {
+    .teachers-title,
+    .teachers-subtitle {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .teachers-title {
+        font-size: 48px;
+    }
+
+    .teachers-subtitle {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 500px) {
+    .teachers-list {
+        --cardItemWidth: calc(100vw - 20px * 2);
+
+        padding-inline: 20px;
+        padding-block: 30px;
+    }
+
+    .teachers-list {
+        box-sizing: border-box;
+    }
+}

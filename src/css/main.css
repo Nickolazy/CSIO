@@ -1,36 +1,8 @@
-/* Нажатия кнопок */
-.button {
-    transition: transform 0.15s ease-in-out;
-
-    user-select: none;
-  }
-
-.button:hover {
-    transform: scale(1.05);
-}
-
-.button:active {
-    transform: scale(0.9);
-    transition: transform 0.1s ease-in-out;
-}
-
-.teachers-item,
-.news-shares-item {
-    transition: transform 0.15s ease-in-out;
-}
-
-.courses-item:hover,
-.teachers-item:hover,
-.news-shares-item:hover {
-    transform: scale(1.05);
-    cursor: pointer;
-}
-
 .header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: var(--z-index-big);
+    z-index: calc(var(--z-index-big) + 100);
 
     width: 100%;
     height: var(--header-height);
@@ -69,27 +41,31 @@
     display: block;
     height: var(--header-height);
     line-height: var(--header-height);
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 400;
 }
 
 .header-menu-burger-button {
     display: none;
-    width: 30px;
-    height: 20px;
     background-color: transparent;
     border: none;
+    padding: 0;
+    color: var(--color-orange);
 }
 
 .header-menu-burger-button:hover {
     cursor: pointer;
 }
 
-.header-menu-burger-button-item {
+.header-menu-burger-button > :first-child {
+    width: 45px;
+    height: auto;
+}
 
-    width: 20px;
-    height: 4px;
-    background-color: var(--color-orange);
+.header-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 30px;
 }
 
 .header-sign-up-button {
@@ -120,11 +96,10 @@
     background-color: var(--color-light);
     border-top-left-radius: 24px;
     border-bottom-left-radius: 24px;
+    padding-block: 10px;
 
     display: flex;
     justify-content: center;
-
-    padding-block: 10px;
 }
 
 .social-networks-list {
@@ -141,14 +116,19 @@
 
 /* banner */
 .banner {
+    --bannerBgCircleBig: url('../assets/img/banner/circle-big.png') left top no-repeat;
+    --bannerBgCircleMedium: url('../assets/img/banner/circle-medium.png') left top no-repeat;
+    --bannerBgCircleSmall: url('../assets/img/banner/circle-small.png') left top no-repeat;
+    --bannerBgMain: url('../assets/img/banner/banner-image.png') left top / cover no-repeat;
+
     width: 100%;
     height: 100vh;
     padding-top: var(--header-height);
     background:
-        url('../assets/img/banner/circle-big.png') left top no-repeat,
-        url('../assets/img/banner/circle-medium.png') left top no-repeat,
-        url('../assets/img/banner/circle-small.png') left top no-repeat,
-        url('../assets/img/banner/banner-image.png') left top / cover no-repeat,
+        var(--bannerBgCircleBig),
+        var(--bannerBgCircleMedium),
+        var(--bannerBgCircleSmall),
+        var(--bannerBgMain),
         #140018;
 }
 
@@ -180,26 +160,17 @@
     color: var(--color-light)
 }
 
-.banner-button-sing-up {
-    width: 390px;
-    height: 80px;
-    background-color: var(--color-orange);
-    border: none;
-    border-radius: 24px;
-    font-size: 28px;
-    color: var(--color-light);
-    font-weight: 500;
-    letter-spacing: 1.2px;
-}
-
 
 /* About Us */
 .about-us {
+    --aboutUsFidelizacionClienteBg: url('../assets/img/about-us/fidelizacion-cliente-bg.png') center bottom / cover no-repeat;
+    --aboutUsBg: url('../assets/img/about-us/about-us-bg.png') center center / cover no-repeat;
+
     width: 100%;
     padding-block: 100px;
     background: 
-        url('../assets/img/about-us/fidelizacion-cliente-bg.png') center bottom / cover no-repeat,
-        url('../assets/img/about-us/about-us-bg.png') center center / cover no-repeat;
+        var(--aboutUsFidelizacionClienteBg),
+        var(--aboutUsBg);
 }
 
 .about-us-title {
@@ -208,7 +179,6 @@
 }
 
 .about-us-subtitle {
-    margin-top: 30px;
     font-size: 54px;
     color: var(--color-dark);
     font-weight: 600;
@@ -238,7 +208,7 @@
     background-color: rgba(234, 214, 218, 0.8);
     padding-inline: 35px;
     padding-block: 45px;
-    border-radius: 30px;
+    border-radius: 25px;
 
     font-size: 32px;
     font-weight: 400;
@@ -268,22 +238,49 @@
 }
 
 .courses-list {
-    width: 100%;
-    height: 400px;
+    display: grid;
+    grid-template-columns: 1fr 0.85fr 1.15fr 1fr;
+    grid-template-areas: 
+        "link1 link2 link4 link6"
+        "link1 link3 link5 link6"
+    ;
+
+    gap: 25px;
     margin-top: 160px;
-    display: flex;
-    flex-grow: 1;
-    align-items: stretch;
-    justify-content: space-between;
-    column-gap: 30px;
+    height: 400px;
+}
+
+.courses-list > :nth-child(1) {
+    grid-area: link1;
+}
+
+.courses-list > :nth-child(2) {
+    grid-area: link2;
+}
+
+.courses-list > :nth-child(3) {
+    grid-area: link3;
+}
+
+.courses-list > :nth-child(4) {
+    grid-area: link4;
+}
+
+.courses-list > :nth-child(5) {
+    grid-area: link5;
+}
+
+.courses-list > :nth-child(6) {
+    grid-area: link6;
 }
 
 .courses-item {
     position: relative;
-    padding-block: 35px;
-    padding-inline: 30px;
+    padding: 35px 30px;
     border-radius: 30px;
-    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .courses-item-count {
@@ -298,21 +295,6 @@
     justify-content: center;
     font-size: 28px;
     font-weight: 500;
-}
-
-.courses-item-wrapper {
-    display: flex;
-    flex-direction: column;
-    row-gap: 30px;
-}
-
-.courses-item-wrapper > :nth-child(1) {
-    height: 160px;
-    flex-shrink: 0;
-}
-
-.courses-item-wrapper > :nth-child(2) {
-    height: 100%;
 }
 
 .courses-item-title {
@@ -367,6 +349,17 @@
     text-align: right;
 }
 
+.teachers-slider {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
 .teachers-list {
     --cardItemWidth: 450px;
     --cardItemHeight: 600px;
@@ -376,10 +369,15 @@
     --teacherZIndexMainText: 50;
     --teacherZIndexTiltedBlockImage: 100;
 
+    max-width: calc(var(--container-width));
+
     display: flex;
     justify-content: space-between;
+    column-gap: 60px;
 
     margin-top: 45px;
+
+    padding-block: 50px;
 }
 
 .teachers-item {
@@ -536,7 +534,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     padding-block: 25px;
 
     overflow: hidden;
@@ -616,6 +613,7 @@
 
 .news-shares-left-button {
     position: absolute;
+    z-index: var(--z-index-big);
     left: -40px;
     top: 50%;
     translate: 0 -50%;
@@ -633,6 +631,7 @@
 
 .news-shares-right-button {
     position: absolute;
+    z-index: var(--z-index-big);
     right: -40px;
     top: 50%;
     translate: 0 -50%;
@@ -711,62 +710,11 @@
     margin-top: 20px;
 }
 
-.leave-request-form-input {
-    height: 65px;
-    background-color: var(--color-page-bg);
-    border: none;
-    border-radius: 20px;
-    padding-inline: 30px;
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.8);
-}
-
-.leave-request-form-select,
-.leave-request-form-input::placeholder {
-    font-size: 20px;
-    font-weight: 500;
-    color: var(--colorInputAndSelectText);
-    opacity: 0.7;
-    line-height: 1;
-}
-
-.leave-request-form-input:focus {
-    border: none;
-    outline: none;
-}
-
-.leave-request-form-select {
-    color: var(--colorInputAndSelectText);
-}
-
-.leave-request-form-select {
-    appearance: none; /* Убираем стандартный стиль */
-    -webkit-appearance: none; /* Для Safari */
-    -moz-appearance: none; /* Для Firefox */
-    background: url('../assets/img/icons/custom-arrow-icon-select.svg') 95% center / 25px auto no-repeat,
-        var(--color-page-bg); /* Иконка стрелочки */
-}
-
-/* Для работы во всех браузерах */
-.leave-request-form-select::-ms-expand {
-    display: none; /* Убираем стрелочку в IE */
-}
-
-
-.leave-request-form-button {
-    width: 100%;
-    text-align: center;
-    margin-top: 75px;
-}
-
 
 /* Footer */
 .footer {
     width: 100%;
-    height: var(--footer-height);
+    min-height: var(--footer-height);
     background-color: var(--color-footer-bg);
     padding-top: 40px;
 }
