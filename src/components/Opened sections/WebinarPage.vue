@@ -74,7 +74,7 @@
                     </h3>
 
                     <div class="webinar-teacher-image">
-                        <img src="./img/drop-sidebars/teacher.png" alt="Фото преподавателя" loading="lazy">
+                        <img :src="curPhotoUrl" alt="" loading="lazy">
                     </div>
 
                     <span class="webinar-teacher-name">
@@ -82,7 +82,7 @@
                     </span>
 
                     <span class="webinar-teacher-role">
-                        Ведущий аналитик данных
+                      {{ teacherPost }}
                     </span>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                         </tr>
                     </thead>
                     <tbody class="timetable-body">
-                      <TableShedule @signUp="handleSignUp" @goToTeacher="handleGoToTeacher" v-for="(shedule, index) in shedules" 
+                      <TableShedule @signUp="handleSignUp" v-for="(shedule, index) in shedules" 
                       :key="index" 
                       v-if="shedules !== null && shedules !== undefined" 
                       :shedule="shedule" /> 
@@ -283,15 +283,14 @@
         forms.value = await store.fetchFormsByWebinar(title, true);
         types.value = await store.fetchTypesByWebinar(title, true);
         shedules.value = await store.fetchShedulesByWebinar(title, true);
-        if (props.webinar.teachers) {
-          teachers.value = await store.fetchTeachersByWebinar(props.webinar.teachers);
-          console.log("Учителя", teachers.value); // Выводим значение teachers
-        }
       } else {
         forms.value = await store.fetchFormsByWebinar(title, false);
         types.value = await store.fetchTypesByWebinar(title, false);
         shedules.value = await store.fetchShedulesByWebinar(title, false);
       }
+    }
+    if (props.webinar && props.webinar.teacherName) {
+      teachers.value = await store.fetchTeachersByWebinar(props.webinar.teacherName);
     }
   };
 
@@ -351,20 +350,57 @@
     return ''; // Если нет данных о преподавателе
   });
 
+  const teacherPost = computed(() => {
+    if (teachers.value.length > 0 && teachers.value[0].post) {
+      return teachers.value[0].post;
+    }
+    return '';
+  });
+
   const curPhotoUrl = ref('');
-  
+
   onMounted(async () => {
-    await store.fetchAllImages();
-    let photoList = await store.Фото; // Получаем массив фото
+    await store.fetchAllImages(); // Ждем загрузки всех изображений
+
+    // Получаем массив фото
+    let photoList = store.Фото;
+    
+    // Если store.Фото возвращает Promise, то надо дождаться его разрешения
+    if (photoList instanceof Promise) {
+      photoList = await photoList;
+    }
+    
     const updatedPhotoList = photoList.map(photo => ({
       name: removeExtension(photo.name),
       url: photo.url
     }));
-    const photo = updatedPhotoList.find(photo => photo.name === teacherName); // Ищем нужное фото
-    if (photo) {
-      curPhotoUrl.value = await photo.url; // Получаем url
-    }
+
+    // Следим за изменениями в teacherName
+    watch(teacherName, (newName) => {
+      const photo = updatedPhotoList.find(photo => photo.name === newName.trim()); // Ищем нужное фото
+
+      console.log("ФотоЛист: ", updatedPhotoList);
+      console.log("Имя: ", newName);
+      console.log("Фото: ", photo);
+
+      if (photo) {
+        // Если photo.url — Promise, то ждем его разрешения
+        if (photo.url instanceof Promise) {
+          photo.url.then(url => {
+            curPhotoUrl.value = url; // Устанавливаем URL
+            console.log("URL Фото: ", curPhotoUrl.value);
+          }).catch(error => {
+            console.error('Ошибка при разрешении URL:', error);
+          });
+        } else {
+          curPhotoUrl.value = photo.url; // Устанавливаем URL
+          console.log("URL Фото: ", curPhotoUrl.value);
+        }
+      }
+    });
   });
+
+
 
   const removeExtension = (photoList) => {
     return photoList.replace(/\.[^.]*$/, '');
