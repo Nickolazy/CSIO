@@ -3,6 +3,7 @@
      <div>
        <div v-if="haveForms" class="webinars-seminars-drop-item-length">
          <span>Количество часов:</span>
+         &nbsp;
          <strong v-if="isWebinar">
            {{ formsWebinars[0]?.hours }}
          </strong>
@@ -12,6 +13,7 @@
          &nbsp;
  
          <span>Продолжительность:</span>
+         &nbsp;
          <strong v-if="isWebinar">
            {{ formsWebinars[0]?.length }}
          </strong>
@@ -20,9 +22,11 @@
          </strong>
          &nbsp;
        </div>
-       <button @click="openDetails" class="button banner-button-sing-up courses-drop-item-more" type="button">
-         Подробнее
-       </button>
+       <div class="webinar-item-button-more"> 
+          <button @click="openDetails" class="button banner-button-sing-up courses-drop-item-more" type="button"> 
+            Подробнее 
+          </button> 
+        </div>
      </div>
  
      <div class="webinars-seminars-drop-item-programm">
@@ -34,7 +38,7 @@
      </div>
  
      <div class="webinars-seminars-drop-item-teacher">
-       <span>Преподаватель:</span>
+       <span>Преподаватель: </span>
        <a href="#" class="webinars-seminars-drop-item-teacher-link">
          {{ webinar.teacherName }}
        </a>
@@ -103,6 +107,6 @@
  </script>
  
  <style scoped>
-  
+
  </style>
  

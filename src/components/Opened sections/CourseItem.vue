@@ -1,7 +1,7 @@
 <template>
 	<li class="courses-drop-item">
         <div class="courses-drop-item-length-wrapper">
-                        <div class="courses-drop-item-length">
+                        <div v-if="forms.length > 0" class="courses-drop-item-length">
                             <span>
                                 Количество часов:
                             </span>
@@ -12,6 +12,24 @@
                                 Продолжительность:
                             </span>
                             <strong v-show="forms">{{ forms[0].length }}</strong>
+                            &nbsp;
+                        </div>
+
+                        <div v-else class="courses-drop-item-length">
+                            <span>
+                                Количество часов:
+                            </span>
+                            <span>
+                                не указано
+                            </span>
+                            &nbsp;
+
+                            <span>
+                                Продолжительность:
+                            </span>
+                            <span>
+                                не указано
+                            </span>
                             &nbsp;
                         </div>
 

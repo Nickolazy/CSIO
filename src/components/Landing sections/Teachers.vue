@@ -1,5 +1,5 @@
 <template>
-  <div class="section teachers">
+  <div class="section teachers container-teachers">
     <div class="container">
       <h2 class="heading-two teachers-title">
         Вебинары и семинары с экспертами
@@ -11,12 +11,16 @@
         </p>
       </div>
 
+      <ButtonPrevious/>
+
       <div class="teachers-list">
         <TeacherCard 
           v-for="(teacher, index) in teachers"
           :key="index"
           :teacher="teacher"/>
       </div>
+
+      <ButtonNext class="button-teachers"/>
 
       <div class="teachers-all-events-button-wrapper">
         <button @click="openWebinars" class="button banner-button-sing-up teachers-all-events-button" type="button">
@@ -68,5 +72,10 @@
     height: 100vh;
 
     background: rgba(0, 0, 0, 0.8);
+  }
+
+  .container-teachers {
+    position: relative;
+    overflow: hidden;
   }
 </style>

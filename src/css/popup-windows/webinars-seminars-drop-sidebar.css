@@ -1,4 +1,3 @@
-
 /* Переопределение стилей для элементов с радио выбором */
 .webinars-seminars-drop-radio-select {
     grid-template-columns: repeat(2, 1fr);
@@ -94,4 +93,11 @@
 
 .webinars-seminars-drop-item-teacher-link:hover {
     text-decoration: underline;
+}
+
+.webinar-item-button-more { 
+  margin-top: 20px; 
+  width: 100%; 
+  display: flex; 
+  justify-content: flex-end; 
 }

@@ -13,7 +13,7 @@
                         </p>
                     </div>
 
-                    <div class="info-table-wrapper">
+                    <div v-if="forms && forms.length > 0" class="info-table-wrapper">
                         <table class="info-table">
                             <thead class="info-table-head">
                                 <tr>
@@ -195,6 +195,60 @@
                 </button>
             </form>
 
+            <form v-if="!shedules.length" class="courses-drop-more-leave-request">
+                <h2 class="visually-hidden">Оставить заявку на обучение</h2>
+                <div class="courses-drop-more-leave-request-wrapper">
+                    <label class="visually-hidden" for="in-group">В группе</label>
+                    <select
+                        class="leave-request-form-select leave-request-form-input courses-drop-more-input"
+                        id="in-group" 
+                        required>
+                        <option value="" disabled selected>Форма</option>
+                        <option value="Очная">Очная</option>
+                        <option value="Заочная">Заочная</option>
+                    </select>
+
+                    <label class="visually-hidden" for="in-minigroup">Мини-группа</label>
+                    <select
+                        class="leave-request-form-select leave-request-form-input courses-drop-more-input"
+                        id="in-minigroup" 
+                        required
+                    >
+                        <option value="" disabled selected>Вид</option>
+                        <option value="В минигруппе">Мини-группа</option>
+                        <option value="В группе">Группа</option>
+                        
+                    </select>
+
+                    <label class="visually-hidden" for="student-name">Ваше имя</label>
+                    <input
+                        type="text"
+                        placeholder="Ваше имя"
+                        id="student-name"
+                        class="leave-request-form-input leave-request-student-name courses-drop-more-input"
+                    >
+
+                    <label class="visually-hidden" for="phone-number">Ваш номер телефона</label>
+                    <input
+                        type="text"
+                        placeholder="+7 (___) ___ - ____"
+                        id="phone-number"
+                        class="leave-request-form-input leave-request-phone-number courses-drop-more-input"
+                    >
+
+                    <label class="visually-hidden" for="email-address">Ваша электронная почта</label>
+                    <input
+                        type="text"
+                        placeholder="E-mail"
+                        id="email-address"
+                        class="leave-request-form-input leave-request-email-address courses-drop-more-input">
+                </div>
+
+                <button class="button banner-button-sing-up courses-drop-more-button" type="submit">
+                    Записаться
+                </button>
+            </form>
+
             <button @click="handleBack" class="button close-button sidebar-drop-go-back-button" type="button">
                 <svg viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <line x1="29.5386" y1="11.5769" x2="0.000112534" y2="11.5769" stroke="black"/>
@@ -268,7 +322,7 @@
 
   const store = useDataStore();
 
-  const forms = ref([]);
+  const forms = ref(undefined);
   const types = ref([]);
   const shedules = ref([]);
   const teachers = ref([]);
@@ -399,8 +453,6 @@
       }
     });
   });
-
-
 
   const removeExtension = (photoList) => {
     return photoList.replace(/\.[^.]*$/, '');
