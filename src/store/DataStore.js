@@ -228,6 +228,27 @@ export const useDataStore = defineStore('DataStore', {
       }
     },
 
+    async fetchTypesByWebinar(title, isWebinar) {
+      try {
+        let category = '';
+        if(isWebinar) {
+          category = 'Вебинар';
+        } else {
+          category = 'Семинар';
+        } 
+        // Получаем типы, связанные с курсом
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, TYPES_ID, [
+          Query.equal('title', title),
+          Query.equal('category', category)
+        ]);
+    
+        console.log('Fetched types for webinar:', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении типов по вебинару:', error);
+      }
+    },
+
     async fetchShedulesByCourse(title) {
       try {
         // Получаем расписание, связанное с курсом
@@ -240,6 +261,39 @@ export const useDataStore = defineStore('DataStore', {
         return response.documents;
       } catch (error) {
         console.error('Ошибка при получении расписания по курсу:', error);
+      }
+    },
+
+    async fetchShedulesByWebinar(title, isWebinar) {
+      try {
+        let category = '';
+        if(isWebinar) {
+          category = 'Вебинар';
+        } else {
+          category = 'Семинар';
+        } 
+        // Получаем расписание, связанное с курсом
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, SCHEDULES_ID, [
+          Query.equal('title', title),
+          Query.equal('category', category)
+        ]);
+    
+        console.log('Fetched shedules for webinar:', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении расписания по вебинару:', error);
+      }
+    },
+
+    async fetchTeachersByWebinar(teacher) {
+      try {
+        const response = await databases.listDocuments(CSIO_DATABASE_ID, TEACHERS_ID, [
+          Query.equal('name', teacher),
+        ]);
+        
+        return response.documents;
+      } catch (error) {
+        console.error('Ошибка при получении преподавателей вебинара:', error);
       }
     },
     

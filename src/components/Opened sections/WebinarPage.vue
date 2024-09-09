@@ -37,88 +37,6 @@
                                   :form="form"
                                   :haveTypes="isHaveTypes(form)"
                                   :types="searchTypes(form)" />
-
-                                <tr class="info-table-body-other">
-                                    <th>
-                                        <span>Группа</span>
-                                    </th>
-                                    <th>
-                                        <span>40</span>
-                                    </th>
-                                    <th>
-                                        <span>1 неделя</span>
-                                    </th>
-                                    <th>
-                                        <span>от 2000</span>
-                                    </th>
-                                </tr>
-
-                                <tr class="info-table-body-other">
-                                    <th>
-                                        <span>Мини группа</span>
-                                    </th>
-                                    <th>
-                                        <span>40</span>
-                                    </th>
-                                    <th>
-                                        <span>1 недели</span>
-                                    </th>
-                                    <th>
-                                        <span>от 2000</span>
-                                    </th>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span>Очно-заочная</span>
-                                    </th>
-                                    <th>
-                                        <span>40</span>
-                                    </th>
-                                    <th>
-                                        <span>2 недели</span>
-                                    </th>
-                                    <th>
-                                        <span>от 5000</span>
-                                    </th>
-                                </tr>
-
-                                <tr>
-                                    <th class="info-table-body-more">
-                                        <span>Заочная</span>
-                                        <button class="button info-table-body-more-button" type="button">
-                                            <img
-                                                src="./img/icons/table-icon-more-arrow.svg"
-                                                alt="Больше информации"
-                                                loading="lazy"
-                                            >
-                                        </button>
-                                    </th>
-                                    <th>
-                                        <span>40</span>
-                                    </th>
-                                    <th>
-                                        <span>2 недели</span>
-                                    </th>
-                                    <th>
-                                        <span>от 5000</span>
-                                    </th>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span>Индивидуальная</span>
-                                    </th>
-                                    <th>
-                                        <span>40</span>
-                                    </th>
-                                    <th>
-                                        <span>2 недели</span>
-                                    </th>
-                                    <th>
-                                        <span>от 5000</span>
-                                    </th>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -160,7 +78,7 @@
                     </div>
 
                     <span class="webinar-teacher-name">
-                        Максим Андреев
+                        {{ nameAndSurname }}
                     </span>
 
                     <span class="webinar-teacher-role">
@@ -169,16 +87,19 @@
                 </div>
             </div>
 
-            <h3 class="sidebar-drop-title courses-drop-more-subtitle">
+            <h3 v-show="shedules.length" class="sidebar-drop-title courses-drop-more-subtitle">
                 Расписание
             </h3>
 
-            <div class="courses-drop-more-timetable-wrapper">
+            <div v-show="shedules.length" class="courses-drop-more-timetable-wrapper">
                 <table class="timetable">
                     <thead class="timetable-head">
                         <tr>
                             <th>
                                 <span>Форма обучения</span>
+                            </th>
+                            <th>
+                                <span>Вид обучения</span>
                             </th>
                             <th>
                                 <span>Дата начала</span>
@@ -199,120 +120,10 @@
                         </tr>
                     </thead>
                     <tbody class="timetable-body">
-                        <tr>
-                            <th>
-                                <span>В группе</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>В группе</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>В группе</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <time datetime="2022-11-30">
-                                        30.11.2022
-                                    </time>
-                                </span>
-                            </th>
-                            <th>
-                                <span>15</span>
-                            </th>
-                            <th>
-                                <span>пн, пт 16:00-19:00</span>
-                            </th>
-                            <th>
-                                <span>
-                                    <address>
-                                        Чернышевского, 82, ауд. 244
-                                    </address>
-                                </span>
-                            </th>
-                            <th>
-                                <a href="#" class="timetable-body-link-to-teacher">
-                                    Артемова Дарья Сергеевна
-                                </a>
-                            </th>
-                            <th>
-                                <button 
-                                    class="button banner-button-sing-up timetable-sing-up-button"
-                                    type="button"
-                                >
-                                    Записаться
-                                </button>
-                            </th>
-                        </tr>
+                      <TableShedule @signUp="handleSignUp" @goToTeacher="handleGoToTeacher" v-for="(shedule, index) in shedules" 
+                      :key="index" 
+                      v-if="shedules !== null && shedules !== undefined" 
+                      :shedule="shedule" /> 
                     </tbody>
                 </table>
             </div>
@@ -460,6 +271,7 @@
   const forms = ref([]);
   const types = ref([]);
   const shedules = ref([]);
+  const teachers = ref([]);
 
   const wantToSignUp = ref(false);
   const sheduleToSignUp = ref([]);
@@ -467,11 +279,19 @@
   const fetchFormsAndTypes = async () => {
     if (props.webinar && props.webinar.title) {
       const title = props.webinar.title;
-
-      // Получаем формы и типы по курсу
-      forms.value = await store.fetchFormsByWebinar(title, true);
-      types.value = await store.fetchFormsByWebinar(title, true);
-      shedules.value = await store.fetchFormsByWebinar(title, true);
+      if (props.webinar.isWebinar) {
+        forms.value = await store.fetchFormsByWebinar(title, true);
+        types.value = await store.fetchTypesByWebinar(title, true);
+        shedules.value = await store.fetchShedulesByWebinar(title, true);
+        if (props.webinar.teachers) {
+          teachers.value = await store.fetchTeachersByWebinar(props.webinar.teachers);
+          console.log("Учителя", teachers.value); // Выводим значение teachers
+        }
+      } else {
+        forms.value = await store.fetchFormsByWebinar(title, false);
+        types.value = await store.fetchTypesByWebinar(title, false);
+        shedules.value = await store.fetchShedulesByWebinar(title, false);
+      }
     }
   };
 
@@ -510,6 +330,45 @@
 
     sheduleToSignUp.value = shedule;
   }
+
+  const teacherName = computed(() => {
+    // Проверяем, что расписание существует и содержит преподавателя
+    if (shedules.value.length > 0 && shedules.value[0].teachers) {
+      return shedules.value[0].teachers;
+    }
+    return ''; // Если нет данных, возвращаем пустую строку
+  });
+
+  const nameAndSurname = computed(() => {
+    const teacher = teacherName.value; // Получаем значение вычисляемого свойства
+    if (teacher) {
+      const nameParts = teacher.split(' '); // Предполагаем, что teacher — это строка
+      if (nameParts.length >= 2) {
+        return `${nameParts[0]} ${nameParts[1]}`; // Возвращаем имя и фамилию
+      }
+      return teacher; // Если имя состоит только из одного слова
+    }
+    return ''; // Если нет данных о преподавателе
+  });
+
+  const curPhotoUrl = ref('');
+  
+  onMounted(async () => {
+    await store.fetchAllImages();
+    let photoList = await store.Фото; // Получаем массив фото
+    const updatedPhotoList = photoList.map(photo => ({
+      name: removeExtension(photo.name),
+      url: photo.url
+    }));
+    const photo = updatedPhotoList.find(photo => photo.name === teacherName); // Ищем нужное фото
+    if (photo) {
+      curPhotoUrl.value = await photo.url; // Получаем url
+    }
+  });
+
+  const removeExtension = (photoList) => {
+    return photoList.replace(/\.[^.]*$/, '');
+  };
 
 </script>
 

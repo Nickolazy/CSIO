@@ -2,7 +2,7 @@
   <tr>
     <th class="info-table-body-more">
       <span>{{ form.form }}</span>
-      <button v-show="haveTypes" class="button info-table-body-more-button" type="button">
+      <button @click="openTypes" v-show="haveTypes" class="button info-table-body-more-button" type="button">
         <img
           src="../../assets/img/icons/table-icon-more-arrow.svg"
           alt="Больше информации"
@@ -20,23 +20,16 @@
     </th>
   </tr>
 
-  <!-- Дополнительные строки будут добавляться или удаляться здесь -->
-  <tr class="info-table-more-rows" data-parent-row="1">
-    <td colspan="4">
-  <!-- Содержание дополнительных строк -->
-    Дополнительная информация 1
-  </td>
-  </tr>
-  <tr class="info-table-more-rows" data-parent-row="1">
-    <td colspan="4">
-  <!-- Содержание дополнительных строк -->
-    Дополнительная информация 2
-    </td>
-  </tr>
+  <template v-if="haveTypes && isOpenTypes">
+    <TableType v-for="(type, index) in types"
+      :key="index"
+      :type="type"/>
+  </template>
 </template>
 
 <script setup>
-  import { defineProps } from 'vue';
+  import { defineProps, ref } from 'vue';
+  import TableType from '../Opened sections/TableType.vue';
 
   const props = defineProps({
     form: {
@@ -48,13 +41,14 @@
       required: true
     },
     types: {
-      type: Object,
-      required: false
+      type: Array,  
+      required: false,
+      default: () => [] 
     }
   });
 
+  const isOpenTypes = ref(false);
+  const openTypes = () => {
+    isOpenTypes.value = !isOpenTypes.value;
+  }
 </script>
-
-<style>
-
-</style>
