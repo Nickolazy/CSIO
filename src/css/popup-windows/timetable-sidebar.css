@@ -3,9 +3,13 @@
     --timetableInlinePadding: 20px;
 
     width: calc(100% - var(--drop-window-padding-inline) * 2);
+    min-height: 220px;
     padding-block: 10px 20px;
     background-color: var(--color-light);
     border-radius: 20px;
+
+    display: block;
+    overflow-x: auto;
 
     transition: box-shadow 0.3s ease;
     box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
@@ -18,12 +22,18 @@
 .timetable {
     --colorBodyRowsBg: #F3F3F3;
 
-    width: 100%;
+    min-width: 1040px;
     border-collapse: collapse;
+
+    /* white-space: nowrap; */
 }
 
 .timetable-body > :nth-child(2n - 1) {
     background-color: var(--colorBodyRowsBg);
+}
+
+.timetable-body th {
+    max-width: 200px;
 }
 
 .timetable-head th:first-child {
@@ -59,7 +69,7 @@
     font-weight: 400;
     color: var(--color-dark);
     opacity: 0.6;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 .timetable-body th {

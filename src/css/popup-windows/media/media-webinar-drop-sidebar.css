@@ -1,0 +1,34 @@
+@media (max-width: 900px) {
+    .webinar-about-wrapper {
+        flex-direction: column;
+        row-gap: 60px;
+    }
+
+    .webinar-teacher {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .webinar-teacher-image {
+        width: 360px;
+        height: 360px;
+        flex: none;
+    }
+
+    .webinar-teacher-image > :first-child {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .webinar-about-wrapper {
+        row-gap: 30px;
+    }
+
+    .webinar-teacher-image {
+        width: 100%;
+        height: auto;
+    }
+}

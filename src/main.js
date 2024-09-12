@@ -35,6 +35,14 @@ import './css/popup-windows/teacher-drop-sidebar.css'
 
 import './css/popup-windows/news-events-drop-sidebar.css'
 
+import './css/popup-windows/media/media-all.css'
+import './css/popup-windows/media/media-courses-drop-sidebar-click.css'
+import './css/popup-windows/media/media-courses-drop-sidebar.css'
+import './css/popup-windows/media/media-news-events-drop-sidebar.css'
+import './css/popup-windows/media/media-teacher-drop-sidebar.css'
+import './css/popup-windows/media/media-webinar-drop-sidebar.css'
+import './css/popup-windows/media/media-webinars-seminars-drop-sidebar.css'
+
 const pinia = createPinia();
 
 const app = createApp(App)

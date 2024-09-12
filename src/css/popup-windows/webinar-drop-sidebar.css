@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: stretch; /* Растягиваем блоки по высоте */
+    column-gap: 45px;
 }
 
 .webinar-description-text {

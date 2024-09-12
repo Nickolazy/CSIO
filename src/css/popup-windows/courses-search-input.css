@@ -1,6 +1,6 @@
 /* Поиск по курсам */
 .courses-drop-search {
-    --paddingInlineSearchInput: 20px;
+    --paddingInlineSearchInput: 20px 50px;
     --searchInputHeight: 55px;
 
     position: relative;
@@ -48,7 +48,7 @@
 .courses-drop-search-button {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 10px;
     z-index: calc(var(--z-index-medium) + 1);
     height: var(--searchInputHeight);
     display: flex;

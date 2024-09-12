@@ -14,7 +14,7 @@
 
     width: 100%;
     max-width: var(--drop-window-max-width);
-    height: var(--drop-window-max-height);
+    height: min(var(--drop-window-max-height), 98vh);
 
     overflow-y: auto;
 

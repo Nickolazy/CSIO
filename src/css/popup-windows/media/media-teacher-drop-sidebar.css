@@ -1,0 +1,33 @@
+@media (max-width: 1024px) {
+    .teacher-drop-title {
+        text-align: center;
+    }
+
+    .teacher-drop-info-image-wrapper {
+        flex-direction: column-reverse;
+        align-items: center;
+        row-gap: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .teacher-drop-title {
+        width: 85%;
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 500px) {
+    .teacher-drop-title {
+        font-size: 24px;    
+    }
+
+    .teacher-drop-info,
+    .teacher-drop-info-image-wrapper {
+        row-gap: 30px;
+    }
+
+    .teacher-drop-info-description {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,60 @@
+@media (max-width: 1140px) {
+    .webinars-seminars-drop-item-length {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .webinars-seminars-drop-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .webinars-seminars-drop-item-length {
+        display: flex;
+        column-gap: 10px;
+    }
+
+    .webinars-seminars-drop-item {
+        padding-inline: 40px;
+    }
+
+    .webinars-seminars-drop-item-title {
+        width: 100%;
+    }
+}
+
+@media (max-width: 720px) {
+    .webinars-seminars-drop-item-length {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .webinars-seminars-drop-radio-select {
+        grid-template-columns: repeat(1, 1fr);
+        justify-content: start;
+        row-gap: 25px;
+    }
+
+    .webinars-seminars-drop-radio-select > :nth-child(n) {
+        justify-self: self-start;
+    }
+
+    .webinars-seminars-drop-item-length {
+        font-size: 14px;
+    }
+
+    .courses-drop-item-more {
+        font-size: 18px;
+        width: 200px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 500px) {
+    .webinars-seminars-drop-item {
+        padding-inline: 15px;
+    }
+} 

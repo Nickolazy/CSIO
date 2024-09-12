@@ -1,0 +1,57 @@
+@media (max-width: 900px) {
+    .courses-drop-radio-select {
+        grid-template-columns: repeat(2, 2fr);
+        justify-content: flex-start;
+        row-gap: 20px;
+    }
+
+    .courses-drop-item-length-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 20px;
+    }
+
+    .courses-drop-radio-select > :nth-child(3) {
+        justify-self: start; /* Выровнять содержимое первого элемента по левому краю */
+    }
+}
+
+@media (max-width: 690px) {
+    .courses-drop-radio-select {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .courses-drop-radio-select > :nth-child(n) {
+        justify-self: start; /* Выровнять содержимое первого элемента по левому краю */
+    }
+
+    .courses-drop-item-length {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+    }
+
+    .courses-drop-item-name {
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .courses-drop-item-skills-item {
+        text-align: left;
+    }
+}
+
+@media (max-width: 360px) {
+    .courses-drop-radio-select > label {
+        font-size: 18px;
+    }
+
+    .courses-drop-item-name,
+    .courses-drop-item-length {
+        font-size: 14px;
+    }
+
+    .courses-drop-item-more {
+        width: 150px;
+        font-size: 18px;
+    }
+}
