@@ -1,5 +1,5 @@
 <template>
-<div class="sidebar-drop-wrapper">
+      <div v-if="!isGoingToTeacher" class="sidebar-drop-wrapper">
         <section class="sidebar-drop courses-drop-more">
             <h2 class="sidebar-drop-title courses-drop-more-title">
               {{ formattedTitle }}
@@ -120,7 +120,7 @@
                         </tr>
                     </thead>
                     <tbody class="timetable-body">
-                      <TableShedule @signUp="handleSignUp" v-for="(shedule, index) in shedules" 
+                      <TableShedule @signUp="handleSignUp" @goToTeacher="handleGoToTeacher" v-for="(shedule, index) in shedules" 
                       :key="index" 
                       v-if="shedules !== null && shedules !== undefined" 
                       :shedule="shedule" /> 
@@ -264,7 +264,15 @@
                 </svg>
             </button>
         </section>
-    </div>
+      </div>
+      <div v-else>
+        <TeacherPage 
+        @close="handleClose"
+        :teacher="teacher"
+        :nameAndSurname="nameAndSurname"
+        :shedules="shedules"
+        :curPhotoUrl="curPhotoUrl"/>
+      </div>
 </template>
 
 <script setup>
@@ -292,6 +300,21 @@
     emit('back');
     wantToSignUp.value = false;
   };
+
+  const handleSignUp = (shedule) => {
+    wantToSignUp.value = true;
+
+    sheduleToSignUp.value = shedule;
+  }
+
+  const handleGoToTeacher = (name) => {
+    teacher.value = teachers.value.filter(teacher => 
+      teacher.name === name);
+
+    teacher.value = teacher.value[0];
+
+    isGoingToTeacher.value = true;
+  }
 
   const splitTitle = (title) => {
     if (title) {
@@ -329,6 +352,9 @@
 
   const wantToSignUp = ref(false);
   const sheduleToSignUp = ref([]);
+
+  const isGoingToTeacher = ref(false);
+  const teacher = ref({});
 
   const fetchFormsAndTypes = async () => {
     if (props.webinar && props.webinar.title) {
@@ -377,12 +403,6 @@
   const searchTypes = (form) => {
     return types.value.filter(item => item.form === form.form);
   };
-
-  const handleSignUp = (shedule) => {
-    wantToSignUp.value = true;
-
-    sheduleToSignUp.value = shedule;
-  }
 
   const teacherName = computed(() => {
     // Проверяем, что расписание существует и содержит преподавателя

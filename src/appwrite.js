@@ -3,8 +3,8 @@ import { Client, Databases, Account, Storage } from 'appwrite'; // Импорт 
 export const BUCKET_ID = "66d499ff00044379fc90";
 
 const client = new Client()
-  .setEndpoint('https://cloud.appwrite.io/v1') // Замените на ваш endpoint
-  .setProject('66cb7c35000f04176383'); // Замените на ваш project ID
+  .setEndpoint('https://cloud.appwrite.io/v1') 
+  .setProject('66cb7c35000f04176383'); 
 
 export const storage = new Storage(client); // Инициализация Storage
 

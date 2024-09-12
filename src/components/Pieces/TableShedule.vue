@@ -51,7 +51,7 @@ const sheduleExists = computed(() => {
   return props.shedule !== null && props.shedule !== undefined;
 });
 
-const emit = defineEmits(['signUp'], ['goToTeacher']);
+const emit = defineEmits(['signUp', 'goToTeacher']);
 
 // Функция для обработки регистрации
 const handleSignUp = () => {
@@ -59,7 +59,7 @@ const handleSignUp = () => {
 };
 
 const handleGoToTeacher = () => {
-  emit('goToTeacher');
+  emit('goToTeacher', props.shedule.teachers);
 };
 </script>
 
