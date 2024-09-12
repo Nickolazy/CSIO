@@ -98,6 +98,13 @@
                 </table>
             </div>
 
+            <button v-if="haveButtonBack" @click="handleBackButton" class="button close-button sidebar-drop-go-back-button" type="button">
+                <svg viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="29.5386" y1="11.5769" x2="0.000112534" y2="11.5769" stroke="black"/>
+                    <line x1="11.4307" y1="0.353553" x2="0.353779" y2="11.4305" stroke="black"/>
+                    <line y1="-0.5" x2="15.6651" y2="-0.5" transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 11.0771 23.0769)" stroke="black"/>
+                </svg>
+            </button>
             <button @click="closePage" type="button" class="button close-button sidebar-drop-close-button">
                 <svg viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 26L26 1" stroke="black"/>
@@ -169,15 +176,13 @@
             </form>
         </section>
       </div>
-      <div v-else="isCourseOpened">
-        <WebinarPage v-if=" isWebinar"
+        <WebinarPage v-else-if="isCourseOpened && isWebinar"
           @close="handleClose" 
           @back="handleBack" 
           :webinar="courseToOpen"/>
-        <CoursePage v-else 
+        <CoursePage v-else-if="isCourseOpened && !isWebinar"
           @close="handleClose" 
           :course="courseToOpen"/>
-      </div>
 </template>
 
 <script setup>
@@ -214,6 +219,10 @@
     curPhotoUrl: {
       type: String,
       required: true 
+    },
+    haveButtonBack: {
+      type: Boolean,
+      required: false
     }
   });
 
@@ -221,11 +230,15 @@
     return props.curPhotoUrl;
   });
 
+  console.log(props.shedules);
+
   const filteredTitles = computed(() => {
     return filterTitles(props.shedules);
   })
 
   const teacher = props.teacher;
+  const shedulesAll = store.РасписаниеПреподавателей;
+  console.log(shedulesAll);
   
   const emit = defineEmits(['close']);
 
@@ -233,11 +246,14 @@
     emit('close');
   };
 
+  const handleBackButton = () => {
+    emit('backButton');
+  };
+
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
 
     sheduleToSignUp.value = shedule;
-    console.log(sheduleToSignUp.value);
   }
 
   function truncateText(text) {

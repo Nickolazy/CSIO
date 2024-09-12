@@ -265,14 +265,14 @@
             </button>
         </section>
       </div>
-      <div v-else>
-        <TeacherPage 
+      <TeacherPage v-else
         @close="handleClose"
+        @backButton="handleBackButton"
+        :haveButtonBack="true"
         :teacher="teacher"
         :nameAndSurname="nameAndSurname"
-        :shedules="shedules"
+        :shedules="shedulesAll"
         :curPhotoUrl="curPhotoUrl"/>
-      </div>
 </template>
 
 <script setup>
@@ -289,7 +289,7 @@
     }
   });
 
-  const emit = defineEmits(['close', 'back']);
+  const emit = defineEmits(['close', 'back', 'backButton']);
 
   const handleClose = () => {
     emit('close');
@@ -300,6 +300,11 @@
     emit('back');
     wantToSignUp.value = false;
   };
+
+  const handleBackButton = () => {
+    emit('backButton');
+    isGoingToTeacher.value = false;
+  }
 
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
@@ -355,6 +360,7 @@
 
   const isGoingToTeacher = ref(false);
   const teacher = ref({});
+  const shedulesAll = ref([]);
 
   const fetchFormsAndTypes = async () => {
     if (props.webinar && props.webinar.title) {
@@ -374,6 +380,14 @@
     }
   };
 
+  const fetchShedules = async (name) => {
+    console.log("Имя: ", name);
+    if (name) {
+      await store.fetchShedulesOfTeacher(name);
+      shedulesAll.value = store.РасписаниеПреподавателей;
+    }
+  };
+
   onMounted(() => {
     fetchFormsAndTypes();
   });
@@ -383,6 +397,20 @@
       fetchFormsAndTypes();
     }
   });
+
+  const teacherName = computed(() => {
+    // Проверяем, что расписание существует и содержит преподавателя
+    if (shedules.value.length > 0 && shedules.value[0].teachers) {
+      return shedules.value[0].teachers;
+    }
+    return ''; // Если нет данных, возвращаем пустую строку
+  });
+
+  watch(teacherName, (newTeacherName) => {
+  if (newTeacherName) {
+    fetchShedules(newTeacherName);
+  }
+});
 
   const stagesObj = (stages) => {
     if (!stages) return [];
@@ -403,14 +431,6 @@
   const searchTypes = (form) => {
     return types.value.filter(item => item.form === form.form);
   };
-
-  const teacherName = computed(() => {
-    // Проверяем, что расписание существует и содержит преподавателя
-    if (shedules.value.length > 0 && shedules.value[0].teachers) {
-      return shedules.value[0].teachers;
-    }
-    return ''; // Если нет данных, возвращаем пустую строку
-  });
 
   const nameAndSurname = computed(() => {
     const teacher = teacherName.value; // Получаем значение вычисляемого свойства

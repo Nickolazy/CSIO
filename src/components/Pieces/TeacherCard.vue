@@ -32,6 +32,7 @@
   </div>
   <TeacherPage v-if="isTeacherPageOpened" 
     @close="handleClose"
+    :haveButtonBack="false"
     :teacher="teacher"
     :nameAndSurname="nameAndSurname"
     :shedules="shedules"
