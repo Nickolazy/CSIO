@@ -225,10 +225,6 @@
     row-gap: 20px;
 }
 
-.courses-drop-more-leave-request-wrapper > *:last-child {
-  grid-column: 1 / -1;
-}
-
 .courses-drop-more-input {
     transition: box-shadow 0.3s ease;
     box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);

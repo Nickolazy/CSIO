@@ -234,5 +234,5 @@
 <style scoped>
   .shedule-item {
     display: block;
-}
+  }
 </style>

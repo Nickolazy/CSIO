@@ -78,4 +78,10 @@
     position: relative;
     overflow: hidden;
   }
+
+  /* .teachers-list {
+    display: flex;
+    justify-content: center;
+    column-gap: 300px;
+  } */
 </style>

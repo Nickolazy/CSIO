@@ -142,7 +142,7 @@
 </template>
   
   <script setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
   import { useDataStore } from '../../store/DataStore';
 
   const props = defineProps({
@@ -151,11 +151,6 @@
 
   const emit = defineEmits(['update:adding']);
 
-  const teachers = [
-    { name: 'Усманский Николай Михайлович', description: 'Описание Ивана' },
-    { name: 'Мария', description: 'Описание Марии' },
-    { name: 'Петр', description: 'Описание Петра' },
-  ]; 
   const directions = ['Менеджмент', 'Бухгалтерские', 'Компьютерные', 'Дизайн', 'Бизнес', 'Иностранные языки'];
   const webOrSemChoose = ['Вебинар', 'Семинар'];
 
@@ -173,9 +168,22 @@
     schedules: []
   });
 
-  const selectedTeacher = computed(() => {
-    return teachers.find(teacher => teacher.name === course.value.teacherName);
+  const store = useDataStore();
+
+  onMounted(async () => {
+    await store.fetchTeachers();
   });
+
+  
+  const teachers = computed(() => store.Преподаватели);
+
+  const selectedTeacher = computed(() => {
+    if (Array.isArray(teachers.value)) {
+      return teachers.value.find(teacher => teacher.name === course.value.teacherName);
+    }
+    console.error('teachers is not an array:', teachers.value);
+    return null;
+});
 
   const resetCourseForm = () => {
     course.value = {

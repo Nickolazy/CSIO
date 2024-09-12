@@ -195,7 +195,7 @@
                 </button>
             </form>
 
-            <form v-if="!shedules.length" class="courses-drop-more-leave-request">
+            <form v-if="!shedules.length" class="courses-drop-more-leave-request courses-drop-more-leave-request-other">
                 <h2 class="visually-hidden">Оставить заявку на обучение</h2>
                 <div class="courses-drop-more-leave-request-wrapper">
                     <label class="visually-hidden" for="in-group">В группе</label>
@@ -461,5 +461,7 @@
 </script>
 
 <style>
-
+  .courses-drop-more-leave-request-wrapper-other > *:last-child {
+    grid-column: 1 / -1;
+  }
 </style>
