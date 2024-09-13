@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-drop-wrapper">
+  <div v-if="!isGoingToTeacher" class="sidebar-drop-wrapper">
         <section class="sidebar-drop courses-drop-more">
             <h2 class="sidebar-drop-title courses-drop-more-title">
                 {{ formattedTitle }}
@@ -243,14 +243,18 @@
             </button>
         </section>
     </div>
-    <!-- <TeacherPage v-if="isGotoTeacher" 
+    <TeacherPage v-else
+      @close="handleClose"
+      @backButton="handleBackButton"
+      :haveButtonBack="true"
       :teacher="teacher"
       :nameAndSurname="nameAndSurname"
-      :shedules="shedules" /> -->
+      :shedules="shedulesAll"
+      :curPhotoUrl="curPhotoUrl"/>
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch } from 'vue';
+  import { ref, computed, onMounted, watch, nextTick } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableForm from '../Pieces/TableForm.vue';
   import TableShedule from '../Pieces/TableShedule.vue';
@@ -274,6 +278,11 @@
     emit('back');
     wantToSignUp.value = false;
   };
+
+  const handleBackButton = () => {
+    emit('backButton');
+    isGoingToTeacher.value = false;
+  }
 
   const splitTitle = (title) => {
     if (title) {
@@ -311,6 +320,13 @@
   const wantToSignUp = ref(false);
   const sheduleToSignUp = ref([]);
 
+  const isGoingToTeacher = ref(false);
+  const teacher = ref({});
+
+  const teachers = ref([]);
+  const curPhotoUrl = ref('');
+  const shedulesAll = ref([]);
+
   const fetchFormsAndTypes = async () => {
     if (props.course && props.course.title) {
       const title = props.course.title;
@@ -319,6 +335,10 @@
       forms.value = await store.fetchFormsByCourse(title);
       types.value = await store.fetchTypesByCourse(title);
       shedules.value = await store.fetchShedulesByCourse(title);
+    }
+
+    if (shedules.value && shedules.value[0]) {
+      teachers.value = await store.fetchTeachersByWebinar(shedules.value[0].teachers);
     }
   };
 
@@ -354,47 +374,102 @@
 
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
-
     sheduleToSignUp.value = shedule;
+
+    nextTick(() => {
+      const formElement = document.querySelector(".courses-drop-more-leave-request");
+      if (formElement) {
+        formElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
   }
 
-  // const isGotoTeacher = ref(false);
-  // const handleGoToTeacher = () => {
-  //   fetchShedules();
-  //   isGotoTeacher.value = true;
-  // }
+  const handleGoToTeacher = (name) => {
+    teacher.value = teachers.value.filter(teacher => 
+      teacher.name === name);
 
+    teacher.value = teacher.value[0];
+
+    isGoingToTeacher.value = true;
+  }
+
+  const teacherName = computed(() => {
+    // Проверяем, что расписание существует и содержит преподавателя
+    if (shedules.value.length > 0 && shedules.value[0].teachers) {
+      return shedules.value[0].teachers;
+    }
+    return ''; // Если нет данных, возвращаем пустую строку
+  });
+
+  const nameAndSurname = computed(() => {
+    if (shedules.value[0].teachers) {
+      const teacher = shedules.value[0].teachers; // Получаем значение teachers
+      const nameParts = teacher.split(' '); // Предполагаем, что teacher — это строка
+      if (nameParts.length >= 2) {
+        return `${nameParts[0]} ${nameParts[1]}`; // Возвращаем имя и фамилию
+      }
+      return teacher; // Если имя состоит только из одного слова
+    }
+    return ''; // Если нет данных о преподавателе
+  });
+
+  onMounted(async () => {
+    await store.fetchAllImages(); // Ждем загрузки всех изображений
+
+    // Получаем массив фото
+    let photoList = store.Фото;
+    
+    // Если store.Фото возвращает Promise, то надо дождаться его разрешения
+    if (photoList instanceof Promise) {
+      photoList = await photoList;
+    }
+    
+    const updatedPhotoList = photoList.map(photo => ({
+      name: removeExtension(photo.name),
+      url: photo.url
+    }));
+
+    // Следим за изменениями в teacherName
+    watch(teacherName, (newName) => {
+      const photo = updatedPhotoList.find(photo => photo.name === newName.trim()); // Ищем нужное фото
+
+      if (photo) {
+        // Если photo.url — Promise, то ждем его разрешения
+        if (photo.url instanceof Promise) {
+          photo.url.then(url => {
+            curPhotoUrl.value = url; // Устанавливаем URL
+            console.log("URL Фото: ", curPhotoUrl.value);
+          }).catch(error => {
+            console.error('Ошибка при разрешении URL:', error);
+          });
+        } else {
+          curPhotoUrl.value = photo.url; // Устанавливаем URL
+          console.log("URL Фото: ", curPhotoUrl.value);
+        }
+      }
+    });
+  });
+
+  const removeExtension = (photoList) => {
+    return photoList.replace(/\.[^.]*$/, '');
+  };
+
+  watch(teacherName, (newTeacherName) => {
+    if (newTeacherName) {
+      fetchShedules(newTeacherName);
+    }
+  });
+
+  const fetchShedules = async (name) => {
+    if (name) {
+      await store.fetchShedulesOfTeacher(name);
+      shedulesAll.value = store.РасписаниеПреподавателей;
+    }
+  };
   
-  // // Получение списка преподавателей
-  // const teachers = computed(() => store.Преподаватели);
-
-  // // Поиск конкретного преподавателя по имени
-  // const teacher = computed(() => {
-  //   return teachers.value.find(t => t.name === props.shedule?.teachers);
-  // });
-
-  // // Получение имени и фамилии преподавателя
-  // const nameAndSurname = computed(() => {
-  //   if (teacher.value) {
-  //     const nameParts = teacher.value.name.split(' ');
-  //     if (nameParts.length >= 2) {
-  //       return `${nameParts[0]} ${nameParts[1]}`;
-  //     }
-  //     return teacher.value.name;
-  //   }
-  //   return 'Не указано';
-  // });
-
-  // // Запрашиваемое расписание и имя преподавателя
-  // const shedulesTeacher = ref([]);
-
-  // const fetchShedules = () => {
-  //   if (teacher.value) {
-  //     store.fetchShedulesOfTeacher(teacher.value.name);
-  //     shedulesTeacher.value = store.РасписаниеПреподавателей;
-  //   }
-  // };
-
 </script>
 
 <style scoped>

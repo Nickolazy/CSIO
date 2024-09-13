@@ -8,8 +8,8 @@
             name="option" 
             value="Профессиональная подготовка" 
             class="courses-drop-radio-select-input" 
-            checked 
-            @change="filterCourses('Профессиональная подготовка')"
+    
+            v-model="selectedOption"
           >
           <span>Профессиональная<br> подготовка</span>
         </label>
@@ -20,7 +20,8 @@
             name="option" 
             value="Общеобразовательные курсы" 
             class="courses-drop-radio-select-input" 
-            @change="filterCourses('Общеобразовательные курсы')"
+    
+            v-model="selectedOption"
           >
           <span>Общеобразовательные<br> курсы</span>
         </label>
@@ -31,7 +32,8 @@
             name="option" 
             value="Повышение квалификации" 
             class="courses-drop-radio-select-input" 
-            @change="filterCourses('Повышение квалификации')"
+            
+            v-model="selectedOption"
           >
           <span>Повышение<br> квалификации</span>
         </label>
@@ -133,9 +135,10 @@
   };
 
   // Метод для фильтрации курсов по выбранной категории
-  const filterCourses = (option) => {
-    selectedOption.value = option;
-  };
+  // const filterCourses = (option) => {
+  //   selectedOption.value = option;
+  // };
+
 
   // Метод для фильтрации курсов по поисковому запросу
   const filterBySearch = (course) => {

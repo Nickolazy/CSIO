@@ -276,7 +276,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch } from 'vue';
+  import { ref, computed, onMounted, watch, nextTick } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableForm from '../Pieces/TableForm.vue';
   import TableShedule from '../Pieces/TableShedule.vue';
@@ -308,8 +308,17 @@
 
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
-
     sheduleToSignUp.value = shedule;
+
+    nextTick(() => {
+      const formElement = document.querySelector(".courses-drop-more-leave-request");
+      if (formElement) {
+        formElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
   }
 
   const handleGoToTeacher = (name) => {
@@ -381,7 +390,6 @@
   };
 
   const fetchShedules = async (name) => {
-    console.log("Имя: ", name);
     if (name) {
       await store.fetchShedulesOfTeacher(name);
       shedulesAll.value = store.РасписаниеПреподавателей;
@@ -472,10 +480,6 @@
     // Следим за изменениями в teacherName
     watch(teacherName, (newName) => {
       const photo = updatedPhotoList.find(photo => photo.name === newName.trim()); // Ищем нужное фото
-
-      console.log("ФотоЛист: ", updatedPhotoList);
-      console.log("Имя: ", newName);
-      console.log("Фото: ", photo);
 
       if (photo) {
         // Если photo.url — Promise, то ждем его разрешения

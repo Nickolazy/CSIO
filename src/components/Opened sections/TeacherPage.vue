@@ -9,7 +9,7 @@
                 <div class="teacher-drop-info">
                     <div class="teacher-drop-info-description">
                         <p>
-                            {{ teacher.name }} = {{ teacher.description }}
+                            {{ teacher.name }} - {{ teacher.description }}
                         </p>
                     </div>
                     <ul class="teacher-drop-info-list">
@@ -182,11 +182,12 @@
           :webinar="courseToOpen"/>
         <CoursePage v-else-if="isCourseOpened && !isWebinar"
           @close="handleClose" 
+          @back="handleBack" 
           :course="courseToOpen"/>
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed, nextTick } from 'vue';
   import { defineEmits } from 'vue';
   import { defineProps } from 'vue';
   import { useDataStore } from '../../store/DataStore';
@@ -252,8 +253,17 @@
 
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
-
     sheduleToSignUp.value = shedule;
+    
+    nextTick(() => {
+      const formElement = document.querySelector(".courses-drop-more-leave-request");
+      if (formElement) {
+        formElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
   }
 
   function truncateText(text) {
@@ -277,7 +287,7 @@
 
       isWebinar.value = true;
     } else {
-      isWebinar = false;
+      isWebinar.value = false;
     }
 
     isCourseOpened.value = true;
