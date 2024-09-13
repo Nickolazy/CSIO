@@ -113,21 +113,21 @@
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-group" 
+                        v-model="sheduleToSignUp.form"
                         required>
                         <option value="" disabled selected>Форма</option>
-                        <option value="Очная">Очная</option>
-                        <option value="Заочная">Заочная</option>
+                        <option :value="sheduleToSignUp.form">{{sheduleToSignUp.form}}</option>
                     </select>
 
                     <label class="visually-hidden" for="in-minigroup">Мини-группа</label>
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-minigroup" 
+                        v-model="sheduleToSignUp.type"
                         required
                     >
                         <option value="" disabled selected>Вид</option>
-                        <option value="В минигруппе">Мини-группа</option>
-                        <option value="В группе">Группа</option>
+                        <option :value="sheduleToSignUp.type">{{sheduleToSignUp.type}}</option>
                         
                     </select>
 
@@ -135,12 +135,10 @@
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="start-date" 
+                        v-model="sheduleToSignUp.startDate"
                         required>
                         <option value="" disabled selected>Дата</option>
-                        <option value="30.11.2022">30.11.2022</option>
-                        <option value="30.11.2022">30.11.2022</option>
-                        <option value="30.11.2022">30.11.2022</option>
-                        <option value="30.11.2022">30.11.2022</option>
+                        <option :value="sheduleToSignUp.startDate">{{sheduleToSignUp.startDate}}</option>
                     </select>
 
                     <label class="visually-hidden" for="student-name">Ваше имя</label>
@@ -254,7 +252,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch, nextTick } from 'vue';
+  import { ref, computed, onMounted, watch, nextTick, reactive } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableForm from '../Pieces/TableForm.vue';
   import TableShedule from '../Pieces/TableShedule.vue';
@@ -318,7 +316,7 @@
   const shedules = ref([]);
 
   const wantToSignUp = ref(false);
-  const sheduleToSignUp = ref([]);
+  const sheduleToSignUp = reactive({});
 
   const isGoingToTeacher = ref(false);
   const teacher = ref({});
@@ -374,7 +372,9 @@
 
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
-    sheduleToSignUp.value = shedule;
+    Object.assign(sheduleToSignUp, shedule);
+
+    console.log(sheduleToSignUp );
 
     nextTick(() => {
       const formElement = document.querySelector(".courses-drop-more-leave-request");

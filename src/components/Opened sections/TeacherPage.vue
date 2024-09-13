@@ -112,27 +112,30 @@
                 </svg>
             </button>
 
-            <form v-if="wantToSignUp" class="courses-drop-more-leave-request">
+            <form v-if="wantToSignUp" class="courses-drop-more-leave-request" :key="JSON.stringify(sheduleToSignUp)">
                 <h2 class="visually-hidden">Оставить заявку на обучение</h2>
                 <div class="courses-drop-more-leave-request-wrapper">
                     <label class="visually-hidden" for="in-group">В группе</label>
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-group" 
+                        v-model="sheduleToSignUp.form"
                         required>
                         <option value="" disabled selected>Форма</option>
-                        <option value="Очная">Очная</option>
-                        <option value="Заочная">Заочная</option>
+                        <option :value="sheduleToSignUp.form">{{sheduleToSignUp.form}}</option>
+                        <!-- <option v-for="(shedule, index) in shedules"
+                          :key="index"
+                          :value="shedule.form">{{ shedule.form }}</option> -->
                     </select>
 
                     <label class="visually-hidden" for="in-minigroup">Мини-группа</label>
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-minigroup" 
+                        v-model="sheduleToSignUp.type"
                         required>
                         <option value="" disabled selected>Вид</option>
-                        <option value="В минигруппе">Мини-группа</option>
-                        <option value="В группе">Группа</option>
+                        <option :value="sheduleToSignUp.type">{{sheduleToSignUp.type}}</option>
                         
                     </select>
 
@@ -140,12 +143,10 @@
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="start-date" 
+                        v-model="sheduleToSignUp.startDate"
                         required>
                         <option value="" disabled selected>Дата</option>
-                        <option value="30.11.2022">30.11.2022</option>
-                        <option value="30.11.2022">30.11.2022</option>
-                        <option value="30.11.2022">30.11.2022</option>
-                        <option value="30.11.2022">30.11.2022</option>
+                        <option :value="sheduleToSignUp.startDate">{{sheduleToSignUp.startDate}}</option>
                     </select>
 
                     <label class="visually-hidden" for="student-name">Ваше имя</label>
@@ -187,7 +188,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, nextTick } from 'vue';
+  import { ref, computed, nextTick, reactive } from 'vue';
   import { defineEmits } from 'vue';
   import { defineProps } from 'vue';
   import { useDataStore } from '../../store/DataStore';
@@ -196,7 +197,7 @@
   import WebinarPage from './WebinarPage.vue';
 
   const wantToSignUp = ref(false);
-  const sheduleToSignUp = ref([]);
+  const sheduleToSignUp = reactive({});
   const isCourseOpened = ref(false);
 
   const isWebinar = ref(false);
@@ -231,15 +232,12 @@
     return props.curPhotoUrl;
   });
 
-  console.log(props.shedules);
-
   const filteredTitles = computed(() => {
     return filterTitles(props.shedules);
   })
 
   const teacher = props.teacher;
   const shedulesAll = store.РасписаниеПреподавателей;
-  console.log(shedulesAll);
   
   const emit = defineEmits(['close']);
 
@@ -253,7 +251,9 @@
 
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
-    sheduleToSignUp.value = shedule;
+    Object.assign(sheduleToSignUp, shedule);
+
+    console.log(sheduleToSignUp );
     
     nextTick(() => {
       const formElement = document.querySelector(".courses-drop-more-leave-request");
