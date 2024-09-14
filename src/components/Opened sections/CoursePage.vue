@@ -171,7 +171,7 @@
                 </button>
             </form>
 
-            <form v-if="!shedules.length" class="courses-drop-more-leave-request">
+            <form v-if="!hasShedules" class="courses-drop-more-leave-request">
                 <h2 class="visually-hidden">Оставить заявку на обучение</h2>
                 <div class="courses-drop-more-leave-request-wrapper">
                     <label class="visually-hidden" for="in-group">В группе</label>
@@ -325,6 +325,8 @@
   const curPhotoUrl = ref('');
   const shedulesAll = ref([]);
 
+  const hasShedules = ref(true);
+
   const fetchFormsAndTypes = async () => {
     if (props.course && props.course.title) {
       const title = props.course.title;
@@ -333,6 +335,10 @@
       forms.value = await store.fetchFormsByCourse(title);
       types.value = await store.fetchTypesByCourse(title);
       shedules.value = await store.fetchShedulesByCourse(title);
+
+      if(shedules.value.length < 1) {
+        hasShedules.value = false;
+      }
     }
 
     if (shedules.value && shedules.value[0]) {
@@ -373,8 +379,6 @@
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
     Object.assign(sheduleToSignUp, shedule);
-
-    console.log(sheduleToSignUp );
 
     nextTick(() => {
       const formElement = document.querySelector(".courses-drop-more-leave-request");

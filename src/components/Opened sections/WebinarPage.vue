@@ -193,7 +193,7 @@
                 </button>
             </form>
 
-            <form v-if="!shedules.length" class="courses-drop-more-leave-request courses-drop-more-leave-request-other">
+            <form v-if="!hasShedules" class="courses-drop-more-leave-request courses-drop-more-leave-request-other">
                 <h2 class="visually-hidden">Оставить заявку на обучение</h2>
                 <div class="courses-drop-more-leave-request-wrapper">
                     <label class="visually-hidden" for="in-group">В группе</label>
@@ -369,6 +369,8 @@
   const teacher = ref({});
   const shedulesAll = ref([]);
 
+  const hasShedules = ref(true);
+
   const fetchFormsAndTypes = async () => {
     if (props.webinar && props.webinar.title) {
       const title = props.webinar.title;
@@ -376,15 +378,24 @@
         forms.value = await store.fetchFormsByWebinar(title, true);
         types.value = await store.fetchTypesByWebinar(title, true);
         shedules.value = await store.fetchShedulesByWebinar(title, true);
+
+        if(shedules.value.length < 1) {
+          hasShedules.value = false;
+        }
       } else {
         forms.value = await store.fetchFormsByWebinar(title, false);
         types.value = await store.fetchTypesByWebinar(title, false);
         shedules.value = await store.fetchShedulesByWebinar(title, false);
+
+        if(shedules.value.length < 1) {
+          hasShedules.value = false;
+        }
       }
     }
     if (props.webinar && props.webinar.teacherName) {
       teachers.value = await store.fetchTeachersByWebinar(props.webinar.teacherName);
     }
+
   };
 
   const fetchShedules = async (name) => {
