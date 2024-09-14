@@ -86,32 +86,75 @@
 
 /* Socials networks */
 .social-networks {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    z-index: var(--z-index-big);
-    translate: 0 -50%;
-    width: 75px;
-    height: 245px;
-    background-color: var(--color-light);
-    border-top-left-radius: 24px;
-    border-bottom-left-radius: 24px;
-    padding-block: 10px;
+  --socialBlockWidth: 75px;
+  --socialBlockHeight: 245px;
 
-    display: flex;
-    justify-content: center;
+  --socialArrow: url("../assets/img/social-networks/arrow-open-sidebar.svg") 5px center / 35% auto no-repeat;
+  --socialLinearGradient: linear-gradient(to right, 
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0) 50%);
+
+  position: fixed;
+  top: 30%;
+  right: calc(var(--socialBlockWidth) * (-1));
+  z-index: var(--z-index-big);
+  translate: 0 -50%;
+  width: var(--socialBlockWidth);
+  height: var(--socialBlockHeight);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  padding-block: 10px;
+
+  display: flex;
+  justify-content: center;
+  transition: right 0.3s ease;
+}
+
+.social-networks::before {
+  content: '';
+  position: absolute;
+  left: calc(-50px / 2); /* Язычок на 50% за пределами основного блока */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background:
+      var(--socialArrow),
+      var(--socialLinearGradient);
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  z-index: 20; /* Язычок выше основного блока */
+  transition: background-color 0.3s ease;
+}
+
+/* Изменение направления стрелки при наведении */
+.social-networks:hover::before {
+  right: calc(var(--socialBlockWidth) * (-1));
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Анимация выдвижения */
+.social-networks:hover {
+  right: 0;
+
+  --socialArrow: url("../assets/img/social-networks/arrow-open-sidebar.svg") 30px center / 35% auto no-repeat;
+  --socialLinearGradient: linear-gradient(to left, 
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0) 50%);
 }
 
 .social-networks-list {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .social-networks-link-image {
-    width: 50px;
-    height: auto;
+  width: 50px;
+  height: auto;
 }
 
 /* banner */

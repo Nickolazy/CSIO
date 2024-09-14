@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "appwrite": "^15.0.0",
     "axios": "^1.7.7",
     "body-parser": "^1.20.2",
@@ -20,7 +21,8 @@
     "firebase": "^10.13.0",
     "nodemailer": "^6.9.15",
     "pinia": "^2.2.2",
-    "vue": "^3.4.37"
+    "vue": "^3.4.37",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",

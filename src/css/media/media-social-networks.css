@@ -1,0 +1,21 @@
+@media (max-width: 1280px) {
+    .social-networks {
+        --socialBlockWidth: 55px;
+        --socialBlockHeight: 205px;
+    }
+
+    .social-networks-link-image {
+        width: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .social-networks {
+        --socialBlockWidth: 45px;
+        --socialBlockHeight: 170px;
+    }
+    
+    .social-networks-link-image {
+        width: 30px;
+    }
+}

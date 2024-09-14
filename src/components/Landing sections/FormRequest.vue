@@ -10,14 +10,14 @@
         <div class="leave-request-form-wrapper">
           <!-- Выбор вебинара и семинара -->
           <label class="visually-hidden" for="course-or-webinar">Выбор вебинара и семинара</label>
-          <select v-model="selectedActivity" class="leave-request-form-select leave-request-form-input leave-request-course-or-webinar" name="course-or-webinar" id="course-or-webinar" @change="handleActivityChange" required>
+          <select v-model="selectedActivity" :style="selectStyle" class="leave-request-form-select leave-request-form-input leave-request-course-or-webinar" name="course_or_webinar" id="course-or-webinar" @change="handleActivityChange" required>
             <option value="" disabled>Выбор вебинара и семинара</option>
             <option v-for="(activity, index) in allActivities" :key="index" :value="activity.title">{{ activity.title }}</option>
           </select>
 
           <!-- Форма обучения -->
           <label class="visually-hidden" for="form-of-education">Форма обучения</label>
-          <select v-if="formsToSignUp.length" v-model="formsToSignUp[0].form" class="leave-request-form-select leave-request-form-input leave-request-form-of-education" name="form-of-education" id="form-of-education" required>
+          <select v-if="formsToSignUp.length" :style="selectStyle" v-model="formsToSignUp[0].form" class="leave-request-form-select leave-request-form-input leave-request-form-of-education" name="form_of_education" id="form-of-education" required>
             <option value="" disabled>Форма обучения</option>
             <option v-for="(form, index) in formsToSignUp" :key="index" :value="form.form">{{ form.form }}</option>
           </select>
@@ -27,7 +27,7 @@
 
           <!-- Вид обучения -->
           <label class="visually-hidden" for="training-type">Вид обучения</label>
-          <select v-if="typesToSignUp.length" v-model="typesToSignUp[0].type" class="leave-request-form-select leave-request-form-input leave-request-training-type" name="training-type" id="training-type" required>
+          <select v-if="typesToSignUp.length" v-model="typesToSignUp[0].type" :style="selectStyle" class="leave-request-form-select leave-request-form-input leave-request-training-type" name="training-type" id="training-type" required>
             <option value="" disabled>Вид обучения</option>
             <option v-for="(type, index) in typesToSignUp" :key="index" :value="type.type">{{ type.type }}</option>
           </select>
@@ -49,7 +49,7 @@
         </div>
 
 
-        <button class="button header-sign-up-button leave-request-form-button" type="submit">
+        <button class="button banner-button-sing-up leave-request-form-button" type="submit">
           Записаться
         </button>
       </form>
@@ -58,8 +58,22 @@
 </template>
 
 <script setup>
+  import emailjs from '@emailjs/browser';
+
   import { onMounted, ref, computed } from 'vue';
   import { useDataStore } from '../../store/DataStore';
+  import { useToast } from 'vue-toastification';
+
+  const toast = useToast();
+
+  // Вычисляемое свойство для динамического стиля
+  const selectStyle = computed(() => ({
+    opacity: selectedActivity.value === '' ? 0.7 : 1,
+    color: selectedActivity.value === '' ? '#430B51' : '#000000',
+
+  }));
+
+  const form = ref(null); 
 
   const formOfEducation = ref('');
   const trainingType = ref('');
@@ -150,20 +164,43 @@
 
 
   const sendEmail = () => {
-    emailjs.sendForm(
-      'service_6yvb247', 
-      'YOUR_TEMPLATE_ID', 
-      document.querySelector('form'), 
-      'YOUR_PUBLIC_KEY' 
-    )
-    .then((response) => {
-      console.log('SUCCESS!', response);
-    }, (error) => {
-      console.log('FAILED...', error);
-    });
+    const formElement = form.value;
+
+    if (formElement) {
+      emailjs.sendForm(
+        'service_6yvb247',
+        'template_xtczx08',
+        formElement,
+        'glyEDgvmm-UyW94MX'
+      ).then(() => {
+        
+        resetForm();
+        toast.success('Заявка успешно отправлена!');
+      }).catch(() => {
+        toast.error('Ошибка! Ваша заявка не отправлена');
+      });
+    }
   };
+
+  const resetForm = () => {
+    name.value = '';
+    phone.value = '';
+    email.value = '';
+    selectedActivity.value = '';
+    formsToSignUp.value = [{ form: "" }];
+    typesToSignUp.value = [{ type: "" }];
+    // Очистка значения поля select
+    if (form.value) {
+      form.value.reset();
+    }
+  };
+
 </script>
 
 <style scoped>
-
+  select {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
+}
 </style>
