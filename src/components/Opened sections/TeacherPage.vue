@@ -189,12 +189,24 @@
 
 <script setup>
   import { ref, computed, nextTick, reactive } from 'vue';
+  import { onMounted, onUnmounted } from 'vue';
+
   import { defineEmits } from 'vue';
   import { defineProps } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableSheduleForTeacher from '../Pieces/TableSheduleForTeacher.vue';
   import CoursePage from './CoursePage.vue'
   import WebinarPage from './WebinarPage.vue';
+
+  onMounted(() => {
+    // Блокируем прокрутку страницы
+    document.body.classList.add('no-scroll');
+  });
+
+  onUnmounted(() => {
+    // Разблокируем прокрутку при размонтировании компонента
+    document.body.classList.remove('no-scroll');
+  });
 
   const wantToSignUp = ref(false);
   const sheduleToSignUp = reactive({});
@@ -332,4 +344,10 @@
     text-decoration: underline;
   }
 
+</style>
+
+<style>
+  .no-scroll {
+    overflow: hidden;
+  }
 </style>

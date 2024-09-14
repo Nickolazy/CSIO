@@ -274,7 +274,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch, nextTick } from 'vue';
+  import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableForm from '../Pieces/TableForm.vue';
   import TableShedule from '../Pieces/TableShedule.vue';
@@ -471,6 +471,8 @@
   const curPhotoUrl = ref('');
 
   onMounted(async () => {
+    document.body.classList.add('no-scroll');
+
     await store.fetchAllImages(); // Ждем загрузки всех изображений
 
     // Получаем массив фото
@@ -505,6 +507,11 @@
         }
       }
     });
+  });
+
+  onUnmounted(() => {
+    // Разблокируем прокрутку при размонтировании компонента
+    document.body.classList.remove('no-scroll');
   });
 
   const removeExtension = (photoList) => {

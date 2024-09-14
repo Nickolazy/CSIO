@@ -252,7 +252,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch, nextTick, reactive } from 'vue';
+  import { ref, computed, onMounted, onUnmounted, watch, nextTick, reactive } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TableForm from '../Pieces/TableForm.vue';
   import TableShedule from '../Pieces/TableShedule.vue';
@@ -347,7 +347,14 @@
   };
 
   onMounted(() => {
+    document.body.classList.add('no-scroll');
+
     fetchFormsAndTypes();
+  });
+
+  onUnmounted(() => {
+    // Разблокируем прокрутку при размонтировании компонента
+    document.body.classList.remove('no-scroll');
   });
 
   watch(() => props.course, (newCourse) => {
