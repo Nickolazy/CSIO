@@ -330,342 +330,421 @@
 
 /* Teachers */
 .teachers {
-    width: 100%;
-    padding-block: 60px 60px;
-    background: 
-        url('../assets/img/teachers/teachers-bg.png') center center / cover no-repeat,
-        var(--color-dark);
+  width: 100%;
+  padding-block: 60px 60px;
+  background: 
+      url('../assets/img/teachers/teachers-bg.png') center center / cover no-repeat,
+      var(--color-dark);
 }
 
 .teachers-title {
-    text-align: right;
+  text-align: right;
 }
 
 .teachers-subtitle {
-    font-size: 32px;
-    font-weight: 400;
-    color: var(--color-light);
-    margin-top: 20px;
-    text-align: right;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--color-light);
+  margin-top: 20px;
+  text-align: right;
 }
 
 .teachers-slider {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow-y: hidden;
-    overflow-x: hidden;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .teachers-list {
-    --cardItemWidth: 450px;
-    --cardItemHeight: 600px;
-    --paddingItem: 25px;
+  --teacherColumnGap: 60px; /* Отступ между карточками */
 
-    --teacherZIndexImage: 10;
-    --teacherZIndexMainText: 50;
-    --teacherZIndexTiltedBlockImage: 100;
+  --cardItemWidth: 450px; /* Ширина одной карточки */
+  --cardItemHeight: 600px; /* Высота карточки */
+  
+  --paddingItem: 25px;
 
-    max-width: calc(var(--container-width));
+  --teacherZIndexImage: 10;
+  --teacherZIndexMainText: 50;
+  --teacherZIndexTiltedBlockImage: 100;
+  
+  display: flex;
+  align-items: center;
+  column-gap: var(--teacherColumnGap);
 
-    display: flex;
-    justify-content: space-between;
-    column-gap: 60px;
+  /* Рассчитываем максимальную ширину контейнера для трех карточек */
+  max-width: calc(var(--cardItemWidth) * 3 + var(--teacherColumnGap) * 2 + 40px); /* 3 карточки и 2 отступа */
+  overflow-x: auto; /* Включаем горизонтальный скролл */
+  scroll-behavior: smooth; /* Плавный скролл */
 
-    margin-top: 45px;
+  overflow-x: hidden; /* Отключаем горизонтальный скролл */
+  margin-top: 45px;
+  padding-block: 20px;
+  padding-inline: 20px;
+}
 
-    padding-block: 50px;
+
+/* Скрываем скроллбар для всех браузеров */
+.teachers-list {
+  overflow: auto;
+  -ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+  scrollbar-width: none;  /* Для Firefox */
+}
+
+/* Скрываем скроллбар для WebKit (Chrome, Safari, Opera) */
+.teachers-list::-webkit-scrollbar {
+  display: none;  /* Для Chrome, Safari, Opera */
 }
 
 .teachers-item {
-    position: relative;
-    width: var(--cardItemWidth);
-    height: var(--cardItemHeight);
-    background-color: var(--color-block-item-about-us-text);
-    border-radius: 30px;
-    overflow: hidden;
+  position: relative;
+  flex: 0 0 auto; /* Не растягиваем элементы по ширине контейнера */
+  width: var(--cardItemWidth);
+  height: var(--cardItemHeight);
+  background-color: var(--color-block-item-about-us-text);
+  border-radius: 30px;
+  overflow: hidden;
 }
 
 .teacher-avatar-wrapper {
-    --cardItemImgWrapperWidth: calc(var(--cardItemWidth) - var(--paddingItem) * 2);
-    --cardItemImgWrapperHeight: calc(var(--cardItemHeight) - var(--paddingItem) * 2);
+  --cardItemImgWrapperWidth: calc(var(--cardItemWidth) - var(--paddingItem) * 2);
+  --cardItemImgWrapperHeight: calc(var(--cardItemHeight) - var(--paddingItem) * 2);
 
-    position: relative;
-    top: 50%;
-    left: 50%;
-    z-index: var(--teacherZIndexImage);
-    translate: -50% -50%;
-    width: var(--cardItemImgWrapperWidth);
-    height: var(--cardItemImgWrapperHeight);
-    background-color: var(--color-light);
-    border-radius: 30px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  z-index: var(--teacherZIndexImage);
+  translate: -50% -50%;
+  width: var(--cardItemImgWrapperWidth);
+  height: var(--cardItemImgWrapperHeight);
+  background-color: var(--color-light);
+  border-radius: 20px;
 
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .teacher-avatar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-width: var(--cardItemImgWrapperWidth);
-    height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: var(--cardItemImgWrapperWidth);
+  height: auto;
 }
 
 .teacher-tilted-block {
-    position: absolute;
-    top: 310px;
-    left: 50%;
-    z-index: var(--teacherZIndexTiltedBlockImage);
-    translate: -50%;
-    width: calc(var(--cardItemWidth) + 200px);
-    background-color: var(--color-block-item-about-us-text);
+  position: absolute;
+  top: 310px;
+  left: 50%;
+  z-index: var(--teacherZIndexTiltedBlockImage);
+  translate: -50%;
+  width: calc(var(--cardItemWidth) + 200px);
+  background-color: var(--color-block-item-about-us-text);
 
-    transform: rotateZ(-7deg);
+  transform: rotateZ(-7deg);
 }
 
 .teacher-tilted-block-line {
-    width: 100%;
-    height: 20px;
-    background-color: var(--color-orange);
+  width: 100%;
+  height: 20px;
+  background-color: var(--color-orange);
 }
 
 .teacher-tilted-block-name {
-    display: block;
-    font-size: 32px;
-    font-weight: 400;
-    color: var(--color-light);
-    line-height: 1;
+  display: block;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--color-light);
+  line-height: 1;
 
-    margin-left: 130px;
+  margin-left: 130px;
 }
 
 .teacher-tilted-block-role {
-    display: block;
-    font-size: 24px;
-    font-weight: 400;
-    text-align: right;
-    color: var(--color-orange);
+  display: block;
+  font-size: 24px;
+  font-weight: 400;
+  text-align: right;
+  color: var(--color-orange);
 
-    margin-right: 135px;
+  margin-right: 135px;
 }
 
 .teacher-main-text-block {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: var(--teacherZIndexMainText);
-    background-color: var(--color-block-item-about-us-text);
-    width: var(--cardItemWidth);
-    height: 40%;
-    padding-inline: 45px 25px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: var(--teacherZIndexMainText);
+  background-color: var(--color-block-item-about-us-text);
+  width: var(--cardItemWidth);
+  height: 40%;
+  padding-inline: 25px;
 }
 
 .teacher-main-text-list {
-    margin-top: 80px;
+  margin-top: 80px;
 }
 
 .teacher-main-text-list > :not(:first-child) {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .teacher-main-text-item {
-    position: relative;
-    /* list-style-type: disc; */
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--color-light);
+  position: relative;
+
+  display: -webkit-box;        
+  -webkit-line-clamp: 1;       
+  -webkit-box-orient: vertical; 
+  overflow: hidden; /* Скрывает длинный текст */
+  text-overflow: ellipsis;     
+
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-light);
+  padding-left: 25px; /* Отступ для отображения маркера */
 }
 
 .teacher-main-text-item::before {
-    content: '';
-    position: absolute;
-    top: 14px;
-    left: -20px;
-    width: 4px;
-    aspect-ratio: 1;
-    background-color: var(--color-light);
-    margin-right: 10px;
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 0; /* Ставим псевдоэлемент вне границ текста */
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-light);
+}
+
+
+/* Отображаем только первые три элемента списка */
+.teacher-main-text-item:nth-child(n+4) {
+  display: none;
+}
+
+.teacher-main-text-item::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 0; /* Ставим псевдоэлемент вне границ текста */
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-light);
 }
 
 
 .teachers-all-events-button-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 45px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 45px;
 }
 
 .teachers-all-events-button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 
 /* News */
 .news {
-    width: 100%;
-    padding-bottom: 70px;
-    background-color: var(--color-header-input-bg);
+  --newsSharesListColumnGap: 80px;
+  --newsPaddingInline: 60px;
+
+  width: 100%;
+  padding-bottom: 70px;
+  background-color: var(--color-header-input-bg);
 }
 
 .news-title-wrapper {
-    width: 100%;
-    height: 95px;
-    align-items: center;
-    background: 
-        url('../assets/img/news/news-title-bg.png') top left / cover no-repeat;
+  width: 100%;
+  height: 95px;
+  align-items: center;
+  background: 
+      url('../assets/img/news/news-title-bg.png') top left / cover no-repeat;
 }
 
 .news-title {
-    line-height: 95px;
+  line-height: 95px;
 }
 
 .news-shares-title {
-    padding-block: 40px 10px;
-    color: var(--color-dark);
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  padding-block: 40px 10px;
+  padding-left: calc(var(--newsPaddingInline) / 2);
+  color: var(--color-dark);
 }
 
 .news-shares-wrapper {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-block: 25px;
-
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .news-shares-list {
-    max-width: calc(var(--container-width));
-    display: flex;
-    align-items: center;
-    column-gap: 75px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  overflow-x: auto; /* Включаем горизонтальный скролл */
+  scroll-behavior: smooth; /* Плавный скролл */
+  padding-block: 20px;
+  padding-inline: var(--newsPaddingInline);
+  margin: 0; /* Убираем внешние отступы */
+  list-style: none; /* Убираем маркеры списка */
+  column-gap: var(--newsSharesListColumnGap); /* Устанавливаем отступ между элементами */
+}
+
+/* Скрываем скроллбар для всех браузеров */
+.news-shares-list {
+  overflow: auto;
+  -ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+  scrollbar-width: none;  /* Для Firefox */
+}
+
+/* Скрываем скроллбар для WebKit (Chrome, Safari, Opera) */
+.news-shares-list::-webkit-scrollbar {
+  display: none;  /* Для Chrome, Safari, Opera */
 }
 
 .news-shares-item {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: var(--color-light);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
+  flex: 0 0 auto; /* Не растягиваем элементы по ширине контейнера */
+  width: calc((100% - (var(--newsSharesListColumnGap) * 3)) / 4); /* Ширина элемента, учитывая отступы */
+  padding: 20px;
+  background-color: var(--color-light);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  box-sizing: border-box; /* Учитываем отступы и границы в ширине элемента */
 }
 
 .news-shares-item-datatime-wrapper {
-    width: 270px;
-    height: 45px;
-    padding-inline: 20px;
-    display: flex;
-    align-items: center;
-    column-gap: 12px;
-    color: var(--color-light);
-    background-color: var(--color-orange);
-    border-radius: 10px;
+  width: 270px;
+  height: 45px;
+  padding-inline: 20px;
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  color: var(--color-light);
+  background-color: var(--color-orange);
+  border-radius: 10px;
 }
 
 .news-shares-item-datatime-wrapper > :first-child {
-    width: 24px;
-    height: auto;
+  width: 24px;
+  height: auto;
 }
 
 .news-shares-item-datatime-text {
-    font-size: 20px;
-    font-weight: 700;
-    white-space: nowrap;
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .news-shares-item-title {
-    margin-top: 15px;
-    font-size: 26px;
-    font-weight: 500;
+  margin-top: 15px;
+  font-size: 26px;
+  font-weight: 500;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;   /* Количество строк, после которых добавляется троеточие */
+  overflow: hidden;
 }
 
 .news-shares-item-description {
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.3;
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;   /* Количество строк, после которых добавляется троеточие */
+  overflow: hidden;
+}
+
+.news-main-item-description {
+  -webkit-line-clamp: 4;
 }
 
 .news-shares-left-button,
 .news-shares-right-button {
-    width: 80px;
-    aspect-ratio: 1;
-    border: none;
-    border-radius: 50%;
-    background-color: var(--color-orange);
-    color: var(--color-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 80px;
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-orange);
+  color: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    transition-duration: var(--transition-diration);
+  transition-duration: var(--transition-diration);
 }
 
 .news-shares-left-button:hover,
 .news-shares-right-button:hover {
-    cursor: pointer;
-    background-color: rgba(255, 72, 0, 0.7);
+  cursor: pointer;
+  background-color: rgba(255, 72, 0, 0.7);
 }
 
 .news-shares-left-button {
-    position: absolute;
-    z-index: var(--z-index-big);
-    left: -40px;
-    top: 50%;
-    translate: 0 -50%;
+  position: absolute;
+  z-index: var(--z-index-big);
+  left: -40px;
+  top: 50%;
+  translate: 0 -50%;
 }
 
 .news-shares-left-button:hover {
-    left: -45px;
+  left: -45px;
 }
 
 .news-shares-left-button > :first-child {
-    width: 12px;
-    height: auto;
-    margin-left: 30px;
+  width: 12px;
+  height: auto;
+  margin-left: 30px;
 }
 
 .news-shares-right-button {
-    position: absolute;
-    z-index: var(--z-index-big);
-    right: -40px;
-    top: 50%;
-    translate: 0 -50%;
+  position: absolute;
+  z-index: var(--z-index-big);
+  right: -40px;
+  top: 50%;
+  translate: 0 -50%;
 }
 
 .news-shares-right-button:hover {
-    right: -45px;
+  right: -45px;
 }
 
 .news-shares-right-button > :first-child {
-    width: 12px;
-    height: auto;
-    transform: rotateZ(180deg);
-    margin-right: 30px;
+  width: 12px;
+  height: auto;
+  transform: rotateZ(180deg);
+  margin-right: 30px;
 }
 
 
 .news-main-item-title {
-    line-height: 1.1;
-    margin-top: 0;
+  line-height: 1.1;
+  margin-top: 0;
 }
 
 .news-main-item-description {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .news-shares-left-button-other,
 .news-shares-right-button-other {
-    background-color: var(--color-block-item-about-us-text);
+  background-color: var(--color-block-item-about-us-text);
 }
 
 .news-shares-left-button-other:hover,
 .news-shares-right-button-other:hover {
-    background-color: rgba(67, 11, 81, 0.7);
+  background-color: rgba(67, 11, 81, 0.7);
 }
 
 

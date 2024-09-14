@@ -10,7 +10,8 @@
           поделиться своими знаниями
         </p>
       </div>
-
+    </div>
+    <div class="teachers-slider">
       <ButtonPrevious/>
 
       <div class="teachers-list">
@@ -21,7 +22,8 @@
       </div>
 
       <ButtonNext class="button-teachers"/>
-
+    </div>
+    <div class="container">
       <div class="teachers-all-events-button-wrapper">
         <button @click="openWebinars" class="button banner-button-sing-up teachers-all-events-button" type="button">
           Все мероприятия
@@ -36,17 +38,23 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, computed } from 'vue';
+  import { ref, onMounted, computed, nextTick } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import TeacherCard from '../Pieces/TeacherCard.vue';
   import WebinarsAll from '../Opened sections/WebinarsAll.vue';
   import ButtonNext from '../Pieces/ButtonNext.vue';
   import ButtonPrevious from '../Pieces/ButtonPrevious.vue';
 
+  import { initializeTeachersSlider } from '../../teachers-slider.js'
+
   const store = useDataStore();
 
   onMounted(async () => {
     await store.fetchTeachers();
+
+    nextTick(() => {
+      initializeTeachersSlider();
+    });
   });
 
   const teachers = computed(() => store.Преподаватели);

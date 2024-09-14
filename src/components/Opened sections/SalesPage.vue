@@ -1,13 +1,24 @@
 <template >
   <div class="sidebar-drop-wrapper">
         <section class="sidebar-drop news-events-drop">
+          <div class="news-shares-item-datatime-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 2V6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 2V6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3 10H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="news-shares-item-datatime-text">
+                <p> {{ sale.dates }} </p>
+              </span>
+            </div>
             <h2 class="sidebar-drop-title news-events-drop-title">
-              {{ n.title }}  
+              {{ sale.title }}  
             </h2>
 
             <div class="news-events-drop-content">
                 <p>
-                  {{ n.content }}  
+                  {{ sale.content }}  
                 </p>
             </div>
 
@@ -87,7 +98,7 @@
   import { onMounted, onUnmounted } from 'vue';
 
   const props = defineProps({
-    n: {
+    sale: {
       type: Object,
       required: true
     }

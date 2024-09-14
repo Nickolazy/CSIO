@@ -20,7 +20,11 @@ export const FORMS_ID = "66d1c23c0012197cf2ec";
 export const TYPES_ID = "66d1c3b0002139a82454";
 export const SCHEDULES_ID = "66d1c412003b560bb9a4";
 
-export const TEACHERS_ID = "66d497b3001d1b318f2a"
+export const TEACHERS_ID = "66d497b3001d1b318f2a";
+
+export const NEWS_ID = "66d49a3f001d1e759f66";
+export const EVENTS_ID = "66d49a5f001bbbafdbde";
+export const SALES_ID = "66d49a4a00106f8d5805";
 
 export const BUCKET_ID = "66d499ff00044379fc90";
 
@@ -513,5 +517,35 @@ export const useDataStore = defineStore('DataStore', {
           console.error('Ошибка при получении преподавателей:', error);
         }
       },
+
+      async fetchNews() {
+        try {
+          const response = await databases.listDocuments(CSIO_DATABASE_ID, NEWS_ID);
+
+          this.Новости = response.documents;
+        } catch(error) {
+          console.error('Ошибка при получении новостей:', error);
+        }
+      },
+
+      async fetchEvents() {
+        try {
+          const response = await databases.listDocuments(CSIO_DATABASE_ID, EVENTS_ID);
+
+          this.События = response.documents;
+        } catch(error) {
+          console.error('Ошибка при получении событий:', error);
+        }
+      },
+
+      async fetchSales() {
+        try {
+          const response = await databases.listDocuments(CSIO_DATABASE_ID, SALES_ID);
+
+          this.Акции = response.documents;
+        } catch(error) {
+          console.error('Ошибка при получении акций:', error);
+        }
+      }
     },
 });

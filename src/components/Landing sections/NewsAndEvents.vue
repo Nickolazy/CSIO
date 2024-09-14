@@ -17,9 +17,9 @@
 			<ButtonPrevious />
 
       <div class="news-shares-list"> 
-        <div v-for="n in news">
-          <SalesItem />
-        </div>
+        <SalesItem v-for="(sale, index) in sales"
+          :key="index"
+          :sale="sale"/>
 			</div>
 
 			<ButtonNext />
@@ -34,9 +34,10 @@
 			<ButtonPrevious />
 
 			<div class="news-shares-list">
-        <div v-for="n in news">
-          <NewsItem />
-        </div>
+        <NewsItem 
+          v-for="(n, index) in news"
+          :key="index"
+          :n="n"/>
 			</div>
 
       <ButtonNext />     
@@ -51,9 +52,9 @@
       <ButtonPrevious />
 
 			<div class="news-shares-list">
-				<div v-for="n in news">
-          <EventsItem />
-        </div>
+        <EventsItem v-for="(event, index) in events"
+          :key="index"
+          :event="event"/>
 			</div>
 
       <ButtonNext />
@@ -62,14 +63,31 @@
 </template>
 
 <script setup>
-import ButtonPrevious from '../Pieces/ButtonPrevious.vue';
-import ButtonNext from '../Pieces/ButtonNext.vue';
-import SalesItem from '../Pieces/SalesItem.vue';
-import NewsItem from '../Pieces/NewsItem.vue';
-import EventsItem from '../Pieces/EventsItem.vue';
+  import ButtonPrevious from '../Pieces/ButtonPrevious.vue';
+  import ButtonNext from '../Pieces/ButtonNext.vue';
+  import SalesItem from '../Pieces/SalesItem.vue';
+  import NewsItem from '../Pieces/NewsItem.vue';
+  import EventsItem from '../Pieces/EventsItem.vue';
 
+  import { computed, onMounted, ref, nextTick } from 'vue';
+  import { useDataStore } from '../../store/DataStore';
+  import { initializeSlider } from '../../news-slider.js';
 
-  const news = [1, 2, 3, 4];
+  const store = useDataStore();
+
+  const sales = computed(() => store.Акции);
+  const news = computed(() => store.Новости);
+  const events = computed(() => store.События);
+
+  onMounted(async () => {
+    await store.fetchNews();
+    await store.fetchEvents();
+    await store.fetchSales();
+
+    nextTick(() => {
+      initializeSlider();
+    });
+  });
 </script>
 
 <style scoped>

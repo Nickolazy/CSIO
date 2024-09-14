@@ -1,17 +1,59 @@
 @media (max-width: 1600px) {
     .teachers-list {
-        max-width: none;
-        width: 90%;
+        --cardItemWidth: 400px;
+    }
+}
 
-        overflow-x: scroll;
+@media (max-width: 1440px) {
+    .teachers-list {
+        --teacherColumnGap: 30px;
+        --cardItemHeight: 500px;
     }
 
-    .teachers-item {
-        flex-shrink: 0;
+    .teacher-tilted-block {
+        top: 240px;
+    }
+
+    .teacher-main-text-list {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 1360px) {
+    .teachers-list {
+        --cardItemWidth: 360px;
+    }
+
+    .teacher-tilted-block-line {
+        height: 10px;
+    }
+
+    .teacher-tilted-block-name {
+        font-size: 28px;
+        margin-left: 140px;
+    }
+
+    .teacher-tilted-block-role {
+        font-size: 20px;
+        margin-right: 155px
+    }
+
+    .teacher-main-text-block {
+        height: 45%;
+    }
+
+    .teacher-main-text-list {
+        margin-top: 70px;
     }
 }
 
 @media (max-width: 1280px) {
+    .teachers-list {
+        --teacherColumnGap: 60px;
+
+        max-width: calc(var(--cardItemWidth) * 2 + var(--teacherColumnGap) * 1 + 40px);
+    }
+
     .teachers-all-events-button-wrapper {
         justify-content: center;
     }
@@ -21,6 +63,22 @@
     .teachers-title,
     .teachers-subtitle {
         text-align: center;
+    }
+
+    .teacher-main-text-block {
+        padding-inline: 20px;
+    }
+}
+
+@media (max-width: 860px) {
+    .teachers-list {
+        --teacherColumnGap: 30px;
+        --cardItemWidth: 320px;
+        --paddingItem: 15px;
+    }
+
+    .teacher-tilted-block-role {
+        margin-right: 135px;
     }
 }
 
@@ -32,17 +90,70 @@
     .teachers-subtitle {
         font-size: 28px;
     }
+
+    .teachers-list {
+        --teacherColumnGap: 30px;
+        --cardItemWidth: 450px;
+        --cardItemHeight: 600px;
+        --paddingItem: 25px;
+
+        max-width: calc(var(--cardItemWidth) + 40px);
+    }
+
+    .teacher-tilted-block {
+        top: 290px;
+    }
 }
 
-@media (max-width: 500px) {
-    .teachers-list {
-        --cardItemWidth: calc(100vw - 20px * 2);
+@media (max-width: 520px) {
+    .teachers-title {
+        font-size: 32px;
+    }
 
-        padding-inline: 20px;
-        padding-block: 30px;
+    .teachers-subtitle {
+        font-size: 22px;
     }
 
     .teachers-list {
-        box-sizing: border-box;
+        --teacherColumnGap: 60px;
+        --cardItemWidth: 320px;
+        --cardItemHeight: 500px;
+        --paddingItem: 15px;
+
+        margin-top: 20px;
+    }
+
+    .teacher-tilted-block {
+        top: 240px;
+    }
+}
+
+@media (max-width: 400px) {
+    .teachers-list {
+        --cardItemWidth: 260px;
+        --cardItemHeight: 450px;
+    }
+
+    .teacher-tilted-block-name {
+        font-size: 22px;
+        margin-left: 120px;
+    }
+
+    .teacher-tilted-block-role {
+        font-size: 16px;
+        margin-right: 110px;
+    }
+
+    .teacher-main-text-item {
+        font-size: 16px;
+        line-height: 1.2;
+    }
+
+    .teacher-main-text-block {
+        height: 40%;
+    }
+
+    .teacher-main-text-list {
+        margin-top: 70px;
     }
 }

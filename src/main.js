@@ -16,6 +16,7 @@ import './css/media/media-about-us.css'
 
 import './css/media/media-courses.css'
 import './css/media/media-teachers.css'
+import './css/media/media-news.css'
 import './css/media/media-leave-request.css'
 import './css/media/media-footer.css'
 

@@ -1,23 +1,31 @@
 <template>
   <div @click="openNews" class="news-shares-item">
       <h3 class="news-shares-item-title news-main-item-title">
-        Путин поддержал идею допподготовки педагогов по другим направлениям
+        {{ n.title }}
       </h3>
 
       <div class="news-shares-item-description news-main-item-description">
         <p>
-          Президент России Владимир Путин поддержал идею о курсах дополнительной подготовки для педагогов по другим направлениям, речь об этом зашла ...
+          {{ n.content }}
         </p>
       </div>
 		</div>
     <NewsPage v-if="isNewsOpen" 
       @close="handleClose" 
-      class="courses-all"/>
+      class="courses-all"
+      :n="n"/>
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, defineProps } from 'vue';
   import NewsPage from '../Opened sections/NewsPage.vue';
+
+  const props = defineProps({
+    n: {
+      type: Object,
+      required: true
+    }
+  })
 
   const isNewsOpen = ref(false);
 
