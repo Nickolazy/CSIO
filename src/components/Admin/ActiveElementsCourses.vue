@@ -19,7 +19,7 @@
         <li v-for="course in courses" :key="course.$id">
           <h2>{{ course.title }}</h2>
           <p>{{ course.description }}</p>
-          <p><b>Этапы:</b> {{ course.stages }}</p>
+          <!-- <p><b>Этапы:</b> {{ course.stages }}</p> -->
           <button @click="editCourse(course)">Редактировать</button>
           <button @click="deleteCourse(course.$id)">Удалить</button>
         </li>

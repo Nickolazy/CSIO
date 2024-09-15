@@ -11,6 +11,7 @@
       <div class="information-page">
         <ActiveElementsCourses class="active-elements"/>
         <ActiveElementsWebinars class="active-elements"/>
+        <ActiveElementsTeachers class="active-elements"/>
       </div>
     </div>
   </div>
@@ -21,6 +22,7 @@ import Login from './Login.vue';
 import ActiveElementsCourses from './ActiveElementsCourses.vue';
 import ActiveElementsWebinars from './ActiveElementsWebinars.vue';
 import { user } from '../../store/user';
+import ActiveElementsTeachers from './ActiveElementsTeachers.vue';
 
 const logout = async () => {
   await user.logout();

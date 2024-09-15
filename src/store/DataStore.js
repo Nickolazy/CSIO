@@ -465,6 +465,30 @@ export const useDataStore = defineStore('DataStore', {
           console.error('Ошибка при обновлении преподавателя:', error);
         }
       },
+
+      async deleteTeacher(id) {
+        try {
+          // Получаем данные преподавателя для удаления
+          const teacher = await databases.getDocument(CSIO_DATABASE_ID, TEACHERS_ID, id);
+          const teacherName = teacher.name;
+          
+          console.log('Deleting teacher with name:', teacherName);
+      
+          // Если у преподавателя есть привязанное фото, удаляем его из хранилища
+          if (teacher.photoUrl) {
+            const photoId = extractFileIdFromUrl(teacher.photoUrl); // Функция для извлечения fileId из URL
+            await this.deleteImage(photoId);
+          }
+      
+          // Удаляем преподавателя
+          await databases.deleteDocument(CSIO_DATABASE_ID, TEACHERS_ID, id);
+      
+          // Обновляем список преподавателей
+          await this.fetchTeachers();
+        } catch (error) {
+          console.error('Ошибка при удалении преподавателя:', error);
+        }
+      },
       
       async uploadAndLinkImage(teacherId, imageFile) {
         try {
