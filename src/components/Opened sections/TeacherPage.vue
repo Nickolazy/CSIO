@@ -112,26 +112,30 @@
                 </svg>
             </button>
 
-            <form v-if="wantToSignUp" class="courses-drop-more-leave-request" :key="JSON.stringify(sheduleToSignUp)">
+            <form v-if="wantToSignUp" ref="formCourse" @submit.prevent="sendEmail" class="courses-drop-more-leave-request" :key="JSON.stringify(sheduleToSignUp)">
                 <h2 class="visually-hidden">Оставить заявку на обучение</h2>
                 <div class="courses-drop-more-leave-request-wrapper">
+
+                    <input type="hidden" v-model="title" name="title">
+
                     <label class="visually-hidden" for="in-group">В группе</label>
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-group" 
+                        name="form_of_education"
                         v-model="sheduleToSignUp.form"
+                        :style="selectStyle"
                         required>
                         <option value="" disabled selected>Форма</option>
                         <option :value="sheduleToSignUp.form">{{sheduleToSignUp.form}}</option>
-                        <!-- <option v-for="(shedule, index) in shedules"
-                          :key="index"
-                          :value="shedule.form">{{ shedule.form }}</option> -->
                     </select>
 
                     <label class="visually-hidden" for="in-minigroup">Мини-группа</label>
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="in-minigroup" 
+                        name="training-type"
+                        :style="selectStyle"
                         v-model="sheduleToSignUp.type"
                         required>
                         <option value="" disabled selected>Вид</option>
@@ -143,7 +147,9 @@
                     <select
                         class="leave-request-form-select leave-request-form-input courses-drop-more-input"
                         id="start-date" 
+                        name="start-date"
                         v-model="sheduleToSignUp.startDate"
+                        :style="selectStyle"
                         required>
                         <option value="" disabled selected>Дата</option>
                         <option :value="sheduleToSignUp.startDate">{{sheduleToSignUp.startDate}}</option>
@@ -151,23 +157,29 @@
 
                     <label class="visually-hidden" for="student-name">Ваше имя</label>
                     <input
+                        v-model="name"
                         type="text"
                         placeholder="Ваше имя"
                         id="student-name"
+                        name="student-name"
                         class="leave-request-form-input leave-request-student-name courses-drop-more-input">
 
                     <label class="visually-hidden" for="phone-number">Ваш номер телефона</label>
                     <input
+                        v-model="phone"
                         type="text"
                         placeholder="+7 (___) ___ - ____"
                         id="phone-number"
+                        name="phone-number"
                         class="leave-request-form-input leave-request-phone-number courses-drop-more-input">
 
                     <label class="visually-hidden" for="email-address">Ваша электронная почта</label>
                     <input
+                        v-model="email"
                         type="text"
                         placeholder="E-mail"
                         id="email-address"
+                        name="email-address"
                         class="leave-request-form-input leave-request-email-address courses-drop-more-input">
                 </div>
 
@@ -197,6 +209,18 @@
   import TableSheduleForTeacher from '../Pieces/TableSheduleForTeacher.vue';
   import CoursePage from './CoursePage.vue'
   import WebinarPage from './WebinarPage.vue';
+
+  import emailjs from '@emailjs/browser';
+  import { useToast } from 'vue-toastification';
+
+  const toast = useToast();
+
+  // Вычисляемое свойство для динамического стиля
+  const selectStyle = computed(() => ({
+    opacity: wantToSignUp.value === true ? 1 : 0.7,
+    color: wantToSignUp.value === true ? '#000000' : '#430B51',
+
+  }));
 
   onMounted(() => {
     // Блокируем прокрутку страницы
@@ -264,8 +288,6 @@
   const handleSignUp = (shedule) => {
     wantToSignUp.value = true;
     Object.assign(sheduleToSignUp, shedule);
-
-    console.log(sheduleToSignUp );
     
     nextTick(() => {
       const formElement = document.querySelector(".courses-drop-more-leave-request");
@@ -327,6 +349,49 @@
   // Метод для возврата к списку курсов
   const handleBack = () => {
     isCourseOpened.value = false;
+  };
+
+  const formCourse = ref(null); 
+
+  const title = computed(() => {
+    if (sheduleToSignUp.title) {
+      return truncateText(sheduleToSignUp.title);
+    }
+    return '';
+  });
+
+  const name = ref('');
+  const phone = ref('');
+  const email = ref('');
+
+  const sendEmail = () => {
+    const formElement = formCourse.value;
+
+    if (formElement) {
+      emailjs.sendForm(
+        'service_6yvb247',
+        'template_w02xpsb',
+        formElement,
+        'glyEDgvmm-UyW94MX'
+      ).then(() => {
+        
+        resetForm();
+        toast.success('Заявка успешно отправлена!');
+      }).catch(() => {
+        toast.error('Ошибка! Ваша заявка не отправлена');
+      });
+    }
+  };
+
+  const resetForm = () => {
+    name.value = '';
+    phone.value = '';
+    email.value = '';
+
+    // Очистка значения поля select
+    if (formCourse.value) {
+      formCourse.value.reset();
+    }
   };
 
 </script>

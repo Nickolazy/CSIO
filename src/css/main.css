@@ -132,17 +132,12 @@
 /* Изменение направления стрелки при наведении */
 .social-networks:hover::before {
   right: calc(var(--socialBlockWidth) * (-1));
-  transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%);
 }
 
 /* Анимация выдвижения */
 .social-networks:hover {
   right: 0;
-
-  --socialArrow: url("../assets/img/social-networks/arrow-open-sidebar.svg") 30px center / 35% auto no-repeat;
-  --socialLinearGradient: linear-gradient(to left, 
-      rgba(255, 255, 255, 0.7) 50%,
-      rgba(255, 255, 255, 0) 50%);
 }
 
 .social-networks-list {
