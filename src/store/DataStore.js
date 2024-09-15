@@ -505,7 +505,7 @@ export const useDataStore = defineStore('DataStore', {
       async uploadImage(imageFile) {
         try {
           const result = await storage.createFile(BUCKET_ID, 'unique()', imageFile);
-          return result.$id; // Возвращаем fileId
+          console.log(result);
         } catch (error) {
           console.error('Ошибка при загрузке изображения:', error);
           throw error;
@@ -569,6 +569,60 @@ export const useDataStore = defineStore('DataStore', {
           this.Акции = response.documents;
         } catch(error) {
           console.error('Ошибка при получении акций:', error);
+        }
+      },
+
+      async deleteSale(id) {
+        try {
+          await databases.deleteDocument(CSIO_DATABASE_ID, SALES_ID, id);
+          await this.fetchSales(); // Обновляем список акций
+        } catch (error) {
+          console.error('Ошибка при удалении акции:', error);
+        }
+      },
+      
+      async deleteNew(id) {
+        try {
+          await databases.deleteDocument(CSIO_DATABASE_ID, NEWS_ID, id);
+          await this.fetchNews(); // Обновляем список новостей
+        } catch (error) {
+          console.error('Ошибка при удалении новости:', error);
+        }
+      },
+      
+      async deleteEvent(id) {
+        try {
+          await databases.deleteDocument(CSIO_DATABASE_ID, EVENTS_ID, id);
+          await this.fetchEvents(); // Обновляем список событий
+        } catch (error) {
+          console.error('Ошибка при удалении события:', error);
+        }
+      },
+      
+      async addSale(sale) {
+        try {
+          await databases.createDocument(CSIO_DATABASE_ID, SALES_ID, 'unique()', sale);
+          await this.fetchSales(); // Обновляем список акций
+        } catch (error) {
+          console.error('Ошибка при добавлении акции:', error);
+        }
+      },
+      
+      async addNew(news) {
+        try {
+          await databases.createDocument(CSIO_DATABASE_ID, NEWS_ID, 'unique()', news);
+          await this.fetchNews(); // Обновляем список новостей
+        } catch (error) {
+          console.error('Ошибка при добавлении новости:', error);
+        }
+      },
+      
+      async addEvent(event) {
+        try {
+          await databases.createDocument(CSIO_DATABASE_ID, EVENTS_ID, 'unique()', event);
+          await this.fetchEvents(); // Обновляем список событий
+        } catch (error) {
+          console.error('Ошибка при добавлении события:', error);
         }
       }
     },

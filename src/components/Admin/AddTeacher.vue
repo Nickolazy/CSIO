@@ -35,6 +35,12 @@
           <textarea v-model="teacher.skills" id="skills" placeholder="Введите скиллы с разделением знаком ';'"></textarea>
         </div>
 
+          <!-- Добавим поле для загрузки фото -->
+          <!-- <div class="form-group">
+          <label for="photo">Фото преподавателя:</label>
+          <input @change="handlePhotoUpload" id="photo" type="file" />
+        </div> -->
+
         <button type="submit" class="submit-button">Добавить преподавателя</button>
       </form>
     </div>
@@ -42,59 +48,74 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useDataStore } from '../../store/DataStore';
+  import { ref } from 'vue';
+  import { useDataStore } from '../../store/DataStore';
 
-const emit = defineEmits(['update:adding']);
+  const emit = defineEmits(['update:adding']);
 
-const teacher = ref({
-  name: '',
-  post: '',
-  description: '',
-  totalWorkExp: '',
-  localWorkExp: '',
-  skills: ''
-});
-
-const store = useDataStore();
-
-const resetTeacherForm = () => {
-  teacher.value = {
+  const teacher = ref({
     name: '',
     post: '',
     description: '',
     totalWorkExp: '',
     localWorkExp: '',
-    skills: ''
+    skills: '',
+    photoUrl: '' // Новое поле для ссылки на фото
+  });
+
+  const store = useDataStore();
+  const photoFile = ref(null); // Хранит выбранный файл фото
+
+  const resetTeacherForm = () => {
+    teacher.value = {
+      name: '',
+      post: '',
+      description: '',
+      totalWorkExp: '',
+      localWorkExp: '',
+      skills: '',
+      photoUrl: ''
+    };
+    photoFile.value = null;
   };
-};
 
-const exitButton = () => {
-  emit('update:adding', false);
-};
+  const exitButton = () => {
+    emit('update:adding', false);
+  };
 
-const handleSubmit = async () => {
-  if (teacher.value.name && teacher.value.post && teacher.value.description) {
-    try {
-      await store.addTeacher({
-        name: teacher.value.name,
-        post: teacher.value.post,
-        description: teacher.value.description,
-        totalWorkExp: teacher.value.totalWorkExp,
-        localWorkExp: teacher.value.localWorkExp,
-        skills: teacher.value.skills
-      });
-
-      resetTeacherForm();
-    } catch (error) {
-      console.error('Ошибка при добавлении преподавателя:', error);
+  const handlePhotoUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      photoFile.value = file; // Сохраняем загруженный файл
     }
+  };
 
-    exitButton();
-  } else {
-    alert('Пожалуйста, заполните все обязательные поля.');
-  }
-};
+  const handleSubmit = async () => {
+    if (teacher.value.name && teacher.value.post && teacher.value.description) {
+      try {
+
+        // await store.uploadImage(photoFile.value);
+
+        // Сохраняем данные преподавателя
+        await store.addTeacher({
+          name: teacher.value.name,
+          post: teacher.value.post,
+          description: teacher.value.description,
+          totalWorkExp: teacher.value.totalWorkExp,
+          localWorkExp: teacher.value.localWorkExp,
+          skills: teacher.value.skills
+        });
+
+        resetTeacherForm();
+      } catch (error) {
+        console.error('Ошибка при добавлении преподавателя:', error);
+      }
+
+      exitButton();
+    } else {
+      alert('Пожалуйста, заполните все обязательные поля.');
+    }
+  };
 </script>
 
 <style scoped>

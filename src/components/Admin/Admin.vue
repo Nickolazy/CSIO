@@ -12,6 +12,7 @@
         <ActiveElementsCourses class="active-elements"/>
         <ActiveElementsWebinars class="active-elements"/>
         <ActiveElementsTeachers class="active-elements"/>
+        <ActiveElementsEvents class="active-elements"/>
       </div>
     </div>
   </div>
@@ -23,6 +24,7 @@ import ActiveElementsCourses from './ActiveElementsCourses.vue';
 import ActiveElementsWebinars from './ActiveElementsWebinars.vue';
 import { user } from '../../store/user';
 import ActiveElementsTeachers from './ActiveElementsTeachers.vue';
+import ActiveElementsEvents from './ActiveElementsEvents.vue';
 
 const logout = async () => {
   await user.logout();
