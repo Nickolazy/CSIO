@@ -179,7 +179,7 @@
                         placeholder="Ваше имя"
                         id="student-name"
                         name="student-name"
-                        class="leave-request-form-input leave-request-student-name courses-drop-more-input"
+                        class="leave-request-form-input leave-request-student-name courses-drop-more-input" required
                     >
 
                     <label class="visually-hidden" for="phone-number">Ваш номер телефона</label>
@@ -189,7 +189,7 @@
                         placeholder="+7 (___) ___ - ____"
                         id="phone-number"
                         name="phone-number"
-                        class="leave-request-form-input leave-request-phone-number courses-drop-more-input"
+                        class="leave-request-form-input leave-request-phone-number courses-drop-more-input" required
                     >
 
                     <label class="visually-hidden" for="email-address">Ваша электронная почта</label>
@@ -199,7 +199,7 @@
                         placeholder="E-mail"
                         id="email-address"
                         name="email-address"
-                        class="leave-request-form-input leave-request-email-address courses-drop-more-input"
+                        class="leave-request-form-input leave-request-email-address courses-drop-more-input" required
                     >
                 </div>
 
@@ -226,7 +226,7 @@
                         type="text"
                         placeholder="Ваше имя"
                         id="student-name"
-                        class="leave-request-form-input leave-request-student-name courses-drop-more-input"
+                        class="leave-request-form-input leave-request-student-name courses-drop-more-input" required
                     >
 
                     <label class="visually-hidden" for="phone-number">Ваш номер телефона</label>
@@ -235,7 +235,7 @@
                         type="text"
                         placeholder="+7 (___) ___ - ____"
                         id="phone-number"
-                        class="leave-request-form-input leave-request-phone-number courses-drop-more-input"
+                        class="leave-request-form-input leave-request-phone-number courses-drop-more-input" required
                     >
 
                     <label class="visually-hidden" for="email-address">Ваша электронная почта</label>
@@ -244,7 +244,7 @@
                         type="text"
                         placeholder="E-mail"
                         id="email-address"
-                        class="leave-request-form-input leave-request-email-address courses-drop-more-input">
+                        class="leave-request-form-input leave-request-email-address courses-drop-more-input" required>
                 </div>
 
                 <button class="button banner-button-sing-up courses-drop-more-button" type="submit">
@@ -556,22 +556,31 @@
 
   const formNone = "Не указано";
 
-  const sendEmail = () => {
+  const isSubmitting = ref(false); // Флаг для отслеживания состояния отправки
+
+  const sendEmail = async () => {
+    if (isSubmitting.value) return; // Предотвращаем повторные отправки
+
+    isSubmitting.value = true; // Устанавливаем флаг отправки
+
     const formElement = formCourse.value;
 
     if (formElement) {
-      emailjs.sendForm(
+      try {
+        await emailjs.sendForm(
         'service_6yvb247',
         'template_w02xpsb',
         formElement,
         'glyEDgvmm-UyW94MX'
-      ).then(() => {
-        
+        );
+
         resetForm();
         toast.success('Заявка успешно отправлена!');
-      }).catch(() => {
+      } catch (error) {
         toast.error('Ошибка! Ваша заявка не отправлена');
-      });
+      } finally {
+        isSubmitting.value = false; // Сбрасываем флаг отправки после завершения
+      }
     }
   };
 

@@ -162,23 +162,32 @@
     }
   };
 
+  const isSubmitting = ref(false); // Флаг для отслеживания состояния отправки
 
-  const sendEmail = () => {
+
+  const sendEmail = async () => {
+    if (isSubmitting.value) return; // Предотвращаем повторные отправки
+
+    isSubmitting.value = true; // Устанавливаем флаг отправки
+
     const formElement = form.value;
 
     if (formElement) {
-      emailjs.sendForm(
-        'service_6yvb247',
-        'template_xtczx08',
-        formElement,
-        'glyEDgvmm-UyW94MX'
-      ).then(() => {
-        
+      try {
+        await emailjs.sendForm(
+          'service_6yvb247',
+          'template_xtczx08',
+          formElement,
+          'glyEDgvmm-UyW94MX'
+        );
+
         resetForm();
         toast.success('Заявка успешно отправлена!');
-      }).catch(() => {
+      } catch (error) {
         toast.error('Ошибка! Ваша заявка не отправлена');
-      });
+      } finally {
+        isSubmitting.value = false; // Сбрасываем флаг отправки после завершения
+      }
     }
   };
 
