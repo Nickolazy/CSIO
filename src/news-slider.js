@@ -6,6 +6,11 @@ export function initializeSlider() {
       const rightButton = slider.querySelector('.news-shares-right-button');
       const list = slider.querySelector('.news-shares-list');
       const items = list.querySelectorAll('.news-shares-item');
+
+      if (items.length === 0) {
+        console.warn('Нет элементов для отображения в слайдере');
+        return;
+      }
       const itemWidth = items[0].offsetWidth;
 
               // Функция для получения численного значения gap

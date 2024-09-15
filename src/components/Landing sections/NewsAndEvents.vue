@@ -8,7 +8,7 @@
       </div>
     </div>
             
-    <div class="container">
+    <div v-show="sales.length" class="container">
       <h2 class="heading-three news-shares-title">
         Акции
       </h2>
@@ -16,7 +16,7 @@
     <div class="news-shares-wrapper">
 			<ButtonPrevious />
 
-      <div class="news-shares-list"> 
+      <div v-show="sales.length" class="news-shares-list"> 
         <SalesItem v-for="(sale, index) in sales"
           :key="index"
           :sale="sale"/>
@@ -25,12 +25,12 @@
 			<ButtonNext />
     </div>
 
-    <div class="container">
+    <div v-show="news.length" class="container">
       <h2 class="heading-three news-shares-title">
         Новости
       </h2>
     </div>
-    <div class="news-shares-wrapper">
+    <div  v-show="news.length" class="news-shares-wrapper">
 			<ButtonPrevious />
 
 			<div class="news-shares-list">
@@ -43,7 +43,7 @@
       <ButtonNext />     
     </div>
 
-    <div class="container">
+    <div v-show="events.length" class="container">
       <h2 class="heading-three news-shares-title">
         События
       </h2>
@@ -51,7 +51,7 @@
     <div class="news-shares-wrapper">
       <ButtonPrevious />
 
-			<div class="news-shares-list">
+			<div v-show="events.length" class="news-shares-list">
         <EventsItem v-for="(event, index) in events"
           :key="index"
           :event="event"/>
@@ -59,6 +59,11 @@
 
       <ButtonNext />
 		</div>
+    <div v-show="!sales.length && !news.length && !events.length">
+      <h2 class="heading-three news-shares-title">
+        Здесь пока что пусто
+      </h2>
+    </div>
   </div>
 </template>
 
