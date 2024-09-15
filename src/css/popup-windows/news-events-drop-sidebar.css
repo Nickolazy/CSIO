@@ -1,5 +1,5 @@
 .news-events-drop {
-    padding-bottom: 130px;
+    padding-bottom: 110px;
 }
 
 .news-events-drop-title {
@@ -37,8 +37,8 @@
 /* Поделиться в соц. сетях */
 .news-events-drop-socials {
     position: absolute;
-    bottom: 30px;
-    right: var(--drop-window-padding-inline);
+    bottom: calc((100vh / 2) - (var(--drop-window-max-height) / 2) + (var(--drop-window-padding-block) / 2));
+    right: calc((100vw / 2) - (var(--drop-window-max-width) / 2) + (var(--drop-window-padding-inline) / 2));
 }
 
 .news-events-drop-socials > :not(:first-child) {

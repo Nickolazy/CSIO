@@ -1,6 +1,21 @@
+@media (max-height: 940px) {
+    .sidebar-drop-go-back-button,
+    .sidebar-drop-close-button {
+        top: calc((var(--drop-window-padding-block) / 2) + 2vh);
+    }
+}
+
 @media (max-width: 1180px) {
     .sidebar-drop-wrapper {
         padding-inline: 15px;
+    }
+
+    .sidebar-drop-close-button {
+        right: calc((var(--drop-window-padding-inline) / 2) + 15px);
+    }
+
+    .sidebar-drop-go-back-button {
+        left: calc((var(--drop-window-padding-inline) / 2) + 15px);
     }
 }
 
@@ -10,9 +25,29 @@
     }
 }
 
+@media (max-width: 768px) {
+    .sidebar-drop-go-back-button,
+    .sidebar-drop-close-button {
+        top: 1vh;
+    }
+}
+
 @media (max-width: 500px) {
     :root {
         --drop-window-padding-inline: 20px;
+    }
+
+    .sidebar-drop-wrapper {
+        position: static;
+    }
+
+    .sidebar-drop {
+        position: relative;
+    }
+
+    .sidebar-drop-go-back-button,
+    .sidebar-drop-close-button {
+        top: 5vh;
     }
 
     .sidebar-drop-close-button {

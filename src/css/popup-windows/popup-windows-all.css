@@ -1,5 +1,7 @@
 /* Стили к всплывающим окнам */
 .sidebar-drop-wrapper {
+    position: relative;
+
     width: 100%;
     height: 100vh;
     display: flex;
@@ -8,15 +10,11 @@
 }
 
 .sidebar-drop {
-    position: relative;
-
     --colorInputRadioBg: #D9D9D9;
 
     width: 100%;
     max-width: var(--drop-window-max-width);
     height: min(var(--drop-window-max-height), 98vh);
-
-    overflow-y: auto;
 
     display: flex;
     flex-direction: column;
@@ -48,9 +46,9 @@
 /* Кнопка возвращения на предыдущее окно */
 .sidebar-drop-go-back-button {
     position: absolute;
-    top: calc(var(--drop-window-padding-block) + 7px);
-    left: calc(var(--drop-window-padding-inline) / 2);
-    translate: -50%;
+    top: calc((100vh / 2) - (var(--drop-window-max-height) / 2) + (var(--drop-window-padding-block) / 2));
+    left: calc((100vw / 2) - (var(--drop-window-max-width) / 2) + (var(--drop-window-padding-inline) / 2));
+    translate: -50% 50%;
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
@@ -84,9 +82,9 @@
 
 .sidebar-drop-close-button {
     position: absolute;
-    top: var(--drop-window-padding-block);
-    right: calc(var(--drop-window-padding-inline) / 2);
-    translate: 40%;
+    top: calc((100vh / 2) - (var(--drop-window-max-height) / 2) + (var(--drop-window-padding-block) / 2));
+    right: calc((100vw / 2) - (var(--drop-window-max-width) / 2) + (var(--drop-window-padding-inline) / 2));
+    translate: 50% 50%;
     border: none; /* Убираем стандартную рамку */
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы для эффектов */

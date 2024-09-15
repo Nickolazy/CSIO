@@ -45,16 +45,37 @@
     font-weight: 400;
 }
 
-.header-menu-burger-button {
-    display: none;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    color: var(--color-orange);
-}
+.header-menu-burger-button { 
+  display: none; 
+  background-color: transparent; 
+  border: none; 
+  padding: 0; 
+  color: var(--color-orange); 
 
-.header-menu-burger-button:hover {
-    cursor: pointer;
+  user-select: none;
+} 
+
+.header-menu-burger-button:hover { 
+  cursor: pointer; 
+} 
+
+.header-menu-burger-button > :first-child { 
+  width: 45px; 
+  height: auto; 
+} 
+
+/* Стили для активного состояния */ 
+.header-menu-burger-button.active { 
+  color: var(--color-dark); /* Изменение цвета, когда меню открыто */ 
+  transform: rotate(90deg); /* Поворот кнопки */ 
+  transition: transform 0.3s ease; /* Плавная анимация */ 
+} 
+
+/* Можно также изменить иконку (SVG) при активном состоянии */ 
+.header-menu-burger-button.active > :first-child { 
+  width: 35px; /* Изменение размеров иконки */ 
+  height: auto; 
+  transform: rotate(90deg); /* Визуальный эффект при открытом меню */ 
 }
 
 .header-menu-burger-button > :first-child {
@@ -78,6 +99,40 @@
     color: var(--color-light);
     font-weight: 500;
     letter-spacing: 1.2px;
+}
+
+.header-drop { 
+  position: fixed; 
+  top: -500px; 
+  right: 0; 
+  z-index: calc(var(--z-index-big) + 99); 
+
+  /* width: 300px; */ 
+  background-color: var(--color-light); 
+
+  padding-block: 35px; 
+  padding-inline: 55px; 
+
+  border-radius: 0 0 0 35px; 
+
+  transition: top 0.3s ease; /* Плавный переход */ 
+} 
+
+.header-drop-menu-list { 
+  display: flex; 
+  flex-direction: column; 
+  row-gap: 10px; 
+  align-items: flex-start; 
+} 
+
+.header-drop-menu-link { 
+  display: block; 
+  font-size: 20px; 
+  font-weight: 400; 
+} 
+
+.header-drop-menu-link:hover { 
+  color: var(--colorInputAndSelectText); 
 }
 
 
