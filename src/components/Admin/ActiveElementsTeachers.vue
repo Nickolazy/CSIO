@@ -7,6 +7,9 @@
     <div v-if="adding">
       <AddTeacher :adding="adding" @update:adding="adding = $event" />
     </div>
+    <div v-if="editing">
+      <EditTeacher :teacherToEdit="selectedTeacher" @update:editing="editing = $event" />
+    </div>
     <div v-else>
       <ul v-if="teachers.length">
         <li v-for="teacher in teachers" :key="teacher.$id">
@@ -29,32 +32,28 @@
 import { ref, computed, onMounted } from 'vue';
 import { useDataStore } from '../../store/DataStore';
 import AddTeacher from '../Admin/AddTeacher.vue';
+import EditTeacher from './EditTeacher.vue';
 
 const store = useDataStore();
 const teachers = computed(() => store.Преподаватели);
 const selectedCourse = ref(null);
 
 const adding = ref(false);
+const editing = ref(false);
+const selectedTeacher = ref(null);
 
 onMounted(async () => {
   await store.fetchTeachers();
 });
 
-const editTeacher = (course) => {
-  selectedCourse.value = { ...course }; 
-  console.log('Editing teacher:', course);
+const editTeacher = (teacher) => {
+  selectedTeacher.value = { ...teacher }; 
+  editing.value = true;
 };
 
 const openAdding = () => {
   adding.value = true;
 }
-
-const updateCourse = async () => {
-  if (selectedCourse.value) {
-    await store.updateTeacher(selectedCourse.value.$id, selectedCourse.value);
-    selectedCourse.value = null;
-  }
-};
 
 const deleteTeacher = async (id) => {
   if (confirm('Вы уверены, что хотите удалить этого преподавателя?')) {

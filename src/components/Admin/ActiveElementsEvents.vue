@@ -7,6 +7,9 @@
     <div v-if="adding">
       <AddEvent :adding="adding" @update:adding="adding = $event" />
     </div>
+    <div v-if="editing">
+      <EditEvent :eventToEdit="eventToEdit" :type="typeToEdit"  @update:editing="editing = $event" />
+    </div>
     <div v-else>
       <ul v-if="sales.length || news.length || events.length">
         <li v-for="sale in sales" :key="sale.$id">
@@ -18,7 +21,7 @@
           <h4>{{ sale.dates }}</h4>
           <h2>{{ sale.title }}</h2>
           <p>{{ sale.content }}</p>
-          <button @click="editSale(sale)">Редактировать</button>
+          <button @click="editItem('sale', sale)">Редактировать</button>
           <button @click="deleteSale(sale.$id)">Удалить</button>
         </li>
 
@@ -30,7 +33,7 @@
           </div>
           <h2>{{ n.title }}</h2>
           <p>{{ n.content }}</p>
-          <button @click="editNew(n)">Редактировать</button>
+          <button @click="editItem('news', n)">Редактировать</button>
           <button @click="deleteNew(n.$id)">Удалить</button>
         </li>
 
@@ -43,7 +46,7 @@
           <h4>{{ event.dates }}</h4>
           <h2>{{ event.title }}</h2>
           <p>{{ event.content }}</p>
-          <button @click="editEvent(event)">Редактировать</button>
+          <button @click="editItem('event', event)">Редактировать</button>
           <button @click="deleteEvent(event.$id)">Удалить</button>
         </li>
       </ul>
@@ -56,6 +59,7 @@
   import { ref, computed, onMounted } from 'vue';
   import { useDataStore } from '../../store/DataStore';
   import AddEvent from './AddEvent.vue';
+  import EditEvent from './EditEvent.vue';
 
   const store = useDataStore();
   const news = computed(() => store.Новости);
@@ -91,6 +95,18 @@
       await store.deleteEvent(id);
     }
   };
+
+  // const editingEvent = ref(false);
+  // const editingNews = ref(false);
+  const eventToEdit = ref(null);
+  const typeToEdit = ref('');
+  const editing = ref(false);
+
+  const editItem = (type, item) => {
+    eventToEdit.value = { ...item };
+    typeToEdit.value = type;
+    editing.value = true;
+  }
 </script>
 
 <style scoped>

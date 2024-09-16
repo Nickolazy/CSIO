@@ -457,12 +457,27 @@ export const useDataStore = defineStore('DataStore', {
         }
       },
       
-      async updateTeacher(id, updatedTeacher) {
+      async updateTeacher(teacherId, updatedTeacherData) {
         try {
-          await databases.updateDocument(CSIO_DATABASE_ID, TEACHERS_ID, id, updatedTeacher);
-          await this.fetchTeachers(); // Обновляем список после редактирования
+          // Удаляем все системные поля из данных, которые нельзя обновлять
+          const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, ...dataToUpdate } = updatedTeacherData;
+      
+          console.log("Данные для обновления:", dataToUpdate);
+      
+          // Обновляем запись в базе данных по id преподавателя
+          const response = await databases.updateDocument(
+            CSIO_DATABASE_ID,    // ID базы данных
+            TEACHERS_ID,         // ID коллекции преподавателей
+            teacherId,           // ID документа преподавателя
+            dataToUpdate         // Только обновленные данные
+          );
+      
+          console.log("Преподаватель обновлен:", response);
+
+          await this.fetchTeachers();
         } catch (error) {
           console.error('Ошибка при обновлении преподавателя:', error);
+          throw error; // Пробрасываем ошибку для обработки в вызывающей функции
         }
       },
 
@@ -623,6 +638,49 @@ export const useDataStore = defineStore('DataStore', {
           await this.fetchEvents(); // Обновляем список событий
         } catch (error) {
           console.error('Ошибка при добавлении события:', error);
+        }
+      },
+
+      async updateEvent(id, updatedData, type) {
+
+        const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, ...dataToUpdate } = updatedData;
+        console.log("Данные для обновления:", dataToUpdate);
+        try {
+          if(type === 'sale') {
+            await databases.updateDocument(
+              CSIO_DATABASE_ID, 
+              SALES_ID, 
+              id, 
+              dataToUpdate 
+            );
+
+            await this.fetchSales();
+          } else if(type === 'news') {
+            const { dates, ...dataToUpdateNew } = dataToUpdate;
+            await databases.updateDocument(
+              CSIO_DATABASE_ID, 
+              NEWS_ID, 
+              id, 
+              dataToUpdateNew 
+            );
+
+            await this.fetchNews();
+          } else if(type === 'event') {
+            await databases.updateDocument(
+              CSIO_DATABASE_ID, 
+              EVENTS_ID, 
+              id, 
+              dataToUpdate 
+            );
+
+            await this.fetchEvents();
+          }
+
+          
+  
+          console.log('Событие успешно обновлено!');
+        } catch (error) {
+          console.error('Ошибка при обновлении события:', error);
         }
       }
     },
