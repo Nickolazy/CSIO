@@ -7,6 +7,13 @@
     <div v-if="adding">
       <AddWebinar :adding="adding" @update:adding="adding = $event" />
     </div>
+    <div v-else-if="editing">
+      <EditWebinar 
+        :course="selectedCourse" 
+        :editing="editing" 
+        @update:editing="editing = $event" 
+        @webinar-updated="handleWebinarUpdated" />
+    </div>
     <div v-else>
       <ul v-if="courses.length">
         <li v-for="course in courses" :key="course.$id">
@@ -32,10 +39,12 @@
 import { ref, computed, onMounted } from 'vue';
 import { useDataStore } from '../../store/DataStore';
 import AddWebinar from '../Admin/AddWebinar.vue';
+import EditWebinar from './EditWebinar.vue';
 
 const store = useDataStore();
 const courses = computed(() => store.ВебинарыСеминары);
 const selectedCourse = ref(null);
+const editing = ref(false);
 
 const adding = ref(false);
 
@@ -43,9 +52,14 @@ onMounted(async () => {
   await store.fetchWebinars();
 });
 
+
 const editCourse = (course) => {
   selectedCourse.value = { ...course }; // Клонируем курс для редактирования
-  console.log('Editing webinar:', course);
+  editing.value = true;
+};
+
+const handleWebinarUpdated = async (updatedCourse) => {
+  await store.handleWebinarUpdated(updatedCourse);
 };
 
 const openAdding = () => {

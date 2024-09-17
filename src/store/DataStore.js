@@ -98,6 +98,27 @@ export const useDataStore = defineStore('DataStore', {
         console.error('Ошибка при обновлении курса:', error);
       }
     },
+
+    
+
+    async handleWebinarUpdated(updatedWebinar) {
+      try {
+        // Проверка на наличие $id
+        if (!updatedWebinar || !updatedWebinar.$id) {
+          return;
+        }
+
+        // Логика обновления курса
+        const index = this.courses.findIndex(course => course.$id === updatedCourse.$id);
+        if (index !== -1) {
+          this.courses[index] = updatedCourse;
+        } else {
+          throw new Error('Курс не найден в локальном состоянии');
+        }
+      } catch (error) {
+        console.error('Ошибка при обновлении курса:', error);
+      }
+    },
     
     async deleteCourse(id) {
       try {
@@ -457,8 +478,10 @@ export const useDataStore = defineStore('DataStore', {
       },
       
       async updateWebinar(id, updatedWebinar) {
+        const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, schedules, forms, learningTypes, ...dataToUpdate } = updatedWebinar;
+
         try {
-          await databases.updateDocument(CSIO_DATABASE_ID, WEBINARS_ID, id, updatedWebinar);
+          await databases.updateDocument(CSIO_DATABASE_ID, WEBINARS_ID, id, dataToUpdate);
           await this.fetchWebinars(); // Обновляем список после редактирования
         } catch (error) {
           console.error('Ошибка при обновлении вебинара:', error);
