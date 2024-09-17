@@ -68,10 +68,13 @@ export const useDataStore = defineStore('DataStore', {
     },
     
     async updateCourse(id, updatedCourse) {
-      console.log(updatedCourse);
+      const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, schedules, forms, learningTypes, ...dataToUpdate } = updatedCourse;
+      
+        console.log("Данные для обновления:", dataToUpdate);
       try {
-        await databases.updateDocument(CSIO_DATABASE_ID, COURSES_ID, id, updatedCourse);
-        await this.fetchCourses(); // Обновляем список после редактирования
+        await databases.updateDocument(CSIO_DATABASE_ID, COURSES_ID, id, dataToUpdate);
+
+        await this.fetchCourses();
       } catch (error) {
         console.error('Ошибка при обновлении курса:', error);
       }
@@ -79,19 +82,17 @@ export const useDataStore = defineStore('DataStore', {
 
     async handleCourseUpdated(updatedCourse) {
       try {
-        if (!updatedCourse.$id) {
-          throw new Error('ID курса отсутствует');
+        // Проверка на наличие $id
+        if (!updatedCourse || !updatedCourse.$id) {
+          return;
         }
 
-        const id = updatedCourse.$id;
-    
-        // Обновляем курс в базе данных
-        await this.updateCourse(id, updatedCourse);
-        
-        // Локальное обновление курса в списке
-        const index = this.Курсы.findIndex(course => course.$id === updatedCourse.$id);
+        // Логика обновления курса
+        const index = this.courses.findIndex(course => course.$id === updatedCourse.$id);
         if (index !== -1) {
-          this.Курсы[index] = updatedCourse;
+          this.courses[index] = updatedCourse;
+        } else {
+          throw new Error('Курс не найден в локальном состоянии');
         }
       } catch (error) {
         console.error('Ошибка при обновлении курса:', error);
@@ -176,6 +177,33 @@ export const useDataStore = defineStore('DataStore', {
           console.log('Deleting schedule with ID:', schedule.$id);
           await databases.deleteDocument(CSIO_DATABASE_ID, SCHEDULES_ID, schedule.$id);
         }
+      } catch (error) {
+        console.error('Ошибка при удалении расписания:', error);
+      }
+    },
+
+    async deleteForm(formId) {
+      try {
+        await databases.deleteDocument(CSIO_DATABASE_ID, FORMS_ID, formId);
+        console.log('Форма успешно удалена');
+      } catch (error) {
+        console.error('Ошибка при удалении формы:', error);
+      }
+    },
+
+    async deleteType(typeId) {
+      try {
+        await databases.deleteDocument(CSIO_DATABASE_ID, TYPES_ID, typeId);
+        console.log('Вид успешно удалена');
+      } catch (error) {
+        console.error('Ошибка при удалении вида:', error);
+      }
+    },
+
+    async deleteShedule(schId) {
+      try {
+        await databases.deleteDocument(CSIO_DATABASE_ID, SCHEDULES_ID, schId);
+        console.log('Расписание успешно удалено');
       } catch (error) {
         console.error('Ошибка при удалении расписания:', error);
       }
@@ -304,8 +332,11 @@ export const useDataStore = defineStore('DataStore', {
 
     // Добавляем форму обучения
     async addFormOfCourse(form) {
+      const { ...dataToAdd } = form;
+
+      console.log("Форма для добавления: ", dataToAdd);
       try {
-        await databases.createDocument(CSIO_DATABASE_ID, FORMS_ID, ID.unique(), form);
+        await databases.createDocument(CSIO_DATABASE_ID, FORMS_ID, ID.unique(), dataToAdd);
       } catch (error) {
         console.error('Ошибка при добавлении формы обучения:', error);
       }
@@ -349,12 +380,32 @@ export const useDataStore = defineStore('DataStore', {
 
     // Обновляем форму обучения
     async updateFormOfCourse(id, updatedForm) {
+      // Удаляем ненужные свойства
+      const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, ...dataToUpdate } = updatedForm;
+
+      console.log("Данные для обновления формы:", dataToUpdate);
+
       try {
-        await databases.updateDocument(CSIO_DATABASE_ID, FORMS_ID, id, updatedForm);
+        await databases.updateDocument(CSIO_DATABASE_ID, FORMS_ID, id, dataToUpdate);
       } catch (error) {
         console.error('Ошибка при обновлении формы обучения:', error);
       }
     },
+
+    // Обновляем расписание
+    async updateSheduleOfCourse(id, updatedSchedule) {
+      // Удаляем ненужные свойства
+      const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, ...dataToUpdate } = updatedSchedule;
+
+      console.log("Данные для обновления расписания:", dataToUpdate);
+
+      try {
+        await databases.updateDocument(CSIO_DATABASE_ID, SCHEDULES_ID, id, dataToUpdate);
+      } catch (error) {
+        console.error('Ошибка при обновлении расписания:', error);
+      }
+    },
+
 
     // Удаляем форму обучения
     async deleteFormOfCourse(id) {
@@ -367,8 +418,11 @@ export const useDataStore = defineStore('DataStore', {
 
     // Обновляем тип обучения
     async updateTypeOfCourse(id, updatedType) {
+      const { $id, $createdAt, $updatedAt, $permissions, $databaseId, $collectionId, schedules, forms, ...dataToUpdate } = updatedType;
+      
+        console.log("Данные для обновления типа:", dataToUpdate);
       try {
-        await databases.updateDocument(CSIO_DATABASE_ID, TYPES_ID, id, updatedType);
+        await databases.updateDocument(CSIO_DATABASE_ID, TYPES_ID, id, dataToUpdate);
       } catch (error) {
         console.error('Ошибка при обновлении типа обучения:', error);
       }

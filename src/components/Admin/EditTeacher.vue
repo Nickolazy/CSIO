@@ -1,6 +1,5 @@
 <template>
   <div class="form-container">
-    <button @click="exitButton" class="exit-button">Выйти</button>
     <h2>Редактировать преподавателя</h2>
     <div class="main-content">
       <form @submit.prevent="handleSubmit" class="teacher-form">
@@ -34,7 +33,10 @@
           <textarea v-model="teacher.skills" id="skills" placeholder="Введите скиллы с разделением знаком ';'"></textarea>
         </div>
 
-        <button type="submit" class="submit-button">Сохранить изменения</button>
+        <div>
+          <button type="submit" class="button">Сохранить изменения</button>
+          <button type="button" @click="exitButton" class="button cancel">Отмена</button>
+        </div>
       </form>
     </div>
   </div>
@@ -94,21 +96,6 @@ h2 {
   color: #333;
 }
 
-.exit-button {
-  display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #f73737;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.exit-button:hover {
-  background-color: #e60000;
-}
 
 .teacher-form {
   display: flex;
@@ -145,17 +132,28 @@ input:focus, textarea:focus {
   outline: none;
 }
 
-.submit-button {
+.button {
   padding: 10px 20px;
-  background-color: #6D0088;
+  margin-right: 10px;
+  background-color: #3023f0;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+
+  width: 40%;
 }
 
-.submit-button:hover {
-  background-color: #550066;
+.button.cancel {
+  background-color: #f44336;
+  width: 20%;
+}
+
+.button:hover {
+  background-color: #1a00ac;
+}
+
+.button.cancel:hover {
+  background-color: #d32f2f;
 }
 </style>

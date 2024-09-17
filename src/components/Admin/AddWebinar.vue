@@ -134,7 +134,11 @@
           <input v-model="schedule.location" type="text" placeholder="Введите местоположение" />
 
           <label>Преподаватели:</label>
-          <input v-model="schedule.teachers" type="text" placeholder="Введите имена преподавателей" />
+            <select v-model="schedule.teachers" id="teachers">
+              <option v-for="teacher in teachers" :key="teacher" :value="teacher.name">
+                {{ teacher.name }}
+              </option>
+            </select>
         </div>
       </div>
     </div>
