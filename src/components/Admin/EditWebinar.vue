@@ -165,9 +165,9 @@
     if (props.course && props.course.title) {
       course.value = {
         ...props.course,
-        forms: await dataStore.fetchFormsByCourse(props.course.title),
-        schedules: await dataStore.fetchShedulesByCourse(props.course.title),
-        learningTypes: await dataStore.fetchTypesByCourse(props.course.title)
+        forms: await dataStore.fetchFormsByWebinar(props.course.title, props.course.isWebinar),
+        schedules: await dataStore.fetchShedulesByWebinar(props.course.title, props.course.isWebinar),
+        learningTypes: await dataStore.fetchTypesByWebinar(props.course.title, props.course.isWebinar)
       };
     }
   });
@@ -183,7 +183,7 @@
       form: '',
       hours: '',
       length: '',
-      category: 'course'
+      category: props.course.isWebinar === true ? 'Вебинар' : 'Семинар'
     });
   };
 
@@ -238,7 +238,7 @@
       time: '',
       location: '',
       teachers: '',
-      category: 'course',
+      category: props.course.isWebinar === true ? 'Вебинар' : 'Семинар',
     });
   };
 
@@ -275,7 +275,7 @@
       individualHours: '',
       groupHours: '',
       cost: '',
-      category: 'course'
+      category: props.course.isWebinar === true ? 'Вебинар' : 'Семинар'
     });
   };
 

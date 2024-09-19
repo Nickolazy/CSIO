@@ -133,6 +133,7 @@
                 <div class="courses-drop-more-leave-request-wrapper">
 
                     <input type="hidden" v-model="title" name="title">
+                    <input type="hidden" v-model="sheduleToSignUp.time" name="time">
 
                     <label class="visually-hidden" for="in-group">В группе</label>
                     <select

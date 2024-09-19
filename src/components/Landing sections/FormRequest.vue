@@ -9,9 +9,9 @@
 
         <div class="leave-request-form-wrapper">
           <!-- Выбор вебинара и семинара -->
-          <label class="visually-hidden" for="course-or-webinar">Выбор вебинара и семинара</label>
+          <label class="visually-hidden" for="course-or-webinar">Образовательная программа</label>
           <select v-model="selectedActivity" :style="selectStyle" class="leave-request-form-select leave-request-form-input leave-request-course-or-webinar" name="course_or_webinar" id="course-or-webinar" @change="handleActivityChange" required>
-            <option value="" disabled>Выбор вебинара и семинара</option>
+            <option value="" disabled>Образовательная программа</option>
             <option v-for="(activity, index) in allActivities" :key="index" :value="activity.title">{{ activity.title }}</option>
           </select>
 
